@@ -1,0 +1,26 @@
+{% include "header.html" %}
+<!-- vim: set sw=2 ts=2: -->
+
+<table class="table">
+{% for email, order in purchases.iteritems() %}
+<tr>
+	<td><a href="https://tickets.fri3d.be/admin/purchase_view/{{order[0]['id']}}">{{email}}</a></td>
+	<td><ul>
+		{% for o in order %}
+			{% if 'ticket' in o['what'] %}
+			<li>{{ o['what'] }} voor {{ o['name'] }} ({{ o['dob'] }})
+				{% if o['veggy'] %} veggy {% endif %}
+				{% if o['volunteer_during'] %} volunteer tijdens {% endif %}
+				{% if o['volunteer_before'] %} opbouw {% endif %}
+				{% if o['volunteer_after'] %} afbraak {% endif %}
+			</li>
+			{% else %}
+			<li>{{ o['what'] }} ({{ o['n'] }})</li>
+			{% endif %}
+		{% endfor %}
+	</td>
+</tr>
+{% endfor %}
+</table>
+
+{% include "footer.html" %}

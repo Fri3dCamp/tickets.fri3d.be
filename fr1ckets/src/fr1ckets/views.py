@@ -444,6 +444,11 @@ def confirm(nonce=None):
 			payment_account=app.config['OUR_BANK_ACCOUNT'],
 			days_max=app.config['DAYS_MAX'])
 
+@app.route('/admin/people', methods=[ 'GET' ])
+@req_auth_admin
+def people():
+	return render_template('people.html', purchases=model.purchases_get_all(g.db_cursor))
+
 @app.route('/admin/payments', methods=[ 'GET' ])
 @req_auth_admin
 def payments():

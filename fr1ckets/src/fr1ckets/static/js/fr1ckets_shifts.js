@@ -162,6 +162,8 @@ function volunteer_totals_recalc()
 function volunteer_totals_check()
 {
 
+	return true;
+
 	for (var v_id in volunteers['mine']) {
 		var v = volunteers['mine'][v_id];
 		if (choices[v].length < min_shifts) {

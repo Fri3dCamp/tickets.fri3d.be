@@ -1147,10 +1147,12 @@ def api_set_volunteering_data(nonce):
 				D('overcommited on shift {0} by email {1}'.format(shift, email))
 				return jsonify(status='FAIL', msg='overcommited on shift')
 
+	"""
 	for person in volunteers:
 		if person not in updates or len(updates[person]) < app.config['VOLUNTEERING_MIN_SHIFTS']:
 			D('undercommited for person {0} by email {1}'.format(person, email))
 			return jsonify(status='FAIL', msg='not enough shifts entered')
+	"""
 
 	model.set_volunteering_schedule(g.db_cursor, updates)
 

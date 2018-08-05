@@ -1052,7 +1052,6 @@ def api_purchase_mark_dequeued(purchase_id):
 	return "ok", 200
 
 @app.route('/api/get_products', methods=[ 'GET' ])
-@req_auth_public
 def api_get_products():
 	products = map(dict, model.products_get(g.db_cursor))
 	for p in products:

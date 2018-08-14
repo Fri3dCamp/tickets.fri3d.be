@@ -589,6 +589,7 @@ def purchases_get_all(cursor, strip_removed=True, strip_queued=True):
 				when pui.person_dob <= %(cutoff)s
 				then pui.person_volunteers_during
 				else 0 end) as volunteer_during,
+			pui.person_volunteers_before as volunteer_before,
 			pui.person_volunteers_after as volunteer_after,
 			pui.person_food_vegitarian as veggy,
 			pui.n as n,

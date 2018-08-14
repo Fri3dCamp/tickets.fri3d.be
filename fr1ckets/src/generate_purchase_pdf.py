@@ -7,6 +7,7 @@ import datetime
 import csv
 import pprint
 import os
+import unicodedata
 import ho.pisa as pisa
 
 try:
@@ -21,6 +22,9 @@ except IOError:
 
 t = """
 <html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+</head>
 <style>
 @page {
 	margin: 2cm;
@@ -44,6 +48,12 @@ table, th, td {
 .header {
 	font-style: italic;
 }
+.center {
+	text-align: center;
+}
+.biggy {
+	font-size: bigger;
+}
 </style>
 <body>
 %(entries)s
@@ -53,6 +63,7 @@ table, th, td {
 
 def mk_page(email, d, volunteering):
 	o = """
+			<meta http-equiv="content-type" content="text/html; charset=utf-8">
 			<div style="text-align: center; font-size: 275%%">
 				<h1><b>%(email)s %(npers)sp</b></h1>
 			</div>
@@ -67,15 +78,19 @@ def mk_page(email, d, volunteering):
 			%(vol)s
 			<br>
 			<div class="footer">
-			<p>Nuttige tips:</p>
-			<ul>
-			<li>De openingsceremonie neemt <b>zaterdag</b> om <b>11:00</b> plaats.</li>
-			<li>De officiele communicatiebron is de <b>infodesk</b>. Daarnaast zitten al vele kampeerders op onze <b>Slack</b>, je kan jezelf toevoegen en meepraten op <u>http://slack.fri3d.be/</u>.</li>
-			<li>Je kan <b>vrijdag</b> en <b>zaterdag</b> tot <b>15:00</b> brood en croissants bestellen aan de <b>infodesk</b>. Je kan je bestelling de volgende ochtend om  <b>9:00</b> ophalen aan de infodesk.</li>
-			<li>Vragen? Kijk even in de FAQ <u>http://fri3d.be/deelnemen/faq.html</u>, of kom langs de infodesk!</li>
-			</ul>
+			%(tips)s
 			</div>
 			<div><pdf:nextpage /></div>
+		"""
+	tips_html = ""
+	if True:
+		tips_html = """
+			<p>Nuttige tips:</p>
+			<ul>
+			<li>Alle praktische info vind je op www.fri3d.be</li>
+			<li>Last-minute updates worden verspreid via @fri3dcamp op Twitter, de groep 'Fri3d Camp Deelnemers' op Facebook en het #fri3dcamp IRC-kanaal op freenode</li>
+			<li>Vragen? Kom gerust langs de infodesk</li>
+			</ul>
 		"""
 	tickets = [ p for p in d if 'ticket' in p['product'] ]
 	others = [ p for p in d if 'ticket' not in p['product'] ]
@@ -99,7 +114,7 @@ def mk_page(email, d, volunteering):
 						<td>{0}</td>
 						<td>{1}</td>
 						<td>{2}</td>
-					</tr>""".format(v['name'], e['when']['name'], e['what']['name'])
+					</tr>""".format(v['name'].encode('utf-8'), e['when']['name'], e['what']['name'])
 		vol_html += "</table></div>"
 	else:
 		vol_html = ""
@@ -111,19 +126,21 @@ def mk_page(email, d, volunteering):
 			<tr class="header">
 				<td>Naam</td>
 				<td>Ticket</td>
-				<td>Volunteer</td>
-				<td>Volunteer opkuis</td>
+				<td>Vrijwilliger</td>
 			</tr>"""
 	for t in tickets:
+		volunteer_status = ""
+		if t['volunteer_during']:
+			if t['person_id'] not in volunteering:
+				volunteer_status = '<b><h2>JA MAAR NOG KIEZEN</h2></b>'
+			else:
+				volunteer_status = "ja"
 		tickets_html += """
 			<tr>
 				<td>{0}</td>
 				<td>{1}</td>
 				<td>{2}</td>
-				<td>{3}</td>
-			</tr>""".format(t['name'], t['what'],
-				"ja" if t['volunteer_during'] else "", 
-				"ja" if t['volunteer_after'] else "")
+			</tr>""".format(t['name'].encode('utf-8'), t['what'], volunteer_status)
 	tickets_html += "</table></div>"
 	if len(others):
 		others_html = """
@@ -135,11 +152,18 @@ def mk_page(email, d, volunteering):
 					<td>Aantal</td>
 				</tr>"""
 		for t in others:
+			if t['what'] == 'dranktoken':
+				w = {
+					'what' : 'drankkaarten',
+					'n' : t['n'] / 10,
+				}
+			else:
+				w = t
 			others_html += """
 				<tr>
 					<td>{0}</td>
 					<td>{1}</td>
-				</tr>""".format(t['what'], t['n'])
+				</tr>""".format(w['what'], w['n'])
 		others_html += "</table></div>"
 	else:
 		others_html = ""
@@ -150,6 +174,7 @@ def mk_page(email, d, volunteering):
 		'tickets' : tickets_html,
 		'others' : others_html,
 		'vol' : vol_html,
+		'tips' : tips_html,
 	}
 
 with app.app_context():
@@ -171,10 +196,12 @@ with app.app_context():
 	for email in sorted([ str(e) for e in purchases_all.keys()], key=str.lower):
 		for p in purchases_all[email]:
 			for k, v in p.iteritems():
-				if type(v) in [ unicode, str ]:
-					p[k] = v.encode('ascii', 'replace')
+				if type(v) == unicode:
+					pass
+					#p[k] = unicodedata.normalize('NFKD', v).encode('ascii', 'replace')
+				#if type(v) in [ unicode, str ]:
+				#	p[k] = v.encode('ascii', 'replace')
 		entries.append(mk_page(email, purchases_all[email], sched_by_person))
 	pdf = pisa.CreatePDF(t % { 'entries' : "".join(entries) }, file('purchases.pdf', 'wb'))
 	g.db_commit = True
 	setup.wrapup_db(None)
-

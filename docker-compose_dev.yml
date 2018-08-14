@@ -34,6 +34,18 @@ services:
             - ./fr1ckets/csv:/csv
             - ./fr1ckets/src:/src
         command: python ./wsgi.py
+    pdfgenerator:
+        build:
+            context: ./fr1ckets
+            dockerfile: Dockerfile.pdfs
+        links:
+            - db:db
+        env_file:
+            - ./env
+        command: /bin/true
+        volumes:
+            - ./fr1ckets/pdf:/pdf
+            - ./fr1ckets/src:/src
     worker:
         build: ./worker
         links:

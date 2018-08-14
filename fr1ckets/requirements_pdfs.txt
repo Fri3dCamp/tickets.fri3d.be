@@ -1,0 +1,10 @@
+gunicorn
+flask
+Flask-WTF
+mysqlclient
+requests
+celery
+redis
+pisa
+reportlab==2.4
+html5lib==1.0b8

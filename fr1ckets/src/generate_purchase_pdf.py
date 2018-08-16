@@ -9,6 +9,7 @@ import pprint
 import os
 import unicodedata
 import ho.pisa as pisa
+from pprint import pprint as D
 
 try:
 	app.config.from_pyfile('fr1ckets_priv.conf')
@@ -65,7 +66,7 @@ def mk_page(email, d, volunteering):
 	o = """
 			<meta http-equiv="content-type" content="text/html; charset=utf-8">
 			<div style="text-align: center; font-size: 275%%">
-				<h1><b>%(email)s %(npers)sp</b></h1>
+				<h1><b>%(email)s %(npers)sp/%(nkids)sk</b></h1>
 			</div>
 			<div class="halign">
 				<h1>Welkom op Fri3dcamp!</h1>
@@ -99,13 +100,13 @@ def mk_page(email, d, volunteering):
 	if len(volunteers):
 		vol_html = """
 		<div id="volunteering">
-			<p><b>Volunteering</b>:</p>
+			<p><b>Volunteering</b> (op {0} UTC):</p>
 			<table>
 				<tr class="header">
 					<td>Naam</td>
 					<td>Wanneer</td>
 					<td>Wat</td>
-				</tr>"""
+				</tr>""".format(str(datetime.datetime.utcnow()).split('.')[0])
 		for v in volunteers:
 			i = v['person_id']
 			for e in volunteering[i]:
@@ -171,6 +172,7 @@ def mk_page(email, d, volunteering):
 	return o % {
 		'email' : str(email),
 		'npers' : len(tickets),
+		'nkids' : len([ t for t in tickets if datetime.date(2006, 8, 16) <= t['dob'] ]),
 		'tickets' : tickets_html,
 		'others' : others_html,
 		'vol' : vol_html,

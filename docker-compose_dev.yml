@@ -13,7 +13,7 @@ services:
         links:
             - fr1ckets:fr1ckets
     db:
-        image: mysql
+        image: mysql:5
         volumes:
             - ./db/contents:/var/lib/mysql
             - ./db/backups:/backups

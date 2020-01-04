@@ -15,7 +15,7 @@ services:
     db:
         image: mysql:5
         volumes:
-            - ./db/contents:/var/lib/mysql
+            - db_contents:/var/lib/mysql
             - ./db/backups:/backups
             - ./db/entrypoint:/docker-entrypoint-initdb.d:ro
         command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
@@ -54,3 +54,6 @@ services:
             - ./env
         volumes:
             - ./worker/src:/src
+
+volumes:
+    db_backups:

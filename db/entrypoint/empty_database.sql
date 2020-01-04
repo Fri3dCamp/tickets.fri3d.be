@@ -14,10 +14,10 @@ create table product (
 );
 
 insert into product (name, display, price, volunteering_price, max_dob, billable) values
-	( 'ticket_3bit',     'ticket 0-3 jaar',                  7, 7, '2015-08-18 02:00:00', 0),
-	( 'ticket_4bit',     'ticket 3-6 jaar',                  17, 17, '2012-08-18 02:00:00', 0),
-	( 'ticket_5bit',     'ticket 6-12 jaar',                 37, 37, '2006-08-18 02:00:00', 0),
-	( 'ticket_6bit',     'ticket 12-24 jaar',                73, 73, '1994-08-18 02:00:00', 0),
+	( 'ticket_3bit',     'ticket 0-3 jaar',                  7, 7, '2017-08-14 02:00:00', 0),
+	( 'ticket_4bit',     'ticket 3-6 jaar',                  17, 17, '2014-08-14 02:00:00', 0),
+	( 'ticket_5bit',     'ticket 6-12 jaar',                 37, 37, '2008-08-14 02:00:00', 0),
+	( 'ticket_6bit',     'ticket 12-24 jaar',                73, 73, '1996-08-14 02:00:00', 0),
 	( 'ticket_7bit',     'ticket +24 jaar',                  157, 137, '1900-01-01 00:00:00', 0),
 	( 'ticket_8bit',     'ticket zakelijk',                  317, 317, '1900-01-01 00:00:00', 1),
 	( 'tshirt_adult_m_xs',  'volwassenen mannen tshirt XS',       20, 20, '1900-01-01 00:00:00', 0),
@@ -58,8 +58,8 @@ create table reservation (
 	index reservation_email_index (email asc)
 );
 insert into reservation (email, available_from) values
-	('default', '2018-05-01 19:00:00'),
-	('someone@who.reserved', '2018-05-01 19:00:00');
+	('default', '2020-01-29 19:00:00'),
+	('someone@who.reserved', '2020-01-22 19:00:00');
 
 drop table if exists purchase;
 create table purchase (

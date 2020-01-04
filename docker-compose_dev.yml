@@ -56,4 +56,4 @@ services:
             - ./worker/src:/src
 
 volumes:
-    db_backups:
+    db_contents:

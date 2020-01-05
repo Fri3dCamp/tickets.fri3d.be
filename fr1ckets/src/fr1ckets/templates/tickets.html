@@ -149,6 +149,44 @@
 		</div> <!-- row -->
 		<!-- END BADGE ROBOT PARTS -->
 
+		<!-- CAMPER SPOTS -->
+		{% if 'camper_spot' in selling_inhibited %}
+		<div class="row">
+			<div class="col-xs-12 col-sm-8 col-sm-offset-2 text-center">
+				<div class="well">
+					<p>Helaas is de verkoop van plaatsen voor campers uitverkocht, je kan nog wel andere zaken bestellen.</p>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+		<div class="row" {% if 'camper_spot' in selling_inhibited %} hidden {% endif %}>
+			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
+				<div class="thumbnail">
+					<img src="/static/img/camper_spot.svg" class="img-rounded">
+					<div class="caption text-center">
+						<h3>Plaats voor je camper - <strong>€25</strong></h3>
+						<p>We voorzien een plaatsje voor je camper op de daarvoor voorziene parking.</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
+				<div class="form-group">
+					<label for="camper spots" class="col-xs-4 col-sm-4 control-label">Camper plaatsen</label>
+					<div class="col-xs-8 col-sm-6">
+						<select id="camper_spot" name="camper_spot" class="form-control">
+							<option value="0" selected>0</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div> <!-- row -->
+		<!-- END CAMPER SPOTS -->
+
 		{% if 'tshirts' in selling_inhibited %}
 		<div class="row">
 			<div class="col-xs-12 col-sm-8 col-sm-offset-2 text-center">

@@ -105,10 +105,16 @@ class TicketForm(Form):
 		validators.NumberRange(min=0, max=20),
 		])
 
+	camper_spot = IntegerField('camper_spot', validators=[
+		validators.NumberRange(min=0, max=20),
+		])
+
 	for tshirt in generate_tshirt_names():
 		vars()[tshirt] = IntegerField(tshirt, validators=[
 			validators.NumberRange(min=0, max=10),
 			])
+
+	special_accomodation_needs = BooleanField('special_accomodation_needs', default=False)
 
 	terms_payment = BooleanField('', default=False,
 		validators=[
@@ -134,6 +140,7 @@ def make_form_individual_tickets(n_tickets):
 
 	if n_tickets:
 		setattr(IndividualTicketForm, 'transportation', StringField('transportation'))
+		setattr(IndividualTicketForm, 'special_accomodation_needs', BooleanField('special_accomodation_needs'))
 
 	for i in range(n_tickets):
 		fmt = "tickets_{0}".format(i)
@@ -180,6 +187,9 @@ def extract_general_ticket_info(form_tickets):
 	field = getattr(form_tickets, 'transportation', None)
 	out['transportation'] = field.data if field else False
 
+	field = getattr(form_tickets, 'special_accomodation_needs', None)
+	out['special_accomodation_needs'] = field.data if field else False
+	P(form_tickets)
 	return out
 
 def extract_products(cursor, form_general, form_tickets):
@@ -189,6 +199,7 @@ def extract_products(cursor, form_general, form_tickets):
 	known_tshirts = [ t for t in p if 'tshirt' in t['name'] ]
 	known_tokens = [ t for t in p if 'token' in t['name'] ]
 	known_badge_parts = [ t for t in p if 'badge' in t['name'] ]
+	known_camper_spots = [ t for t in p if 'camper_spot' in t['name'] ]
 	seen_business_tickets = False
 	out = []
 
@@ -223,6 +234,7 @@ def extract_products(cursor, form_general, form_tickets):
 	out.extend(find_knowns(known_tshirts, form_general))
 	out.extend(find_knowns(known_tokens, form_general))
 	out.extend(find_knowns(known_badge_parts, form_general))
+	out.extend(find_knowns(known_camper_spots, form_general))
 
 	for i in range(n_tickets):
 		fmt = 'tickets_{0}'.format(i)

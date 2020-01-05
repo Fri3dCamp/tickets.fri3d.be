@@ -321,9 +321,9 @@ def purchase_create(cursor, email, voucher_codes, products, billing_info, genera
 		insert into purchase (
 			email, nonce, reservation_id, created_at, queued,
 			business_name, business_address, business_vat,
-			payment_code, transportation)
+			payment_code, transportation, special_accomodation_needs)
 		values
-			(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+			(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
 		"""
 	n_tries = 20
 
@@ -336,7 +336,8 @@ def purchase_create(cursor, email, voucher_codes, products, billing_info, genera
 			payment_code = generate_payment_code(now)
 			cursor.execute(q, (email, nonce, reservation['id'], now, queued,
 				billing_info['name'], billing_info['address'], billing_info['vat'],
-				payment_code, general_ticket_info['transportation']))
+				payment_code, general_ticket_info['transportation'],
+				general_ticket_info['special_accomodation_needs']))
 		except MySQLdb.IntegrityError as e:
 			print e
 			n_tries -= 1
@@ -388,6 +389,7 @@ def purchase_get(cursor, nonce=None, id=None, email=None):
 		select
 			id,
 			email,
+			special_accomodation_needs,
 			reservation_id,
 			created_at,
 			dequeued_at,
@@ -635,6 +637,7 @@ def get_purchases(cursor, strip_removed=False):
 			pu.nonce as nonce,
 			pu.created_at as created_at,
 			pu.email as email,
+			pu.special_accomodation_needs as special_accomodation_needs,
 			pu.payment_code as payment_code,
 			pu.paid as paid,
 			pu.removed as removed,

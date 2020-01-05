@@ -733,24 +733,18 @@ $('#n_tickets').on('change', function() {
 	}
 	f += '<hr/>';
 
-	f += '<div class="form-group">';
-	f += '  <div class="row">';
-	f += '  <label for="transportation" class="col-xs-12 col-sm-4 control-label">Vervoer</label>';
-	f += '  <div class="col-xs-12 col-sm-6">';
-	f += '    <select id="transportation" name="transportation" class="form-control">';
-	f += '      <option value="UNSURE">nog niet zeker</option>';
-	f += '      <option value="CAR">wagen</option>';
-	f += '      <option value="CAMPERVAN">een kampeerwagen (camper of caravan)</option>';
-	f += '      <option value="PUBLIC">openbaar vervoer</option>';
-	f += '      <option value="CARPOOL">carpooling</option>';
-	f += '    </select>';
-	f += '  </div>';
-	f += '  </div>';
-	f += '  <div class="row">';
-	f += '  <div class="col-sm-5 col-sm-offset-4">';
-	f += '  	<p>Dit heeft geen impact op de ticketprijs, maar zo weten we ongeveer hoeveel parkeerplaatsen en plaatsen voor caravans en campers we moeten voorzien.</p>';
-	f += '  </div>';
+	f += '<div class="row text-center">';
+	f += '  <p><h4>Accomodatie (is dezen header nodig?):</h4></p>';
 	f += '</div>';
+	f += '<div class="form-group">';
+	f += '  <div class="col-xs-12 col-sm-11 col-sm-offset-1">';
+	f += '    <div class="checkbox">';
+	f += '      <label>';
+	f += '        <input type="checkbox" id="special_accomodation_needs" name="special_accomodation_needs">';
+	f += '          Wij komen niet graag met onze tent/camper. Gelieve contact met ons op te nemen voor het huren van enkele beschikbare hotelkamers.';
+	f += '      </label>';
+	f += '    </div>';
+	f += '  </div>';
 	f += '</div>';
 
 	f += '<hr/>';

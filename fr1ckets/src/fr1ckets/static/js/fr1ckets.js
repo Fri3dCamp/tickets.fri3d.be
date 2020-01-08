@@ -634,14 +634,14 @@ function mk_cb_update_visitor_options(index) {
 			f += '  </div>';
 			f += '  <div class="checkbox col-sm-offset-4 col-sm-4 col-xs-6">';
 			f += '    <label>';
-			f += '      <input type="checkbox" id="'+buildup_id+'" name="'+buildup_id+'" data-toggle="popover" data-placement="top" data-trigger="focus" data-content="We zoeken mensen die vanaf donderdag graag mee het kamp komen opbouwen. Good karma!">';
+			f += '      <input type="checkbox" id="'+buildup_id+'" name="'+buildup_id+'" data-toggle="popover" data-placement="top" data-trigger="focus" data-content="Ik kan in de dagen voor het kamp helpen met de opbouw. We contacteren je hierover dan nog.">';
 			f += '      Helpt mee opbouwen voor het kamp.';
 			f += '    </label>';
 			f += '  </div>';
 			f += '  <div class="checkbox col-sm-4 col-xs-6">';
 			f += '    <label>';
-			f += '      <input type="checkbox" id="'+cleanup_id+'" name="'+cleanup_id+'" data-toggle="popover" data-placement="top" data-trigger="focus" data-content="We zoeken een twintigtal mensen die graag een nachtje langer bijven kamperen en op dinsdag 21 augustus 2018 helpen opruimen. Good karma!">';
-			f += '      Helpt opkuisen op 21 augustus';
+			f += '      <input type="checkbox" id="'+cleanup_id+'" name="'+cleanup_id+'" data-toggle="popover" data-placement="top" data-trigger="focus" data-content="Ik kan in de dagen na het kamp helpen opruimen. We contacteren je hierover dan nog.">';
+			f += '      Helpt opkuisen na het kamp';
 			f += '    </label>';
 			f += '  </div>';
 		}

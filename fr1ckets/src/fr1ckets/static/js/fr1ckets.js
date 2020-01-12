@@ -171,7 +171,7 @@ function update_overview() {
 	if (get_n_tickets() == 0) {
 		f += '<div class="alert alert-warning" role="alert">';
 		f += '  <p>';
-		f += '    Je hebt geen tickets besteld, als je in een andere order nog tickets bestelt leggen we alles klaar voor je op het kamp, anders kan je deze bestelling afhalen op de Open Garage te Borsbeek.</p>';
+		f += '    Je hebt geen tickets besteld, als je in een andere order nog tickets bestelt leggen we alles klaar voor je op het kamp, anders kan je deze bestelling afhalen op de Open Garage te Schilde.</p>';
 		f += '  </p>';
 		f += '</div>';
 	}

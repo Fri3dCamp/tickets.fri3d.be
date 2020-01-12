@@ -106,31 +106,31 @@
 		</div>
 		<!-- END BUSINESS INFO -->
 
-		<!-- BADGE ROBOT PARTS -->
-		{% if 'badge_robot_parts' in selling_inhibited %}
+		<!-- BADGE ACCESSORY A PARTS -->
+		{% if 'badge_accessory_a' in selling_inhibited %}
 		<div class="row">
 			<div class="col-xs-12 col-sm-8 col-sm-offset-2 text-center">
 				<div class="well">
-					<p>Helaas is de verkoop van robot parts stopgezet, je kan nog wel andere zaken bestellen.</p>
+					<p>Helaas is de verkoop van robot accessoire A stopgezet, je kan nog wel andere zaken bestellen.</p>
 				</div>
 			</div>
 		</div>
 		{% endif %}
-		<div class="row" {% if 'badge_robot_parts' in selling_inhibited %} hidden {% endif %}>
+		<div class="row" {% if 'badge_accessory_a' in selling_inhibited %} hidden {% endif %}>
 			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
 				<div class="thumbnail">
-					<img src="/static/img/bade_robot_parts.jpg" class="img-rounded">
+					<img src="/static/img/bade_accessory_a.jpg" class="img-rounded">
 					<div class="caption text-center">
-						<h3>Robot parts - <strong>€27</strong></h3>
-						<p>Met deze onderdelen maak je van je <a href="http://www.fri3d.be/badge/" target="_blank">Fri3d Camp badge</a> een dansende robot. Er zullen toegankelijke workshops zijn voor het bouwen van de robots, zodat we een heuse danswedstrijd kunnen houden!</p>
+						<h3>Robot accessoire A - <strong>€13.37</strong></h3>
+						<p>Met deze onderdelen maak je van je <a href="http://www.fri3d.be/badge/" target="_blank">Fri3d Camp badge</a> een contraptie die nog verdere toelichting kan gebruiken.</p>
 					</div>
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
 				<div class="form-group">
-					<label for="tshirt_kid_s" class="col-xs-4 col-sm-4 control-label">Robot parts</label>
+					<label for="tshirt_kid_s" class="col-xs-4 col-sm-4 control-label">Robot accessoire A</label>
 					<div class="col-xs-8 col-sm-6">
-						<select id="badge_robot_parts" name="badge_robot_parts" class="form-control">
+						<select id="badge_accessory_a" name="badge_accessory_a" class="form-control">
 							<option value="0" selected>0</option>
 							<option value="1">1</option>
 							<option value="2">2</option>
@@ -147,7 +147,50 @@
 				</div>
 			</div>
 		</div> <!-- row -->
-		<!-- END BADGE ROBOT PARTS -->
+		<!-- END BADGE ACCESSORY B -->
+
+		<!-- BADGE ACCESSORY B PARTS -->
+		{% if 'badge_accessory_b' in selling_inhibited %}
+		<div class="row">
+			<div class="col-xs-12 col-sm-8 col-sm-offset-2 text-center">
+				<div class="well">
+					<p>Helaas is de verkoop van robot accessoire B stopgezet, je kan nog wel andere zaken bestellen.</p>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+		<div class="row" {% if 'badge_accessory_b' in selling_inhibited %} hidden {% endif %}>
+			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
+				<div class="thumbnail">
+					<img src="/static/img/bade_accessory_b.jpg" class="img-rounded">
+					<div class="caption text-center">
+						<h3>Robot accessoire B - <strong>€13.37</strong></h3>
+						<p>Met deze onderdelen maak je van je <a href="http://www.fri3d.be/badge/" target="_blank">Fri3d Camp badge</a> een contraptie die nog verdere toelichting kan gebruiken.</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
+				<div class="form-group">
+					<label for="tshirt_kid_s" class="col-xs-4 col-sm-4 control-label">Robot accessoire B</label>
+					<div class="col-xs-8 col-sm-6">
+						<select id="badge_accessory_b" name="badge_accessory_b" class="form-control">
+							<option value="0" selected>0</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div> <!-- row -->
+		<!-- END BADGE ACCESSORY B -->
 
 		<!-- CAMPER SPOTS -->
 		{% if 'camper_spot' in selling_inhibited %}
@@ -162,7 +205,7 @@
 		<div class="row" {% if 'camper_spot' in selling_inhibited %} hidden {% endif %}>
 			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
 				<div class="thumbnail">
-					<img src="/static/img/camper_spot.svg" class="img-rounded">
+					<img src="/static/img/camper_spot.png" class="img-rounded">
 					<div class="caption text-center">
 						<h3>Plaats voor je camper - <strong>€25</strong></h3>
 						<p>We voorzien een plaatsje voor je camper op de daarvoor voorziene parking.</p>
@@ -171,7 +214,7 @@
 			</div>
 			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
 				<div class="form-group">
-					<label for="camper spots" class="col-xs-4 col-sm-4 control-label">Camper plaatsen</label>
+					<label for="camper_spot" class="col-xs-4 col-sm-4 control-label">Camper plaatsen</label>
 					<div class="col-xs-8 col-sm-6">
 						<select id="camper_spot" name="camper_spot" class="form-control">
 							<option value="0" selected>0</option>
@@ -187,6 +230,87 @@
 		</div> <!-- row -->
 		<!-- END CAMPER SPOTS -->
 
+		<!-- MUGS -->
+		{% if 'mug' in selling_inhibited %}
+		<div class="row">
+			<div class="col-xs-12 col-sm-8 col-sm-offset-2 text-center">
+				<div class="well">
+					<p>Helaas is de verkoop van drinkbekers uitverkocht, je kan nog wel andere zaken bestellen.</p>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+		<div class="row" {% if 'mug' in selling_inhibited %} hidden {% endif %}>
+			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
+				<div class="thumbnail">
+					<img src="/static/img/beker.jpg" class="img-rounded">
+					<div class="caption text-center">
+						<h3>Drankbeker - <strong>€8</strong></h3>
+						<p>We voorzien een plaatsje voor je camper op de daarvoor voorziene parking.</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
+				<div class="form-group">
+					<label for="mug" class="col-xs-4 col-sm-4 control-label">Drankbekers</label>
+					<div class="col-xs-8 col-sm-6">
+						<select id="mug" name="mug" class="form-control">
+							<option value="0" selected>0</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div> <!-- row -->
+		<!-- END MUGS -->
+
+		<!-- DONATIONS -->
+		{% if 'donation' in selling_inhibited %}
+		<div class="row">
+			<div class="col-xs-12 col-sm-8 col-sm-offset-2 text-center">
+				<div class="well">
+					<p>Helaas is de mogelijkheid tot doneren afgelopen, je kan nog wel andere zaken bestellen.</p>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+		<div class="row" {% if 'donation' in selling_inhibited %} hidden {% endif %}>
+			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
+				<div class="thumbnail">
+					<img src="/static/img/donation.svg" class="img-rounded">
+					<div class="caption text-center">
+						<h3>Donatie - <strong>€10</strong></h3>
+						<p>Niet iedereen heeft de mogelijkheid een ticket aan te kopen. Je kan een donatie doen om deze mensen te helpen mee naar het kamp te komen.</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
+				<div class="form-group">
+					<label for="donation" class="col-xs-4 col-sm-4 control-label">Donatie</label>
+					<div class="col-xs-8 col-sm-6">
+						<select id="donation" name="donation" class="form-control">
+							<option value="0" selected>0</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div> <!-- row -->
+		<!-- END DONATIONS -->
+
 		{% if 'tshirts' in selling_inhibited %}
 		<div class="row">
 			<div class="col-xs-12 col-sm-8 col-sm-offset-2 text-center">
@@ -201,7 +325,7 @@
 		<div class="row" {% if 'tshirts' in selling_inhibited %} hidden {% endif %}>
 			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
 				<div class="thumbnail">
-					<img src="/static/img/tshirt_k.png" class="img-rounded">
+					<img src="/static/img/tshirt_k.jpg" class="img-rounded">
 					<div class="caption text-center">
 						<h3>T-shirts kinderen - <strong>€ 20</strong></h3>	
 						<p><a href="/static/img/maattabel_k.png" id="show_tshirt_sizes_k"><i class="glyphicon glyphicon-new-window"></i> Maattabel</a></p>					
@@ -301,7 +425,7 @@
 		<div class="row" {% if 'tshirts' in selling_inhibited %} hidden {% endif %}>
 			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
 				<div class="thumbnail">
-					<img src="/static/img/tshirt_f.png" class="img-rounded">
+					<img src="/static/img/tshirt_f.jpg" class="img-rounded">
 					<div class="caption text-center">
 						<h3>T-shirts vrouwen - <strong>€ 20</strong></h3>
 						<p><a href="/static/img/maattabel_f.png" id="show_tshirt_sizes_f"><i class="glyphicon glyphicon-new-window"></i> Maattabel</a></p>
@@ -375,6 +499,22 @@
 								<option value="10">10</option>
 							</select>
 						</div>
+						<label for="tshirt_adult_f_xxl" class="col-xs-2 col-sm-2 control-label">XXL</label>
+						<div class="col-xs-4 col-sm-4">
+							<select id="tshirt_adult_f_xxl" name="tshirt_adult_f_xxl" class="form-control">
+								<option value="0" selected>0</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+							</select>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -385,7 +525,7 @@
 		<div class="row" {% if 'tshirts' in selling_inhibited %} hidden {% endif %}>
 			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
 				<div class="thumbnail">
-					<img src="/static/img/tshirt_m.png" class="img-rounded">
+					<img src="/static/img/tshirt_m.jpg" class="img-rounded">
 					<div class="caption text-center">
 						<h3>T-shirts mannen - <strong>€ 20</strong></h3>
 						<p><a href="/static/img/maattabel_m.png" id="show_tshirt_sizes_m"><i class="glyphicon glyphicon-new-window"></i> Maattabel</a></p>
@@ -475,11 +615,337 @@
 								<option value="10">10</option>
 							</select>
 						</div>
+						<label for="tshirt_adult_m_3xl" class="col-xs-2 col-sm-2 control-label">3XL</label>
+						<div class="col-xs-4 col-sm-4">
+							<select id="tshirt_adult_m_3xl" name="tshirt_adult_m_3xl" class="form-control">
+								<option value="0" selected>0</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+							</select>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<!-- ADULT M TSHIRTS -->
+
+		{% if 'hoodies' in selling_inhibited %}
+		<div class="row">
+			<div class="col-xs-12 col-sm-8 col-sm-offset-2 text-center">
+				<div class="well">
+					<p>Helaas is de verkoop van hoodies stopgezet, je kan nog wel andere zaken bestellen.</p>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+
+		<!-- KID HOODIES -->
+		<div class="row" {% if 'hoodies' in selling_inhibited %} hidden {% endif %}>
+			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
+				<div class="thumbnail">
+					<img src="/static/img/hoodie_k.jpg" class="img-rounded">
+					<div class="caption text-center">
+						<h3>Hoodies kinderen - <strong>€ 40</strong></h3>	
+						<p><a href="/static/img/maattabel_k.png" id="show_hoodie_sizes_k"><i class="glyphicon glyphicon-new-window"></i> Maattabel</a></p>					
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-sm-offset-3">
+				<div class="row">
+					<div class="form-group">
+						<label for="hoodie_kid_s" class="col-xs-6 col-sm-3 control-label">3-4</label>
+						<div class="col-xs-6 col-sm-3">
+							<select id="hoodie_kid_xs" name="hoodie_kid_xs" class="form-control">
+								<option value="0" selected>0</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+							</select>
+						</div>
+						<label for="hoodie_kid_s" class="col-xs-6 col-sm-3 control-label">5-6</label>
+						<div class="col-xs-6 col-sm-3">
+							<select id="hoodie_kid_s" name="hoodie_kid_s" class="form-control">
+								<option value="0" selected>0</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+							</select>
+						</div>
+						<label for="hoodie_kid_m" class="col-xs-6 col-sm-3 control-label">7-8</label>
+						<div class="col-xs-6 col-sm-3">
+							<select id="hoodie_kid_m" name="hoodie_kid_m" class="form-control">
+								<option value="0" selected>0</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+							</select>
+						</div>
+						<label for="hoodie_kid_l" class="col-xs-6 col-sm-3 control-label">9-10</label>
+						<div class="col-xs-6 col-sm-3">
+							<select id="hoodie_kid_l" name="hoodie_kid_l" class="form-control">
+								<option value="0" selected>0</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+							</select>
+						</div>
+						<label for="hoodie_kid_xl" class="col-xs-6 col-sm-3 control-label">11-12</label>
+						<div class="col-xs-6 col-sm-3">
+							<select id="hoodie_kid_xl" name="hoodie_kid_xl" class="form-control">
+								<option value="0" selected>0</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END KID HOODIES -->
+
+		<!-- ADULT F HOODIES -->
+		<div class="row" {% if 'hoodies' in selling_inhibited %} hidden {% endif %}>
+			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
+				<div class="thumbnail">
+					<img src="/static/img/hoodie_f.jpg" class="img-rounded">
+					<div class="caption text-center">
+						<h3>Hoodies vrouwen - <strong>€ 40</strong></h3>
+						<p><a href="/static/img/maattabel_f.png" id="show_hoodie_sizes_f"><i class="glyphicon glyphicon-new-window"></i> Maattabel</a></p>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-sm-offset-3">
+				<div class="row">
+					<div class="form-group">
+						<label for="hoodie_adult_f_s" class="col-xs-2 col-sm-2 control-label">S</label>
+						<div class="col-xs-4 col-sm-4">
+							<select id="hoodie_adult_f_s" name="hoodie_adult_f_s" class="form-control">
+								<option value="0" selected>0</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+							</select>
+						</div>
+						<label for="hoodie_adult_f_m" class="col-xs-2 col-sm-2 control-label">M</label>
+						<div class="col-xs-4 col-sm-4">
+							<select id="hoodie_adult_f_m" name="hoodie_adult_f_m" class="form-control">
+								<option value="0" selected>0</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+							</select>
+						</div>
+						<label for="hoodie_adult_f_l" class="col-xs-2 col-sm-2 control-label">L</label>
+						<div class="col-xs-4 col-sm-4">
+							<select id="hoodie_adult_f_l" name="hoodie_adult_f_l" class="form-control">
+								<option value="0" selected>0</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+							</select>
+						</div>
+						<label for="hoodie_adult_f_xl" class="col-xs-2 col-sm-2 control-label">XL</label>
+						<div class="col-xs-4 col-sm-4">
+							<select id="hoodie_adult_f_xl" name="hoodie_adult_f_xl" class="form-control">
+								<option value="0" selected>0</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- ADULT F HOODIES -->
+
+		<!-- ADULT M HOODIES -->
+		<div class="row" {% if 'hoodies' in selling_inhibited %} hidden {% endif %}>
+			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
+				<div class="thumbnail">
+					<img src="/static/img/hoodie_m.jpg" class="img-rounded">
+					<div class="caption text-center">
+						<h3>Hoodies mannen - <strong>€ 40</strong></h3>
+						<p><a href="/static/img/maattabel_m.png" id="show_hoodie_sizes_m"><i class="glyphicon glyphicon-new-window"></i> Maattabel</a></p>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-sm-offset-3">
+				<div class="row">
+					<div class="form-group">
+						<label for="hoodie_adult_m_s" class="col-xs-2 col-sm-2 control-label">S</label>
+						<div class="col-xs-4 col-sm-4">
+							<select id="hoodie_adult_m_s" name="hoodie_adult_m_s" class="form-control">
+								<option value="0" selected>0</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+							</select>
+						</div>
+						<label for="hoodie_adult_m_m" class="col-xs-2 col-sm-2 control-label">M</label>
+						<div class="col-xs-4 col-sm-4">
+							<select id="hoodie_adult_m_m" name="hoodie_adult_m_m" class="form-control">
+								<option value="0" selected>0</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+							</select>
+						</div>
+						<label for="hoodie_adult_m_l" class="col-xs-2 col-sm-2 control-label">L</label>
+						<div class="col-xs-4 col-sm-4">
+							<select id="hoodie_adult_m_l" name="hoodie_adult_m_l" class="form-control">
+								<option value="0" selected>0</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+							</select>
+						</div>
+						<label for="hoodie_adult_m_xl" class="col-xs-2 col-sm-2 control-label">XL</label>
+						<div class="col-xs-4 col-sm-4">
+							<select id="hoodie_adult_m_xl" name="hoodie_adult_m_xl" class="form-control">
+								<option value="0" selected>0</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+							</select>
+						</div>
+						<label for="hoodie_adult_m_xxl" class="col-xs-2 col-sm-2 control-label">XXL</label>
+						<div class="col-xs-4 col-sm-4">
+							<select id="hoodie_adult_m_xxl" name="hoodie_adult_m_xxl" class="form-control">
+								<option value="0" selected>0</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+							</select>
+						</div>
+						<label for="hoodie_adult_m_3xl" class="col-xs-2 col-sm-2 control-label">3XL</label>
+						<div class="col-xs-4 col-sm-4">
+							<select id="hoodie_adult_m_3xl" name="hoodie_adult_m_3xl" class="form-control">
+								<option value="0" selected>0</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- ADULT M HOODIES -->
 
 		<!-- BEGIN TOKENS -->
 		{% if 'tokens' in selling_inhibited %}

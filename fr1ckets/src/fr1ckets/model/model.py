@@ -964,7 +964,7 @@ def get_stats_tickets(cursor, removed=0, queued=0):
 	cursor.execute(q, qd)
 	return cursor.fetchall()
 
-def get_stats_tshirts(cursor, removed=0, queued=0):
+def get_stats_generic(cursor, what, removed=0, queued=0):
 	q = """
 		select
 			pr.name as type,
@@ -974,7 +974,7 @@ def get_stats_tshirts(cursor, removed=0, queued=0):
 			inner join purchase pu on pui.purchase_id = pu.id
 			inner join product pr on pui.product_id = pr.id
 		where
-			pr.name like 'tshirt%%'
+			pr.name like '%(what)s%%'
 			and pu.removed = %(removed)s
 			and pu.queued = %(queued)s
 		group by
@@ -983,30 +983,7 @@ def get_stats_tshirts(cursor, removed=0, queued=0):
 	qd = {
 		'removed' : removed,
 		'queued' : queued,
-	}
-
-	cursor.execute(q, qd)
-	return cursor.fetchall()
-
-def get_stats_badge_robot_parts(cursor, removed=0, queued=0):
-	q = """
-		select
-			pr.name as type,
-			sum(pui.n) as n_total
-		from
-			purchase_items pui
-			inner join purchase pu on pui.purchase_id = pu.id
-			inner join product pr on pui.product_id = pr.id
-		where
-			pr.name like 'badge_robot_parts%%'
-			and pu.removed = %(removed)s
-			and pu.queued = %(queued)s
-		group by
-			pr.name;
-		"""
-	qd = {
-		'removed' : removed,
-		'queued' : queued,
+		'what' : what,
 	}
 
 	cursor.execute(q, qd)

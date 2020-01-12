@@ -47,17 +47,21 @@ def req_auth_public(f):
 		return f(*args, **kwargs)
 	return fn
 
-def generate_tshirt_names():
+def generate_garment_names():
 	out = []
 	for tshirt in [ 'adult_f' ]:
-		for size in [ 's', 'm', 'l', 'xl' ]:
-			out.append("tshirt_{0}_{1}".format(tshirt, size))
-	for tshirt in [ 'adult_m' ]:
 		for size in [ 's', 'm', 'l', 'xl', 'xxl' ]:
 			out.append("tshirt_{0}_{1}".format(tshirt, size))
+		for size in [ 's', 'm', 'l', 'xl' ]:
+			out.append("hoodie_{0}_{1}".format(tshirt, size))
+	for tshirt in [ 'adult_m' ]:
+		for size in [ 's', 'm', 'l', 'xl', 'xxl', '3xl' ]:
+			out.append("tshirt_{0}_{1}".format(tshirt, size))
+			out.append("hoodie_{0}_{1}".format(tshirt, size))
 	for tshirt in [ 'kid' ]:
 		for size in [ 'xs', 's', 'm', 'l', 'xl' ]:
 			out.append("tshirt_{0}_{1}".format(tshirt, size))
+			out.append("hoodie_{0}_{1}".format(tshirt, size))
 
 	return out
 
@@ -101,7 +105,11 @@ class TicketForm(Form):
 		validators.NumberRange(min=0, max=100),
 		])
 
-	badge_robot_parts = IntegerField('badge_robot_parts', validators=[
+	badge_accessory_a = IntegerField('badge_accessory_a', validators=[
+		validators.NumberRange(min=0, max=20),
+		])
+
+	badge_accessory_b = IntegerField('badge_accessory_b', validators=[
 		validators.NumberRange(min=0, max=20),
 		])
 
@@ -109,8 +117,16 @@ class TicketForm(Form):
 		validators.NumberRange(min=0, max=20),
 		])
 
-	for tshirt in generate_tshirt_names():
-		vars()[tshirt] = IntegerField(tshirt, validators=[
+	mug = IntegerField('mug', validators=[
+		validators.NumberRange(min=0, max=20),
+		])
+
+	donation = IntegerField('donation', validators=[
+		validators.NumberRange(min=0, max=20),
+		])
+
+	for garment in generate_garment_names():
+		vars()[garment] = IntegerField(garment, validators=[
 			validators.NumberRange(min=0, max=10),
 			])
 
@@ -197,7 +213,10 @@ def extract_products(cursor, form_general, form_tickets):
 	p = map(dict, model.products_get(cursor))
 	known_tickets = sorted([ t for t in p if 'ticket' in t['name'] ], key=lambda t: t['max_dob'], reverse=True)
 	known_tshirts = [ t for t in p if 'tshirt' in t['name'] ]
+	known_tshirts.extend([ t for t in p if 'hoodie' in t['name'] ])
 	known_tokens = [ t for t in p if 'token' in t['name'] ]
+	known_mugs = [ t for t in p if 'mug' in t['name'] ]
+	known_donations = [ t for t in p if 'donation' in t['name'] ]
 	known_badge_parts = [ t for t in p if 'badge' in t['name'] ]
 	known_camper_spots = [ t for t in p if 'camper_spot' in t['name'] ]
 	seen_business_tickets = False
@@ -235,6 +254,8 @@ def extract_products(cursor, form_general, form_tickets):
 	out.extend(find_knowns(known_tokens, form_general))
 	out.extend(find_knowns(known_badge_parts, form_general))
 	out.extend(find_knowns(known_camper_spots, form_general))
+	out.extend(find_knowns(known_mugs, form_general))
+	out.extend(find_knowns(known_donations, form_general))
 
 	for i in range(n_tickets):
 		fmt = 'tickets_{0}'.format(i)
@@ -731,10 +752,20 @@ def overview():
 	purchases = map(dict, model.get_purchases(g.db_cursor, strip_removed=False))
 	tickets_active = map(dict, model.get_stats_tickets(g.db_cursor))
 	tickets_queued = map(dict, model.get_stats_tickets(g.db_cursor, queued=1))
-	tshirts_active = map(dict, model.get_stats_tshirts(g.db_cursor))
-	tshirts_queued = map(dict, model.get_stats_tshirts(g.db_cursor, queued=1))
-	badge_robot_parts_active = map(dict, model.get_stats_badge_robot_parts(g.db_cursor))
-	badge_robot_parts_queued = map(dict, model.get_stats_badge_robot_parts(g.db_cursor, queued=1))
+	tshirts_active = map(dict, model.get_stats_generic(g.db_cursor, 'tshirt'))
+	tshirts_queued = map(dict, model.get_stats_generic(g.db_cursor, 'tshirt', queued=1))
+	badge_accessory_a_active = map(dict, model.get_stats_generic(g.db_cursor, 'badge_accessory_a'))
+	badge_accessory_a_queued = map(dict, model.get_stats_generic(g.db_cursor, 'badge_accessory_a', queued=1))
+	badge_accessory_b_active = map(dict, model.get_stats_generic(g.db_cursor, 'badge_accessory_b'))
+	badge_accessory_b_queued = map(dict, model.get_stats_generic(g.db_cursor, 'badge_accessory_b', queued=1))
+	tshirts_active = map(dict, model.get_stats_generic(g.db_cursor, 'tshirt'))
+	tshirts_queued = map(dict, model.get_stats_generic(g.db_cursor, 'tshirt', queued=1))
+	mugs_active = map(dict, model.get_stats_generic(g.db_cursor, 'mug'))
+	mugs_queued = map(dict, model.get_stats_generic(g.db_cursor, 'mug', queued=1))
+	donations_active = map(dict, model.get_stats_generic(g.db_cursor, 'donation'))
+	donations_queued = map(dict, model.get_stats_generic(g.db_cursor, 'donation', queued=1))
+	hoodies_active = map(dict, model.get_stats_generic(g.db_cursor, 'hoodie'))
+	hoodies_queued = map(dict, model.get_stats_generic(g.db_cursor, 'hoodie', queued=1))
 
 	stats_purchases = { t :
 		{
@@ -742,8 +773,11 @@ def overview():
 			'tickets' : 0,
 			'tshirts' : 0,
 			'tokens' : 0,
-			'badge_robot_parts' : 0,
-			'badge_robot_parts_prev_price' : 0,
+			'badge_accessory_a' : 0,
+			'badge_accessory_b' : 0,
+			'mugs' : 0,
+			'hoodies' : 0,
+			'donations' : 0,
 			'money' : 0,
 		} for t in [ 'active_paid', 'active_unpaid', 'active_total', 'queued', 'total' ]
 	}
@@ -760,9 +794,11 @@ def overview():
 		for dest in dests:
 			stats_purchases[dest]['tickets'] += det['n_tickets']
 			stats_purchases[dest]['tshirts'] += det['n_tshirts']
+			stats_purchases[dest]['hoodies'] += det['n_hoodies']
+			stats_purchases[dest]['donations'] += det['n_donations']
 			stats_purchases[dest]['tokens'] += det['n_tokens']
-			stats_purchases[dest]['badge_robot_parts'] += det['n_badge_robot_parts']
-			stats_purchases[dest]['badge_robot_parts_prev_price'] += det['n_badge_robot_parts_prev_price']
+			stats_purchases[dest]['badge_accessory_a'] += det['n_badge_accessory_a']
+			stats_purchases[dest]['badge_accessory_b'] += det['n_badge_accessory_b']
 			stats_purchases[dest]['money'] += det['total_price']
 			stats_purchases[dest]['orders'] += 1
 	
@@ -842,46 +878,190 @@ def overview():
 	tshirts.extend(tshirts_queued)
 	tshirts.append(tshirts_total)
 
-	badge_robot_parts_active_total = {}
-	badge_robot_parts_active_total['type'] = 'total active'
-	badge_robot_parts_queued_total = {}
-	badge_robot_parts_queued_total['type'] = 'total queued'
-	badge_robot_parts_total = {}
-	badge_robot_parts_total['type'] = 'total'
-	for t in badge_robot_parts_active:
+	hoodies_active_total = {}
+	hoodies_active_total['type'] = 'total active'
+	hoodies_queued_total = {}
+	hoodies_queued_total['type'] = 'total queued'
+	hoodies_total = {}
+	hoodies_total['type'] = 'total'
+	for t in hoodies_active:
 		for k in t:
 			if k[0:len('n_')] == 'n_':
-				if k not in badge_robot_parts_active_total:
-					badge_robot_parts_active_total[k] = 0
-				if k not in badge_robot_parts_total:
-					badge_robot_parts_total[k] = 0
-				badge_robot_parts_active_total[k] += t[k]
-				badge_robot_parts_total[k] += t[k]
+				if k not in hoodies_active_total:
+					hoodies_active_total[k] = 0
+				if k not in hoodies_total:
+					hoodies_total[k] = 0
+				hoodies_active_total[k] += t[k]
+				hoodies_total[k] += t[k]
 			else:
 				t[k] = t[k] + ' active'
-	badge_robot_parts_active.append(badge_robot_parts_active_total)
-	for t in badge_robot_parts_queued:
+	hoodies_active.append(hoodies_active_total)
+	for t in hoodies_queued:
 		for k in t:
 			if k[0:len('n_')] == 'n_':
-				if k not in badge_robot_parts_queued_total:
-					badge_robot_parts_queued_total[k] = 0
-				if k not in badge_robot_parts_total:
-					badge_robot_parts_total[k] = 0
-				badge_robot_parts_queued_total[k] += t[k]
-				badge_robot_parts_total[k] += t[k]
+				if k not in hoodies_queued_total:
+					hoodies_queued_total[k] = 0
+				if k not in hoodies_total:
+					hoodies_total[k] = 0
+				hoodies_queued_total[k] += t[k]
+				hoodies_total[k] += t[k]
 			else:
 				t[k] = t[k] + ' queued'
-	badge_robot_parts_queued.append(badge_robot_parts_queued_total)
-	badge_robot_parts = []
-	badge_robot_parts.extend(badge_robot_parts_active)
-	badge_robot_parts.extend(badge_robot_parts_queued)
-	badge_robot_parts.append(badge_robot_parts_total)
+	hoodies_queued.append(hoodies_queued_total)
+	hoodies = []
+	hoodies.extend(hoodies_active)
+	hoodies.extend(hoodies_queued)
+	hoodies.append(hoodies_total)
+
+	mugs_active_total = {}
+	mugs_active_total['type'] = 'total active'
+	mugs_queued_total = {}
+	mugs_queued_total['type'] = 'total queued'
+	mugs_total = {}
+	mugs_total['type'] = 'total'
+	for t in mugs_active:
+		for k in t:
+			if k[0:len('n_')] == 'n_':
+				if k not in mugs_active_total:
+					mugs_active_total[k] = 0
+				if k not in mugs_total:
+					mugs_total[k] = 0
+				mugs_active_total[k] += t[k]
+				mugs_total[k] += t[k]
+			else:
+				t[k] = t[k] + ' active'
+	mugs_active.append(mugs_active_total)
+	for t in mugs_queued:
+		for k in t:
+			if k[0:len('n_')] == 'n_':
+				if k not in mugs_queued_total:
+					mugs_queued_total[k] = 0
+				if k not in mugs_total:
+					mugs_total[k] = 0
+				mugs_queued_total[k] += t[k]
+				mugs_total[k] += t[k]
+			else:
+				t[k] = t[k] + ' queued'
+	mugs_queued.append(mugs_queued_total)
+	mugs = []
+	mugs.extend(mugs_active)
+	mugs.extend(mugs_queued)
+	mugs.append(mugs_total)
+
+	donations_active_total = {}
+	donations_active_total['type'] = 'total active'
+	donations_queued_total = {}
+	donations_queued_total['type'] = 'total queued'
+	donations_total = {}
+	donations_total['type'] = 'total'
+	for t in donations_active:
+		for k in t:
+			if k[0:len('n_')] == 'n_':
+				if k not in donations_active_total:
+					donations_active_total[k] = 0
+				if k not in donations_total:
+					donations_total[k] = 0
+				donations_active_total[k] += t[k]
+				donations_total[k] += t[k]
+			else:
+				t[k] = t[k] + ' active'
+	donations_active.append(donations_active_total)
+	for t in donations_queued:
+		for k in t:
+			if k[0:len('n_')] == 'n_':
+				if k not in donations_queued_total:
+					donations_queued_total[k] = 0
+				if k not in donations_total:
+					donations_total[k] = 0
+				donations_queued_total[k] += t[k]
+				donations_total[k] += t[k]
+			else:
+				t[k] = t[k] + ' queued'
+	donations_queued.append(donations_queued_total)
+	donations = []
+	donations.extend(donations_active)
+	donations.extend(donations_queued)
+	donations.append(donations_total)
+
+	badge_accessory_a_active_total = {}
+	badge_accessory_a_active_total['type'] = 'total active'
+	badge_accessory_a_queued_total = {}
+	badge_accessory_a_queued_total['type'] = 'total queued'
+	badge_accessory_a_total = {}
+	badge_accessory_a_total['type'] = 'total'
+	for t in badge_accessory_a_active:
+		for k in t:
+			if k[0:len('n_')] == 'n_':
+				if k not in badge_accessory_a_active_total:
+					badge_accessory_a_active_total[k] = 0
+				if k not in badge_accessory_a_total:
+					badge_accessory_a_total[k] = 0
+				badge_accessory_a_active_total[k] += t[k]
+				badge_accessory_a_total[k] += t[k]
+			else:
+				t[k] = t[k] + ' active'
+	badge_accessory_a_active.append(badge_accessory_a_active_total)
+	for t in badge_accessory_a_queued:
+		for k in t:
+			if k[0:len('n_')] == 'n_':
+				if k not in badge_accessory_a_queued_total:
+					badge_accessory_a_queued_total[k] = 0
+				if k not in badge_accessory_a_total:
+					badge_accessory_a_total[k] = 0
+				badge_accessory_a_queued_total[k] += t[k]
+				badge_accessory_a_total[k] += t[k]
+			else:
+				t[k] = t[k] + ' queued'
+	badge_accessory_a_queued.append(badge_accessory_a_queued_total)
+	badge_accessory_a = []
+	badge_accessory_a.extend(badge_accessory_a_active)
+	badge_accessory_a.extend(badge_accessory_a_queued)
+	badge_accessory_a.append(badge_accessory_a_total)
+
+	badge_accessory_b_active_total = {}
+	badge_accessory_b_active_total['type'] = 'total active'
+	badge_accessory_b_queued_total = {}
+	badge_accessory_b_queued_total['type'] = 'total queued'
+	badge_accessory_b_total = {}
+	badge_accessory_b_total['type'] = 'total'
+	for t in badge_accessory_b_active:
+		for k in t:
+			if k[0:len('n_')] == 'n_':
+				if k not in badge_accessory_b_active_total:
+					badge_accessory_b_active_total[k] = 0
+				if k not in badge_accessory_b_total:
+					badge_accessory_b_total[k] = 0
+				badge_accessory_b_active_total[k] += t[k]
+				badge_accessory_b_total[k] += t[k]
+			else:
+				t[k] = t[k] + ' active'
+	badge_accessory_b_active.append(badge_accessory_b_active_total)
+	for t in badge_accessory_b_queued:
+		for k in t:
+			if k[0:len('n_')] == 'n_':
+				if k not in badge_accessory_b_queued_total:
+					badge_accessory_b_queued_total[k] = 0
+				if k not in badge_accessory_b_total:
+					badge_accessory_b_total[k] = 0
+				badge_accessory_b_queued_total[k] += t[k]
+				badge_accessory_b_total[k] += t[k]
+			else:
+				t[k] = t[k] + ' queued'
+	badge_accessory_b_queued.append(badge_accessory_b_queued_total)
+	badge_accessory_b = []
+	badge_accessory_b.extend(badge_accessory_b_active)
+	badge_accessory_b.extend(badge_accessory_b_queued)
+	badge_accessory_b.append(badge_accessory_b_total)
 
 	return render_template('overview.html',
 		purchases=stats_purchases,
 		tickets=tickets,
 		tshirts=tshirts,
-		badge_robot_parts=badge_robot_parts,
+		hoodies=hoodies,
+		mugs=mugs,
+		donations=donations,
+		badge_accessory_a=badge_accessory_a,
+		badge_accessory_b=badge_accessory_b,
 		page_opts={
 			'charting' : True,
 			'internal' : True})

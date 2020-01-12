@@ -669,18 +669,18 @@ def get_purchases(cursor, strip_removed=False):
 			) as n_tokens,
 			sum(
 				case
-				when pr.name like 'badge_robot_parts'
+				when pr.name like 'badge_accessory_a%'
 				then pui.n
 				else 0
 				end
-			) as n_badge_robot_parts,
+			) as n_badge_accessory_a,
 			sum(
 				case
-				when pr.name like 'badge_robot_parts_prev_price'
+				when pr.name like 'badge_accessory_b%'
 				then pui.n
 				else 0
 				end
-			) as n_badge_robot_parts_prev_price,
+			) as n_badge_accessory_b,
 			sum(
 				case
 				when pr.name like 'tshirt%'
@@ -688,6 +688,34 @@ def get_purchases(cursor, strip_removed=False):
 				else 0
 				end
 			) as n_tshirts,
+			sum(
+				case
+				when pr.name like 'hoodie%'
+				then pui.n
+				else 0
+				end
+			) as n_hoodies,
+			sum(
+				case
+				when pr.name like 'mug%'
+				then pui.n
+				else 0
+				end
+			) as n_mugs,
+			sum(
+				case
+				when pr.name like 'donation%'
+				then pui.n
+				else 0
+				end
+			) as n_donations,
+			sum(
+				case
+				when pr.name like 'camper_spot%'
+				then pui.n
+				else 0
+				end
+			) as n_camper_spots,
 			sum(
 				case
 				when pr.billable
@@ -974,7 +1002,7 @@ def get_stats_generic(cursor, what, removed=0, queued=0):
 			inner join purchase pu on pui.purchase_id = pu.id
 			inner join product pr on pui.product_id = pr.id
 		where
-			pr.name like '%(what)s%%'
+			pr.name like '"""+what+"""%%'
 			and pu.removed = %(removed)s
 			and pu.queued = %(queued)s
 		group by

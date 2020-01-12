@@ -766,6 +766,8 @@ def overview():
 	donations_queued = map(dict, model.get_stats_generic(g.db_cursor, 'donation', queued=1))
 	hoodies_active = map(dict, model.get_stats_generic(g.db_cursor, 'hoodie'))
 	hoodies_queued = map(dict, model.get_stats_generic(g.db_cursor, 'hoodie', queued=1))
+	camper_spots_active = map(dict, model.get_stats_generic(g.db_cursor, 'camper_spot'))
+	camper_spots_queued = map(dict, model.get_stats_generic(g.db_cursor, 'camper_spot', queued=1))
 
 	stats_purchases = { t :
 		{
@@ -778,6 +780,7 @@ def overview():
 			'mugs' : 0,
 			'hoodies' : 0,
 			'donations' : 0,
+			'camper_spots' : 0,
 			'money' : 0,
 		} for t in [ 'active_paid', 'active_unpaid', 'active_total', 'queued', 'total' ]
 	}
@@ -795,7 +798,9 @@ def overview():
 			stats_purchases[dest]['tickets'] += det['n_tickets']
 			stats_purchases[dest]['tshirts'] += det['n_tshirts']
 			stats_purchases[dest]['hoodies'] += det['n_hoodies']
+			stats_purchases[dest]['mugs'] += det['n_mugs']
 			stats_purchases[dest]['donations'] += det['n_donations']
+			stats_purchases[dest]['camper_spots'] += det['n_camper_spots']
 			stats_purchases[dest]['tokens'] += det['n_tokens']
 			stats_purchases[dest]['badge_accessory_a'] += det['n_badge_accessory_a']
 			stats_purchases[dest]['badge_accessory_b'] += det['n_badge_accessory_b']

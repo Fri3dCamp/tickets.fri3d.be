@@ -1,0 +1,30 @@
+/* Color Theme Swatches in RGBA */
+.row-fri3d2020header {
+  background-image: url("../img/header_bg.png");
+  height: 150px;
+  background-size: auto 250px;
+  background-position: top center;
+  background-repeat: repeat-x;
+  display: flex;
+  justify-content: center;
+}
+
+.row-fri3d2020header .headerlogo {
+  display: block;
+  background-color: black;
+  width: 200px;
+  height: 100px;
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.row-fri3d2020header .headerlogo:hover {
+  background-color: #56cc7b;
+}
+
+.row-fri3d2020header .headerlogo img {
+  height: 100%;
+  width: auto;
+}
+
+/*# sourceMappingURL=header.css.map */

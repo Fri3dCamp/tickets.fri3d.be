@@ -114,17 +114,32 @@ $('#ticket_form').submit(function(e) {
 });
 $('#show_tshirt_sizes_k').on('click', function(e) {
 	e.preventDefault();
-	$('#tshirt_sizes').attr('src', '/static/img/maattabel_k.png');
+	$('#tshirt_sizes').attr('src', '/static/img/tshirt_k_maattabel.png');
 	$('#sizes_modal').modal('show');
 });
 $('#show_tshirt_sizes_f').on('click', function(e) {
 	e.preventDefault();
-	$('#tshirt_sizes').attr('src', '/static/img/maattabel_f.png');
+	$('#tshirt_sizes').attr('src', '/static/img/tshirt_f_maattabel.png');
 	$('#sizes_modal').modal('show');
 });
 $('#show_tshirt_sizes_m').on('click', function(e) {
 	e.preventDefault();
-	$('#tshirt_sizes').attr('src', '/static/img/maattabel_m.png');
+	$('#tshirt_sizes').attr('src', '/static/img/tshirt_m_maattabel.png');
+	$('#sizes_modal').modal('show');
+});
+$('#show_hoodie_sizes_k').on('click', function(e) {
+	e.preventDefault();
+	$('#tshirt_sizes').attr('src', '/static/img/hoodie_k_maattabel.png');
+	$('#sizes_modal').modal('show');
+});
+$('#show_hoodie_sizes_f').on('click', function(e) {
+	e.preventDefault();
+	$('#tshirt_sizes').attr('src', '/static/img/hoodie_f_maattabel.png');
+	$('#sizes_modal').modal('show');
+});
+$('#show_hoodie_sizes_m').on('click', function(e) {
+	e.preventDefault();
+	$('#tshirt_sizes').attr('src', '/static/img/hoodie_m_maattabel.png');
 	$('#sizes_modal').modal('show');
 });
 function update_overview() {

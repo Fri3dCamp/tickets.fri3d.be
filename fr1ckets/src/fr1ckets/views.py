@@ -155,7 +155,6 @@ def make_form_individual_tickets(n_tickets):
 		pass
 
 	if n_tickets:
-		setattr(IndividualTicketForm, 'transportation', StringField('transportation'))
 		setattr(IndividualTicketForm, 'special_accomodation_needs', BooleanField('special_accomodation_needs'))
 
 	for i in range(n_tickets):
@@ -199,9 +198,6 @@ def extract_billing_info(form_tickets):
 
 def extract_general_ticket_info(form_tickets):
 	out = {}
-
-	field = getattr(form_tickets, 'transportation', None)
-	out['transportation'] = field.data if field else False
 
 	field = getattr(form_tickets, 'special_accomodation_needs', None)
 	out['special_accomodation_needs'] = field.data if field else False

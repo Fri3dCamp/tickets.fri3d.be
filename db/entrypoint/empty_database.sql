@@ -63,9 +63,9 @@ insert into product (name, display, price, volunteering_price, max_dob, billable
 	( 'ticket_vip_saturday', 'VIP ticket voor zaterdag', 0, 0, '1900-01-01 00:00:00', 0),
 	( 'ticket_vip_sunday', 'VIP ticket voor zondag', 0, 0, '1900-01-01 00:00:00', 0),
 	( 'ticket_vip_monday', 'VIP ticket voor maandag', 0, 0, '1900-01-01 00:00:00', 0),
-	( 'badge_accessory_a', 'Badge Accessory A', 13.37, 13.37, '1900-01-01 00:00:00', 0),
-	( 'badge_accessory_b', 'Badge Accessory B', 13.37, 13.37, '1900-01-01 00:00:00', 0),
-	( 'camper_spot', 'Camper plaatsje', 25, 25, '1900-01-01 00:00:00', 0);
+	( 'badge_accessory_a', 'Time Blaster', 20, 20, '1900-01-01 00:00:00', 0),
+	( 'badge_accessory_b', 'GameOn', 10, 10, '1900-01-01 00:00:00', 0),
+	( 'camper_spot', 'Camper/caravan plaatsje', 25, 25, '1900-01-01 00:00:00', 0);
 
 drop table if exists reservation;
 create table reservation (
@@ -89,7 +89,6 @@ create table purchase (
 	nonce varchar(128) not null,
 	payment_code varchar(128) not null unique,
 	reservation_id integer,
-	transportation varchar(64) not null,
 	special_accomodation_needs integer default 0,
 	queued integer default 0,
 	once_queued integer default 0,

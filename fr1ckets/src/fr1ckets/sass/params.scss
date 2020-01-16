@@ -1,0 +1,137 @@
+/* Color Theme Swatches in RGBA */
+$clr_A: rgba(125,75,179, 1);
+$clr_B: rgba(255,216,158, 1);
+$clr_A_light: rgba(192,133,255, 1);
+$clr_C: rgba(86,204,123, 1);
+$clr_C_dark: rgba(84,179,113, 1);
+$clr_darkgrey: rgba(50,50,50,1);
+
+
+$clr-black1:        #000;
+$clr-gray1:         #332F2D;
+$clr-gray2:         #493F3A;
+$clr-gray3:         #7F7671;
+$clr-gray4:         #AFAAA7;
+$clr-gray5:         #EDEDED;
+
+$clr-primary1: #0E96AF;
+$clr-primary2: #56B6C8;
+$clr-primary3: #30A3B8;
+$clr-primary4: #03778C;
+$clr-primary5: #025C6D;
+$clr-primary6: mix($clr-primary2,white,50%);
+$clr-primary7: mix($clr-primary2,white,20%);
+$clr-primary8: mix($clr-primary5,black,50%);
+
+$clr-secondary1: #FF260F;
+$clr-secondary2: #FF786A;
+$clr-secondary3: #FF513E;
+$clr-secondary4: #E41600;
+$clr-secondary5: #B21100;
+$clr-secondary6: mix($clr-secondary2,white,50%);
+$clr-secondary7: mix($clr-secondary2,white,20%);
+
+$clr-tertiary1: #FFB40F;
+$clr-tertiary2: #FFD16A;
+$clr-tertiary3: #FFC33E;
+$clr-tertiary4: #E49D00;
+$clr-tertiary5: #B27A00;
+$clr-tertiary6: mix($clr-tertiary2,white,50%);
+$clr-tertiary7: mix($clr-tertiary2,white,20%);
+
+
+$fnt-body:          'Open Sans', sans-serif;
+$fnt-headings:      'Montserrat', sans-serif;
+$fnt-counter:       'Ubuntu Mono', sans-serif;
+$fntsize-0:          12px;    // small font (print breadcrumb)
+$fntsize-1:          16px;    // body font
+$fntsize-2:          20px;    // level 2 headings
+$fntsize-3:          4rem;
+$fntsize-4:          4.8rem;
+
+$margin:            8px;
+
+$breakpointxl:      1200px;
+$breakpoint0:       1024px;
+$breakpoint1:       800px;
+$breakpoint2:       550px;
+$breakpoint3:       400px;
+$breakpoint4:       300px;
+$rulelength:        600px;
+$rulelength-wide:   900px;
+
+
+/**
+* Bootstrap params
+*/ 
+
+$font-family-base: $fnt-body;
+$headings-font-family: $fnt-headings;
+
+
+$brand-primary: $clr_A;
+$brand-primary-dark: $brand-primary;
+$brand-primary-light: $clr_A_light;
+$brand-secondary: $clr_C;
+$brand-secondary-dark: $clr_C_dark;
+$brand-secondary-light: $clr_B;
+$brand-secondary-lighter: lighten( $clr_B, 10% );
+
+
+$gray-base:              #000;
+$gray-darker:            #332F2D;
+$gray-dark:              #493F3A;
+$gray:                   #7F7671;
+$gray-light:             #AFAAA7;
+$gray-lighter:           #EDEDED;
+
+
+//== Media queries breakpoints
+//
+//## Define the breakpoints at which your layout will change, adapting to different screen sizes.
+
+// Extra small screen / phone
+//** Deprecated `$screen-xs` as of v3.0.1
+$screen-xs:                  480px;
+//** Deprecated `$screen-xs-min` as of v3.2.0
+$screen-xs-min:              $screen-xs;
+//** Deprecated `$screen-phone` as of v3.0.1
+$screen-phone:               $screen-xs-min;
+
+// Small screen / tablet
+//** Deprecated `$screen-sm` as of v3.0.1
+$screen-sm:                  768px;
+$screen-sm-min:              $screen-sm;
+//** Deprecated `$screen-tablet` as of v3.0.1
+$screen-tablet:              $screen-sm-min;
+
+// Medium screen / desktop
+//** Deprecated `$screen-md` as of v3.0.1
+$screen-md:                  992px;
+$screen-md-min:              $screen-md;
+//** Deprecated `$screen-desktop` as of v3.0.1
+$screen-desktop:             $screen-md-min;
+
+// Large screen / wide desktop
+//** Deprecated `$screen-lg` as of v3.0.1
+$screen-lg:                  1200px;
+$screen-lg-min:              $screen-lg;
+//** Deprecated `$screen-lg-desktop` as of v3.0.1
+$screen-lg-desktop:          $screen-lg-min;
+
+// So media queries don't overlap when required, provide a maximum
+$screen-xs-max:              ($screen-sm-min - 1);
+$screen-sm-max:              ($screen-md-min - 1);
+$screen-md-max:              ($screen-lg-min - 1);
+
+
+$font-size-base:          14px;
+$font-size-large:         ceil(($font-size-base * 1.25)); // ~18px
+$font-size-small:         ceil(($font-size-base * 0.85)); // ~12px
+
+$font-size-h1:            floor(($font-size-base * 2.6)); // ~36px
+$font-size-h2:            floor(($font-size-base * 2.15)); // ~30px
+$font-size-h3:            ceil(($font-size-base * 1.7)); // ~24px
+$font-size-h4:            ceil(($font-size-base * 1.25)); // ~18px
+$font-size-h5:            $font-size-base;
+$font-size-h6:            ceil(($font-size-base * 0.85)); // ~12px

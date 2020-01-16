@@ -749,7 +749,7 @@ $('#n_tickets').on('change', function() {
 	f += '<hr/>';
 
 	f += '<div class="row text-center">';
-	f += '  <p><h4>Accomodatie (is dezen header nodig?):</h4></p>';
+	f += '  <p><h4>Accomodatie:</h4></p>';
 	f += '</div>';
 	f += '<div class="form-group">';
 	f += '  <div class="col-xs-12 col-sm-11 col-sm-offset-1">';

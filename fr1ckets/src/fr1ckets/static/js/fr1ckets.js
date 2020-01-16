@@ -655,8 +655,8 @@ function mk_cb_update_visitor_options(index) {
 			f += '  </div>';
 			f += '  <div class="checkbox col-sm-4 col-xs-6">';
 			f += '    <label>';
-			f += '      <input type="checkbox" id="'+cleanup_id+'" name="'+cleanup_id+'" data-toggle="popover" data-placement="top" data-trigger="focus" data-content="Ik kan in de dagen na het kamp helpen opruimen. We contacteren je hierover dan nog.">';
-			f += '      Helpt opkuisen na het kamp';
+			f += '      <input type="checkbox" id="'+cleanup_id+'" name="'+cleanup_id+'" data-toggle="popover" data-placement="top" data-trigger="focus" data-content="Ik kan in de dagen na het kamp helpen afbreken en opruimen. We contacteren je hierover dan nog.">';
+			f += '      Helpt afbreken na het kamp.';
 			f += '    </label>';
 			f += '  </div>';
 		}

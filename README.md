@@ -10,9 +10,12 @@ Ticket website for Fri3d Camp 2018
 
 Do `docker-compose -f docker-compose_dev.yml up` in the project folder to start the dev version. Site will be reachable at localhost:80 and will automatically show all changes you make.
 
-Do `docker-compose down -v` to kill all the containers so you can start anew in a golden land of opportunity.
-
 Do `docker-compose up` for a more optimized local version. This will snapshot your current state and serve that, changes to code will not be reflected.
+
+###To refresh all the things
+`docker-compose -f docker-compose_dev.yml down -v`
+Followed by
+`docker-compose -f docker-compose_dev.yml up`
 
 
 A Python-flask app which generates and interprets both the ticket-ordering form and the administrative pages for the orga team. The pages themselves use bootstrap. Datastore is MySQL (was sqlite, again if possible), mail is sent out in the background to a Celery worker pool over Redis.

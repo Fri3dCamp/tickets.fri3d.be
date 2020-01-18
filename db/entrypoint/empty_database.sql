@@ -79,8 +79,8 @@ create table reservation (
 	index reservation_email_index (email asc)
 );
 insert into reservation (email, available_from) values
-	('default', '2020-01-29 19:00:00'),
-	('someone@who.reserved', '2020-01-22 19:00:00');
+	('default', '2020-01-10 19:00:00'),
+	('someone@who.reserved', '2020-01-17 19:00:00');
 
 drop table if exists purchase;
 create table purchase (

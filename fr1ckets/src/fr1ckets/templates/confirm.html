@@ -36,6 +36,32 @@
 				<p>Nog vragen? Mail naar <a href="mailto:tickets@fri3d.be">tickets@fri3d.be</a>.</p>
 				<p>Je ontvangt de gegevens van je bestelling ook nog per mail op {{ email }}.</p>
 				</h4>
+				<h5>
+<table class="table">
+	<thead>
+		<td>Item</td>
+		<td>Per stuk</td>
+		<td>Hoeveel</td>
+		<td>Totaal</td>
+	</thead>
+	<tbody>
+{% for i in items %}
+		<tr>
+			<td>{{i.product}} {% if i.person_name %} (voor {{i.person_name}}) {% endif %}<br/><i>Bevat
+					{{ "€%.2f + 21%% BTW"|format(i.part_vat_21_total/121*100) if i.part_vat_21_total > 0.0 }}
+					{{- ", €%.2f + 12%% BTW"|format(i.part_vat_12_total/112*100) if i.part_vat_12_total > 0.0 }}
+					{{- ", €%.2f + 6%% BTW"|format(i.part_vat_6_total/106*100) if i.part_vat_6_total > 0.0 }}
+				</i>
+			</td>
+			<td>{{ "€%.2f"|format(i.price_single) }}
+			<td>{{i.n}}</td>
+			<td>{{ "€%.2f"|format(i.price_total) }}</td>
+		</tr>
+{% endfor %}
+	</tbody>
+</table>
+				</h5>
+<pre>{{items}}</pre>
 			</div>
 		</div>
 	</div>

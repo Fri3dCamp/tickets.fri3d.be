@@ -431,6 +431,24 @@ def purchase_items_get(cursor, id):
 				else
 					pr.price
 			end) as price_total,
+			pui.n * (case
+				when
+					pui.person_volunteers_during
+				then
+					pr.volunteering_price_net
+				else
+					pr.price_net
+			end) as price_net_total,
+			pui.n * (case
+				when
+					pui.person_volunteers_during
+				then
+					pr.volunteering_part_vat_21
+				else
+					pr.part_vat_21
+			end) as part_vat_21_total,
+			pui.n * pr.part_vat_12 as part_vat_12_total,
+			pui.n * pr.part_vat_6 as part_vat_6_total,
 			pui.person_volunteers_before as volunteers_before,
 			pui.person_volunteers_during as volunteers_during,
 			pui.person_volunteers_after as volunteers_after,
@@ -491,6 +509,12 @@ def products_get(cursor):
 			display,
 			price,
 			volunteering_price,
+			price_net,
+			volunteering_price_net,
+			part_vat_21,
+			volunteering_part_vat_21,
+			part_vat_12,
+			part_vat_6,
 			max_dob,
 			billable
 		from

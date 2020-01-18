@@ -462,12 +462,15 @@ def ticket_register():
 def confirm(nonce=None):
 	price_normal, price_billable = price_distribution_strategy(g.db_cursor, nonce)
 	purchase = model.purchase_get(g.db_cursor, nonce=nonce)
+	items = model.purchase_items_get(g.db_cursor, purchase['id'])
+	D(items)
 	model.purchase_history_append(g.db_cursor, purchase['id'],
 			msg='confirmed to {0}'.format(purchase['email']))
 	return render_template('confirm.html',
 			queued=purchase['queued'],
 			price_total=price_normal + price_billable,
 			price_billable=price_billable,
+			items=items,
 			payment_code=prettify_purchase_code(purchase['payment_code']),
 			email=purchase['email'],
 			payment_account=app.config['OUR_BANK_ACCOUNT'],

@@ -3,7 +3,7 @@
 <!-- vim: set sw=2 ts=2: -->
 	<head>
 		<meta charset="utf-8">
-		<title>Fri3d Camp 2018</title>
+		<title>Fri3d Camp 2020</title>
 <!--
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
@@ -35,6 +35,7 @@
 {% endif %}
 				<p>Nog vragen? Mail naar <a href="mailto:tickets@fri3d.be">tickets@fri3d.be</a>.</p>
 				<p>Je ontvangt de gegevens van je bestelling ook nog per mail op {{ email }}.</p>
+				<p>Hier volgt nog een overzichtje:</p>
 				</h4>
 				<h5>
 <table class="table">
@@ -47,11 +48,16 @@
 	<tbody>
 {% for i in items %}
 		<tr>
-			<td>{{i.product}} {% if i.person_name %} (voor {{i.person_name}}) {% endif %}<br/><i>Bevat
+			<td>
+				<strong>
+					{{i.product}} {% if i.person_name %} (voor {{i.person_name}}) {% endif %}
+				</strong>
+				<br/>
+				<small>Bevat
 					{{ "€%.2f + 21%% BTW"|format(i.part_vat_21_total/121*100) if i.part_vat_21_total > 0.0 }}
-					{{- ", €%.2f + 12%% BTW"|format(i.part_vat_12_total/112*100) if i.part_vat_12_total > 0.0 }}
-					{{- ", €%.2f + 6%% BTW"|format(i.part_vat_6_total/106*100) if i.part_vat_6_total > 0.0 }}
-				</i>
+					{{- "<br/>"|safe + "€%.2f + 12%% BTW (bereide maaltijden)"|format(i.part_vat_12_total/112*100) if i.part_vat_12_total > 0.0 }}
+					{{- "<br/>"|safe + "€%.2f + 6%% BTW (verblijf)"|format(i.part_vat_6_total/106*100) if i.part_vat_6_total > 0.0 }}.
+				</small>
 			</td>
 			<td>{{ "€%.2f"|format(i.price_single) }}
 			<td>{{i.n}}</td>
@@ -61,7 +67,6 @@
 	</tbody>
 </table>
 				</h5>
-<pre>{{items}}</pre>
 			</div>
 		</div>
 	</div>

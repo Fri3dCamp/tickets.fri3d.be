@@ -242,7 +242,6 @@ def extract_products(cursor, form_general, form_tickets):
 				'person_volunteers_during' : False,
 				'person_volunteers_after' : False,
 				'person_food_vegitarian' : False,
-				'textual' : '{0} ({1:d}x)'.format(relevant_product['display'], n.data),
 			})
 		return out
 
@@ -271,21 +270,7 @@ def extract_products(cursor, form_general, form_tickets):
 		person_volunteers_during = not getattr(form_tickets, fmt + '_options_not_volunteering_during').data
 		person_volunteers_after =  getattr(form_tickets, fmt + '_options_volunteers_after').data
 		person_food_vegitarian = getattr(form_tickets, fmt + '_options_vegitarian').data
-		textual_options = []
-		if person_food_vegitarian:
-			textual_options.append('vegetarisch')
 
-		cutoff_date = datetime.datetime.strptime(app.config['VOLUNTEERING_CUTOFF_DATE'], '%Y-%m-%d')
-		if dob < cutoff_date:
-			if person_volunteers_before:
-				textual_options.append('helpt opbouwen')
-			if person_volunteers_during:
-				textual_options.append('vrijwilliger-shifts')
-			else:
-				textual_options.append('premium')
-			if person_volunteers_after:
-				textual_options.append('helpt afbreken')
-		textual = u'{0} voor {1} ({2})'.format(relevant_ticket['display'], person_name, ', '.join(textual_options))
 		out.append({
 			'product_id' : relevant_ticket['id'],
 			'n' : 1,
@@ -295,7 +280,6 @@ def extract_products(cursor, form_general, form_tickets):
 			'person_volunteers_during' : person_volunteers_during,
 			'person_volunteers_after' : person_volunteers_after,
 			'person_food_vegitarian' : person_food_vegitarian,
-			'textual' : textual,
 		})
 		
 	
@@ -417,9 +401,48 @@ def ticket_register():
 	}
 
 	mail_data['items_overview_html'] += '<ul>'
-	for p in products:
-		mail_data['items_overview_html'] += u'<li>{0}</li>'.format(p['textual'])
-		mail_data['items_overview_text'] += u'  - {0}\n'.format(p['textual'])
+
+	items = model.purchase_items_get(g.db_cursor, purchase['id'])
+	vouchers = model.vouchers_for_purchase(g.db_cursor, purchase['id'])
+
+	for i in items:
+		text = u""
+		vat = u""
+		if i['product_name'].startswith('ticket_'):
+			ticket_opts = []
+			if i['person_dob'] < datetime.datetime.strptime(app.config['VOLUNTEERING_CUTOFF_DATE'], '%Y-%m-%d').date():
+				if i['volunteers_before']:
+					ticket_opts.append('helpt opbouwen')
+				if not i['volunteers_during']:
+					ticket_opts.append('premium')
+				if i['volunteers_after']:
+					ticket_opts.append('helpt afbreken')
+			if i['person_vegitarian']:
+				ticket_opts.append('vegetarisch')
+			text = u"{0} voor {1}".format(i['product'], i['person_name'])
+			if len(ticket_opts):
+				text += u" ({0})".format(", ".join(ticket_opts))
+			text += u": {0}x €{1} totaal €{2}".format(i['n'], i['price_single'], i['price_total'])
+		else:
+			text += u"{0}: {1}x €{2} totaal €{3}".format(i['product'], i['n'], i['price_single'], i['price_total'])
+		vat_opts = []
+		if i['part_vat_21_total'] > 0.0:
+			vat_opts.append('{0:.2f} + 21% BTW'.format(i['part_vat_21_total']/121.0*100))
+		if i['part_vat_12_total'] > 0.0:
+			vat_opts.append('{0:.2f} + 12% BTW (bereide maaltijden)'.format(i['part_vat_12_total']/112.0*100))
+		if i['part_vat_6_total'] > 0.0:
+			vat_opts.append('{0:.2f} + 6% BTW (verblijf)'.format(i['part_vat_6_total']/106.0*100))
+		if i['part_vat_0_total'] > 0.0:
+			vat_opts.append('{0:.2f} zonder BTW'.format(i['part_vat_0_total']))
+		vat = u"Bevat €{0}.".format(", ".join(vat_opts))
+
+		mail_data['items_overview_html'] += u'<li>{0}<br/><small>{1}</small></li>'.format(text, vat)
+		mail_data['items_overview_text'] += u'- {0}\n  ({1})'.format(text, vat)
+
+	for v in vouchers:
+		mail_data['items_overview_html'] += u'<li>Voucher {0} voor €{1} reden {2}.</li>'.format(v['code'], v['discount'], v['reason'])
+		mail_data['items_overview_text'] += u'- Voucher {0} voor €{1} reden {2}.'.format(v['code'], v['discount'], v['reason'])
+
 	mail_data['items_overview_html'] += '</ul>'
 
 	if form.email.data[-len('.notreal'):] != '.notreal':
@@ -463,7 +486,6 @@ def confirm(nonce=None):
 	price_normal, price_billable = price_distribution_strategy(g.db_cursor, nonce)
 	purchase = model.purchase_get(g.db_cursor, nonce=nonce)
 	items = model.purchase_items_get(g.db_cursor, purchase['id'])
-	D(items)
 	model.purchase_history_append(g.db_cursor, purchase['id'],
 			msg='confirmed to {0}'.format(purchase['email']))
 	return render_template('confirm.html',

@@ -449,6 +449,7 @@ def purchase_items_get(cursor, id):
 			end) as part_vat_21_total,
 			pui.n * pr.part_vat_12 as part_vat_12_total,
 			pui.n * pr.part_vat_6 as part_vat_6_total,
+			pui.n * pr.part_vat_0 as part_vat_0_total,
 			pui.person_volunteers_before as volunteers_before,
 			pui.person_volunteers_during as volunteers_during,
 			pui.person_volunteers_after as volunteers_after,
@@ -459,7 +460,9 @@ def purchase_items_get(cursor, id):
 			purchase_items pui
 			inner join product pr on pui.product_id = pr.id
 		where
-			pui.purchase_id = %s;
+			pui.purchase_id = %s
+		order by
+			pr.id;
 		"""
 	cursor.execute(q, (id,))
 	return cursor.fetchall()
@@ -515,6 +518,7 @@ def products_get(cursor):
 			volunteering_part_vat_21,
 			part_vat_12,
 			part_vat_6,
+			part_vat_0,
 			max_dob,
 			billable
 		from

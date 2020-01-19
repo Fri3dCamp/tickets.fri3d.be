@@ -38,34 +38,35 @@
 				<p>Hier volgt nog een overzichtje:</p>
 				</h4>
 				<h5>
-<table class="table">
-	<thead>
-		<td>Item</td>
-		<td>Per stuk</td>
-		<td>Hoeveel</td>
-		<td>Totaal</td>
-	</thead>
-	<tbody>
-{% for i in items %}
-		<tr>
-			<td>
-				<strong>
-					{{i.product}} {% if i.person_name %} (voor {{i.person_name}}) {% endif %}
-				</strong>
-				<br/>
-				<small>Bevat
-					{{ "€%.2f + 21%% BTW"|format(i.part_vat_21_total/121*100) if i.part_vat_21_total > 0.0 }}
-					{{- "<br/>"|safe + "€%.2f + 12%% BTW (bereide maaltijden)"|format(i.part_vat_12_total/112*100) if i.part_vat_12_total > 0.0 }}
-					{{- "<br/>"|safe + "€%.2f + 6%% BTW (verblijf)"|format(i.part_vat_6_total/106*100) if i.part_vat_6_total > 0.0 }}.
-				</small>
-			</td>
-			<td>{{ "€%.2f"|format(i.price_single) }}
-			<td>{{i.n}}</td>
-			<td>{{ "€%.2f"|format(i.price_total) }}</td>
-		</tr>
-{% endfor %}
-	</tbody>
-</table>
+					<table class="table">
+						<thead>
+							<td>Item</td>
+							<td>Per stuk</td>
+							<td>Aantal</td>
+							<td>Totaal</td>
+						</thead>
+						<tbody>
+					{% for i in items %}
+							<tr>
+								<td>
+									<strong>
+										{{i.product}} {% if i.person_name %} (voor {{i.person_name}}) {% endif %}
+									</strong>
+									<br/>
+									<small>Bevat
+										{{ "€%.2f + 21%% BTW"|format(i.part_vat_21_total/121*100) if i.part_vat_21_total > 0.0 }}
+										{{- "<br/>"|safe + "€%.2f + 12%% BTW (bereide maaltijden)"|format(i.part_vat_12_total/112*100) if i.part_vat_12_total > 0.0 }}
+										{{- "<br/>"|safe + "€%.2f + 6%% BTW (verblijf)"|format(i.part_vat_6_total/106*100) if i.part_vat_6_total > 0.0 }}
+										{{- "<br/>"|safe + "€%.2f + 0%% BTW"|format(i.part_vat_0_total) if i.part_vat_0_total > 0.0 }}.
+									</small>
+								</td>
+								<td>{{ "€%.2f"|format(i.price_single) }}
+								<td>{{i.n}}</td>
+								<td>{{ "€%.2f"|format(i.price_total) }}</td>
+							</tr>
+					{% endfor %}
+						</tbody>
+					</table>
 				</h5>
 			</div>
 		</div>

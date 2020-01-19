@@ -739,7 +739,7 @@ $('#n_tickets').on('change', function() {
 		// bill box
 		f += '<div class="form-group">';
 		f += '  <div class="checkbox col-sm-8 col-sm-offset-4">';
-		f += '    <label><input type="checkbox" id="'+billable_id+'" name="'+billable_id+'" data-toggle="popover" data-placement="top" data-trigger="focus" data-content="Je kiest ervoor om dit ticket te laten factureren. We nemen hiervoor zo snel mogelijk contact op."> Ticket met factuur (altijd €317 inclusief BTW)</label>'
+		f += '    <label><input type="checkbox" id="'+billable_id+'" name="'+billable_id+'" data-toggle="popover" data-placement="top" data-trigger="focus" data-content="Je kiest ervoor om dit ticket te laten factureren. We nemen hiervoor zo snel mogelijk contact op."> Ticket met factuur (altijd €334 inclusief BTW)</label>'
 		f += '  </div>';
 		f += '</div>';
 		// collapse for options depending on input above

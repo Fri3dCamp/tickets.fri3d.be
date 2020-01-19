@@ -55,7 +55,7 @@ def generate_garment_names():
 		for size in [ 's', 'm', 'l', 'xl' ]:
 			out.append("hoodie_{0}_{1}".format(tshirt, size))
 	for tshirt in [ 'adult_m' ]:
-		for size in [ 's', 'm', 'l', 'xl', 'xxl', '3xl' ]:
+		for size in [ 's', 'm', 'l', 'xl', 'xxl', '3xl', '4xl' ]:
 			out.append("tshirt_{0}_{1}".format(tshirt, size))
 			out.append("hoodie_{0}_{1}".format(tshirt, size))
 	for tshirt in [ 'kid' ]:

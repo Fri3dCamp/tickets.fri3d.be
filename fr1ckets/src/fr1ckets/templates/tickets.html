@@ -106,6 +106,41 @@
 		</div>
 		<!-- END BUSINESS INFO -->
 
+		<!-- CAMPER SPOTS -->
+		{% if 'camper_spot' in selling_inhibited %}
+		<div class="row">
+			<div class="col-xs-12 col-sm-8 col-sm-offset-2 text-center">
+				<div class="well">
+					<p>Helaas is de verkoop van plaatsen voor campers en caravans uitverkocht, je kan nog wel andere zaken bestellen.</p>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+		<div class="row" {% if 'camper_spot' in selling_inhibited %} hidden {% endif %}>
+			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
+				<div class="caption ">
+					<h3>Camper of caravan plaatsje - <strong>€25</strong></h3>
+					<p>We voorzien een plaatsje voor je camper of caravan op de daarvoor voorziene parking op het grote event-plein. Stroom en wifi inbegrepen.</p>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
+				<div class="form-group">
+					<label for="camper_spot" class="col-xs-4 col-sm-4 control-label">Camper plaatsen</label>
+					<div class="col-xs-8 col-sm-6">
+						<select id="camper_spot" name="camper_spot" class="form-control">
+							<option value="0" selected>0</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div> <!-- row -->
+		<!-- END CAMPER SPOTS -->
+
 		<!-- BADGE ACCESSORY A PARTS -->
 		{% if 'badge_accessory_a' in selling_inhibited %}
 		<div class="row">
@@ -186,41 +221,6 @@
 			</div>
 		</div> <!-- row -->
 		<!-- END BADGE ACCESSORY B -->
-
-		<!-- CAMPER SPOTS -->
-		{% if 'camper_spot' in selling_inhibited %}
-		<div class="row">
-			<div class="col-xs-12 col-sm-8 col-sm-offset-2 text-center">
-				<div class="well">
-					<p>Helaas is de verkoop van plaatsen voor campers en caravans uitverkocht, je kan nog wel andere zaken bestellen.</p>
-				</div>
-			</div>
-		</div>
-		{% endif %}
-		<div class="row" {% if 'camper_spot' in selling_inhibited %} hidden {% endif %}>
-			<div class="col-xs-12 col-sm-8 col-sm-offset-2">				
-				<div class="caption ">
-					<h3>Plaats voor je camper of caravan - <strong>€25</strong></h3>
-					<p>We voorzien een plaatsje voor je camper of caravan op de daarvoor voorziene parking op het grote event-plein. Stroom en wifi inbegrepen.</p>
-				</div>
-			</div>
-			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
-				<div class="form-group">
-					<label for="camper_spot" class="col-xs-4 col-sm-4 control-label">Camper plaatsen</label>
-					<div class="col-xs-8 col-sm-6">
-						<select id="camper_spot" name="camper_spot" class="form-control">
-							<option value="0" selected>0</option>
-							<option value="1">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-							<option value="4">4</option>
-							<option value="5">5</option>
-						</select>
-					</div>
-				</div>
-			</div>
-		</div> <!-- row -->
-		<!-- END CAMPER SPOTS -->
 
 		<!-- MUGS -->
 		{% if 'mug' in selling_inhibited %}
@@ -332,7 +332,7 @@
 								<option value="10">10</option>
 							</select>
 						</div>
-						<label for="tshirt_kid_l" class="col-xs-6 col-sm-3 control-label">9-10</label>
+						<label for="tshirt_kid_l" class="col-xs-6 col-sm-3 control-label">9-11</label>
 						<div class="col-xs-6 col-sm-3">
 							<select id="tshirt_kid_l" name="tshirt_kid_l" class="form-control">
 								<option value="0" selected>0</option>
@@ -348,7 +348,7 @@
 								<option value="10">10</option>
 							</select>
 						</div>
-						<label for="tshirt_kid_xl" class="col-xs-6 col-sm-3 control-label">11-12</label>
+						<label for="tshirt_kid_xl" class="col-xs-6 col-sm-3 control-label">12-14</label>
 						<div class="col-xs-6 col-sm-3">
 							<select id="tshirt_kid_xl" name="tshirt_kid_xl" class="form-control">
 								<option value="0" selected>0</option>
@@ -448,7 +448,7 @@
 								<option value="10">10</option>
 							</select>
 						</div>
-						<label for="tshirt_adult_f_xxl" class="col-xs-2 col-sm-2 control-label">XXL</label>
+						<label for="tshirt_adult_f_xxl" class="col-xs-2 col-sm-2 control-label">2XL</label>
 						<div class="col-xs-4 col-sm-4">
 							<select id="tshirt_adult_f_xxl" name="tshirt_adult_f_xxl" class="form-control">
 								<option value="0" selected>0</option>
@@ -548,7 +548,7 @@
 								<option value="10">10</option>
 							</select>
 						</div>
-						<label for="tshirt_adult_m_xxl" class="col-xs-2 col-sm-2 control-label">XXL</label>
+						<label for="tshirt_adult_m_xxl" class="col-xs-2 col-sm-2 control-label">2XL</label>
 						<div class="col-xs-4 col-sm-4">
 							<select id="tshirt_adult_m_xxl" name="tshirt_adult_m_xxl" class="form-control">
 								<option value="0" selected>0</option>
@@ -567,6 +567,22 @@
 						<label for="tshirt_adult_m_3xl" class="col-xs-2 col-sm-2 control-label">3XL</label>
 						<div class="col-xs-4 col-sm-4">
 							<select id="tshirt_adult_m_3xl" name="tshirt_adult_m_3xl" class="form-control">
+								<option value="0" selected>0</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+							</select>
+						</div>
+						<label for="tshirt_adult_m_4xl" class="col-xs-2 col-sm-2 control-label">4XL</label>
+						<div class="col-xs-4 col-sm-4">
+							<select id="tshirt_adult_m_4xl" name="tshirt_adult_m_4xl" class="form-control">
 								<option value="0" selected>0</option>
 								<option value="1">1</option>
 								<option value="2">2</option>
@@ -658,7 +674,7 @@
 								<option value="10">10</option>
 							</select>
 						</div>
-						<label for="hoodie_kid_l" class="col-xs-6 col-sm-3 control-label">9-10</label>
+						<label for="hoodie_kid_l" class="col-xs-6 col-sm-3 control-label">9-11</label>
 						<div class="col-xs-6 col-sm-3">
 							<select id="hoodie_kid_l" name="hoodie_kid_l" class="form-control">
 								<option value="0" selected>0</option>
@@ -674,7 +690,7 @@
 								<option value="10">10</option>
 							</select>
 						</div>
-						<label for="hoodie_kid_xl" class="col-xs-6 col-sm-3 control-label">11-12</label>
+						<label for="hoodie_kid_xl" class="col-xs-6 col-sm-3 control-label">12-14</label>
 						<div class="col-xs-6 col-sm-3">
 							<select id="hoodie_kid_xl" name="hoodie_kid_xl" class="form-control">
 								<option value="0" selected>0</option>
@@ -858,7 +874,7 @@
 								<option value="10">10</option>
 							</select>
 						</div>
-						<label for="hoodie_adult_m_xxl" class="col-xs-2 col-sm-2 control-label">XXL</label>
+						<label for="hoodie_adult_m_xxl" class="col-xs-2 col-sm-2 control-label">2XL</label>
 						<div class="col-xs-4 col-sm-4">
 							<select id="hoodie_adult_m_xxl" name="hoodie_adult_m_xxl" class="form-control">
 								<option value="0" selected>0</option>
@@ -877,6 +893,22 @@
 						<label for="hoodie_adult_m_3xl" class="col-xs-2 col-sm-2 control-label">3XL</label>
 						<div class="col-xs-4 col-sm-4">
 							<select id="hoodie_adult_m_3xl" name="hoodie_adult_m_3xl" class="form-control">
+								<option value="0" selected>0</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+							</select>
+						</div>
+						<label for="hoodie_adult_m_4xl" class="col-xs-2 col-sm-2 control-label">4XL</label>
+						<div class="col-xs-4 col-sm-4">
+							<select id="hoodie_adult_m_4xl" name="hoodie_adult_m_4xl" class="form-control">
 								<option value="0" selected>0</option>
 								<option value="1">1</option>
 								<option value="2">2</option>

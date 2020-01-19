@@ -58,84 +58,82 @@
 		</div>
 		{% endif %}
 
-		<!-- NORMAL TICKET -->
-		<div class="form-group" {% if 'tickets' in selling_inhibited %} hidden {% endif %}>
-			<label for="n_tickets" class="col-xs-6 col-sm-3 control-label">Tickets</label>
-			<div class="col-xs-6 col-sm-3">
-				<select id="n_tickets" name="n_tickets" class="form-control">
-					<option value="0" selected>0</option>
-					<option value="1">1</option>
-					<option value="2">2</option>
-					<option value="3">3</option>
-					<option value="4">4</option>
-					<option value="5">5</option>
-					<option value="6">6</option>
-					<option value="7">7</option>
-					<option value="8">8</option>
-					<option value="9">9</option>
-					<option value="10">10</option>
-					<option value="11">11</option>
-					<option value="12">12</option>
-					<option value="13">13</option>
-					<option value="14">14</option>
-					<option value="15">15</option>
-					<option value="16">16</option>
-					<option value="17">17</option>
-					<option value="18">18</option>
-					<option value="19">19</option>
-					<option value="20">20</option>
-				</select>
+		<div class="spacebelow">
+			<!-- NORMAL TICKET -->
+			<div class="form-group" {% if 'tickets' in selling_inhibited %} hidden {% endif %}>
+				<label for="n_tickets" class="col-xs-6 col-sm-3 control-label">Tickets</label>
+				<div class="col-xs-6 col-sm-3">
+					<select id="n_tickets" name="n_tickets" class="form-control">
+						<option value="0" selected>0</option>
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="10">10</option>
+						<option value="11">11</option>
+						<option value="12">12</option>
+						<option value="13">13</option>
+						<option value="14">14</option>
+						<option value="15">15</option>
+						<option value="16">16</option>
+						<option value="17">17</option>
+						<option value="18">18</option>
+						<option value="19">19</option>
+						<option value="20">20</option>
+					</select>
+				</div>
+				<div class="col-xs-12 col-sm-6">
+					<ul>
+						<li>Toegang tot Fri3d Camp 2020 van vrijdag 14 augustus tot en met zondag 16 augustus. Elk ticket bevat twee warme maaltijden.</li>
+						<li>Minstens één volunteer-shift (enkele uren drank tappen, infobalie bemannen, etc.) voor wie 16 jaar of ouder is bij de start van het kamp.</li>
+						<li>Wil je geen volunteer-shift meedraaien, vink dan de optie <em>premium</em> aan. Je ticket wordt dan wel duurder.</li>
+						<li>Selecteer het aantal tickets om de per-ticket opties te zien.</li>
+				</ul>
+				</div>
 			</div>
-			<div class="col-xs-12 col-sm-6">
-				<ul>
-					<li>Toegang tot Fri3d Camp 2020 van vrijdag 14 augustus tot en met zondag 16 augustus. Elk ticket bevat twee warme maaltijden.</li>
-					<li>Minstens één volunteer-shift (enkele uren drank tappen, infobalie bemannen, etc.) voor wie 16 jaar of ouder is bij de start van het kamp.</li>
-					<li>Wil je geen volunteer-shift meedraaien, vink dan de optie <em>premium</em> aan. Je ticket wordt dan wel duurder.</li>
-					<li>Selecteer het aantal tickets om de per-ticket opties te zien.</li>
-			</ul>
-			</div>
-		</div>
-		<!-- END NORMAL TICKET -->
+			<!-- END NORMAL TICKET -->
 
-		<!-- BEGIN INDIVIDIAL TICKETS -->
-		<div class="collapsible" id="tickets">
+			<!-- BEGIN INDIVIDIAL TICKETS -->
+			<div class="collapsible" id="tickets">
+			</div>
+			<!-- END INDIVIDIAL TICKETS -->
+			<!-- BEGIN BUSINESS INFO -->
+			<div class="collapsible" id="business_info">
+			</div>
+			<!-- END BUSINESS INFO -->
 		</div>
-		<!-- END INDIVIDIAL TICKETS -->
-		<!-- BEGIN BUSINESS INFO -->
-		<div class="collapsible" id="business_info">
-		</div>
-		<!-- END BUSINESS INFO -->
 
 		<!-- CAMPER SPOTS -->
 		{% if 'camper_spot' in selling_inhibited %}
-		<div class="row">
-			<div class="col-xs-12 col-sm-8 col-sm-offset-2 text-center">
+		<div class="row spacebelow">
+			<div class="col-xs-12 col-sm-10 col-sm-offset-1 text-center">
 				<div class="well">
 					<p>Helaas is de verkoop van plaatsen voor campers en caravans uitverkocht, je kan nog wel andere zaken bestellen.</p>
 				</div>
 			</div>
 		</div>
 		{% endif %}
-		<div class="row" {% if 'camper_spot' in selling_inhibited %} hidden {% endif %}>
-			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
+		<div class="row spacebelow" {% if 'camper_spot' in selling_inhibited %} hidden {% endif %}>
+			<div class="col-xs-12 col-sm-10 col-sm-offset-1">
 				<div class="caption ">
 					<h3>Camper of caravan plaatsje - <strong>€25</strong></h3>
 					<p>We voorzien een plaatsje voor je camper of caravan op de daarvoor voorziene parking op het grote event-plein. Stroom en wifi inbegrepen.</p>
 				</div>
-			</div>
-			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
-				<div class="form-group">
-					<label for="camper_spot" class="col-xs-4 col-sm-4 control-label">Camper plaatsen</label>
-					<div class="col-xs-8 col-sm-6">
-						<select id="camper_spot" name="camper_spot" class="form-control">
-							<option value="0" selected>0</option>
-							<option value="1">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-							<option value="4">4</option>
-							<option value="5">5</option>
-						</select>
-					</div>
+				<div>
+					<label for="camper_spot" class="ccontrol-label">Camper plaatsen</label>
+					<select id="camper_spot" name="camper_spot" class="form-control">
+						<option value="0" selected>0</option>
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+					</select>
 				</div>
 			</div>
 		</div> <!-- row -->
@@ -143,7 +141,7 @@
 
 		<!-- BADGE ACCESSORY A PARTS -->
 		{% if 'badge_accessory_a' in selling_inhibited %}
-		<div class="row">
+		<div class="row spacebelow">
 			<div class="col-xs-12 col-sm-8 col-sm-offset-2 text-center">
 				<div class="well">
 					<p>Helaas is de verkoop van de Time Blaster stopgezet, je kan nog wel andere zaken bestellen.</p>
@@ -152,71 +150,69 @@
 		</div>
 		{% endif %}
 		<div class="row" {% if 'badge_accessory_a' in selling_inhibited %} hidden {% endif %}>
-			<div class="col-xs-12 col-sm-6 col-lg-4">
+			<div class="col-xs-12 col-sm-4 col-sm-offset-1">
 				<div class="thumbnail">
 					<img src="/static/img/badge_accessory_a.jpg" class="img-rounded">
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-6 col-lg-8">	
-					<div class="caption">
-						<h3>Time Blaster - <strong>€20</strong></h3>
-						<p>Altijd al jouw eigen lasertag willen maken? Het kan nu op fri3d camp! Als uitbreiding op de badge, maar ook als standalone, heeft het badge team een blaster ontwikkeld als soldeerkit. Deze volledige Arduino compatibele kit is voorzien van de nodige toeters en bellen. Om het makkelijk te houden heb je geen enkele soldeer ervaring nodig om het werkend te krijgen. Alles is opgebouwd uit makkelijk te solderen componenten. Voor de durvers zijn er uitbreidingen met RGB LEDs en een USB interface voorzien in de kit waar toch enige vorm van geduld en een vast hand vereist zijn.</p>
+			<div class="col-xs-12 col-sm-6 col-lg-6">	
+				<div class="caption">
+					<h3>Time Blaster - <strong>€20</strong></h3>
+					<p>Altijd al jouw eigen lasertag willen maken? Het kan nu op fri3d camp! Als uitbreiding op de badge, maar ook als standalone, heeft het badge team een blaster ontwikkeld als soldeerkit. Deze volledige Arduino compatibele kit is voorzien van de nodige toeters en bellen. Om het makkelijk te houden heb je geen enkele soldeer ervaring nodig om het werkend te krijgen. Alles is opgebouwd uit makkelijk te solderen componenten. Voor de durvers zijn er uitbreidingen met RGB LEDs en een USB interface voorzien in de kit waar toch enige vorm van geduld en een vast hand vereist zijn.</p>
 				</div>
-				<div class="form-group">
-					<label for="badge_accessory_a" class="col-xs-4 col-sm-4 control-label">Time Blaster</label>
-					<div class="col-xs-8 col-sm-6">
-						<select id="badge_accessory_a" name="badge_accessory_a" class="form-control">
-							<option value="0" selected>0</option>
-							<option value="1">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-							<option value="4">4</option>
-							<option value="5">5</option>
-							<option value="6">6</option>
-							<option value="7">7</option>
-							<option value="8">8</option>
-							<option value="9">9</option>
-							<option value="10">10</option>
-						</select>
-					</div>
-				</div>
+			</div>
+		</div>
+		<div class="row spacebelow" {% if 'badge_accessory_a' in selling_inhibited %} hidden {% endif %}>
+			<div class="col-xs-12 col-sm-10 col-sm-offset-1">
+				<label for="badge_accessory_a" class="control-label">Time Blaster</label>
+					<select id="badge_accessory_a" name="badge_accessory_a" class="form-control">
+						<option value="0" selected>0</option>
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="10">10</option>
+					</select>
 			</div>
 		</div> <!-- row -->
 		<!-- END BADGE ACCESSORY B -->
 
 		<!-- BADGE ACCESSORY B PARTS -->
 		{% if 'badge_accessory_b' in selling_inhibited %}
-		<div class="row">
-			<div class="col-xs-12 col-sm-8 col-sm-offset-2 text-center">
+		<div class="row spacebelow">
+			<div class="col-xs-12 col-sm-10 col-sm-offset-1 text-center">
 				<div class="well">
-					<p>Helaas is de verkoop van de GameOn is stopgezet, je kan nog wel andere zaken bestellen.</p>
+					<p>Helaas is de verkoop van de GameOn stopgezet, je kan nog wel andere zaken bestellen.</p>
 				</div>
 			</div>
 		</div>
 		{% endif %}
-		<div class="row" {% if 'badge_accessory_b' in selling_inhibited %} hidden {% endif %}>
-			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
+		<div class="row spacebelow" {% if 'badge_accessory_b' in selling_inhibited %} hidden {% endif %}>
+			<div class="col-xs-12 col-sm-10 col-sm-offset-1">
 				<div class="caption">
-						<h3>GameOn - <strong>€10</strong></h3>
-						<p>Get your game on met deze gaming add-on voor de badge. Door zijn iconische layout met een joystick en 4 druktoesten kan je heel makkelijk games ontwikkelen en spelen op de Fri3d badge! Tevens voorzien we deze add-on van een 1W speaker met bijhorende versterker om volledig in de 8-bit sfeer geluiden te kunnen produceren. Some assembly required, maar anders zou het niet plezant zijn hé!</p>
-					</div>
-				<div class="form-group">
-					<label for="badge_accessory_b" class="col-xs-4 col-sm-4 control-label">GameOn</label>
-					<div class="col-xs-8 col-sm-6">
-						<select id="badge_accessory_b" name="badge_accessory_b" class="form-control">
-							<option value="0" selected>0</option>
-							<option value="1">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-							<option value="4">4</option>
-							<option value="5">5</option>
-							<option value="6">6</option>
-							<option value="7">7</option>
-							<option value="8">8</option>
-							<option value="9">9</option>
-							<option value="10">10</option>
-						</select>
-					</div>
+					<h3>GameOn - <strong>€10</strong></h3>
+					<p>Get your game on met deze gaming add-on voor de badge. Door zijn iconische layout met een joystick en 4 druktoesten kan je heel makkelijk games ontwikkelen en spelen op de Fri3d badge! Tevens voorzien we deze add-on van een 1W speaker met bijhorende versterker om volledig in de 8-bit sfeer geluiden te kunnen produceren. Some assembly required, maar anders zou het niet plezant zijn hé!</p>
+				</div>
+				<div>
+					<label for="badge_accessory_b" class="control-label">GameOn</label>
+					<select id="badge_accessory_b" name="badge_accessory_b" class="form-control">
+						<option value="0" selected>0</option>
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="10">10</option>
+					</select>
 				</div>
 			</div>
 		</div> <!-- row -->
@@ -224,8 +220,8 @@
 
 		<!-- MUGS -->
 		{% if 'mug' in selling_inhibited %}
-		<div class="row">
-			<div class="col-xs-12 col-sm-8 col-sm-offset-2 text-center">
+		<div class="row spacebelow">
+			<div class="col-xs-12 col-sm-10 col-sm-offset-1 text-center">
 				<div class="well">
 					<p>Helaas is de verkoop van drinkbekers uitverkocht, je kan nog wel andere zaken bestellen.</p>
 				</div>
@@ -233,29 +229,29 @@
 		</div>
 		{% endif %}
 		<div class="row" {% if 'mug' in selling_inhibited %} hidden {% endif %}>
-			<div class="col-xs-12 col-lg-4 col-md-6">
+			<div class="col-xs-12 col-sm-4 col-sm-offset-1">
 				<div class="thumbnail">
 					<img src="/static/img/beker.jpg" class="img-rounded">
 				</div>
 			</div>
-			<div class="col-xs-12 col-lg-8 col-md-6">
+			<div class="col-xs-12 col-sm-6">
 				<div class="caption">
-						<h3>Drankbeker - <strong>€8</strong></h3>
-						<p>Deze herbruikbare koffiebeker is gemaakt van bamboevezel en heeft een siliconen denksel en handgreep. Ideaal om tijdens Fri3d Camp je gratis percolatorkoffie mee te nemen zonder morsen. We voorzien geen papieren of plastic bekertjes, dus zorg er zeker voor dat je je eigen beker voorziet!</p>
+					<h3>Drankbeker - <strong>€8</strong></h3>
+					<p>Deze herbruikbare koffiebeker is gemaakt van bamboevezel en heeft een siliconen denksel en handgreep. Ideaal om tijdens Fri3d Camp je gratis percolatorkoffie mee te nemen zonder morsen. We voorzien geen papieren of plastic bekertjes, dus zorg er zeker voor dat je je eigen beker voorziet!</p>
 				</div>
-				<div class="form-group">
-					<label for="mug" class="col-xs-4 col-sm-4 control-label">Drankbekers</label>
-					<div class="col-xs-8 col-sm-6">
-						<select id="mug" name="mug" class="form-control">
-							<option value="0" selected>0</option>
-							<option value="1">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-							<option value="4">4</option>
-							<option value="5">5</option>
-						</select>
-					</div>
-				</div>
+			</div>
+		</div>
+		<div class="row spacebelow" {% if 'mug' in selling_inhibited %} hidden {% endif %}>
+			<div class="col-xs-12 col-sm-10 col-sm-offset-1">
+				<label for="mug" class="control-label">Drankbekers</label>
+				<select id="mug" name="mug" class="form-control">
+					<option value="0" selected>0</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
 			</div>
 		</div> <!-- row -->
 		<!-- END MUGS -->
@@ -271,19 +267,19 @@
 		{% endif %}
 
 		<!-- KID TSHIRTS -->
-		<div class="row" {% if 'tshirts' in selling_inhibited %} hidden {% endif %}>
+		<div class="row spacebelow" {% if 'tshirts' in selling_inhibited %} hidden {% endif %}>
 			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
 				<div class="thumbnail">
 					<img src="/static/img/tshirt_k.jpg" class="img-rounded">
 					<div class="caption text-center">
 						<h3>T-shirts kinderen - <strong>€ 20</strong></h3>	
-						<p><a href="/static/img/tshirt_k_maattabel.png" id="show_tshirt_sizes_k"><i class="glyphicon glyphicon-new-window"></i> Maattabel</a></p	
+						<p><a href="/static/img/tshirt_k_maattabel.png" id="show_tshirt_sizes_k"><i class="glyphicon glyphicon-new-window"></i> Maattabel</a></p>	
 					</div>
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-6 col-sm-offset-3">
+			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
 				<div class="row">
-					<div class="form-group">
+					<div>
 						<label for="tshirt_kid_xs" class="col-xs-6 col-sm-3 control-label">3-4</label>
 						<div class="col-xs-6 col-sm-3">
 							<select id="tshirt_kid_xs" name="tshirt_kid_xs" class="form-control">
@@ -371,7 +367,7 @@
 		<!-- END KID TSHIRTS -->
 
 		<!-- ADULT F TSHIRTS -->
-		<div class="row" {% if 'tshirts' in selling_inhibited %} hidden {% endif %}>
+		<div class="row spacebelow" {% if 'tshirts' in selling_inhibited %} hidden {% endif %}>
 			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
 				<div class="thumbnail">
 					<img src="/static/img/tshirt_f.jpg" class="img-rounded">
@@ -381,9 +377,9 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-6 col-sm-offset-3">
+			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
 				<div class="row">
-					<div class="form-group">
+					<div>
 						<label for="tshirt_adult_f_s" class="col-xs-2 col-sm-2 control-label">S</label>
 						<div class="col-xs-4 col-sm-4">
 							<select id="tshirt_adult_f_s" name="tshirt_adult_f_s" class="form-control">
@@ -471,7 +467,7 @@
 		<!-- ADULT F TSHIRTS -->
 
 		<!-- ADULT M TSHIRTS -->
-		<div class="row" {% if 'tshirts' in selling_inhibited %} hidden {% endif %}>
+		<div class="row spacebelow" {% if 'tshirts' in selling_inhibited %} hidden {% endif %}>
 			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
 				<div class="thumbnail">
 					<img src="/static/img/tshirt_m.jpg" class="img-rounded">
@@ -481,9 +477,9 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-6 col-sm-offset-3">
+			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
 				<div class="row">
-					<div class="form-group">
+					<div>
 						<label for="tshirt_adult_m_s" class="col-xs-2 col-sm-2 control-label">S</label>
 						<div class="col-xs-4 col-sm-4">
 							<select id="tshirt_adult_m_s" name="tshirt_adult_m_s" class="form-control">
@@ -603,7 +599,7 @@
 		<!-- ADULT M TSHIRTS -->
 
 		{% if 'hoodies' in selling_inhibited %}
-		<div class="row">
+		<div class="row spacebelow">
 			<div class="col-xs-12 col-sm-8 col-sm-offset-2 text-center">
 				<div class="well">
 					<p>Helaas is de verkoop van hoodies stopgezet, je kan nog wel andere zaken bestellen.</p>
@@ -613,7 +609,7 @@
 		{% endif %}
 
 		<!-- KID HOODIES -->
-		<div class="row" {% if 'hoodies' in selling_inhibited %} hidden {% endif %}>
+		<div class="row spacebelow" {% if 'hoodies' in selling_inhibited %} hidden {% endif %}>
 			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
 				<div class="thumbnail">
 					<img src="/static/img/hoodie_k.jpg" class="img-rounded">
@@ -623,9 +619,9 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-6 col-sm-offset-3">
+			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
 				<div class="row">
-					<div class="form-group">
+					<div>
 						<label for="hoodie_kid_xs" class="col-xs-6 col-sm-3 control-label">3-4</label>
 						<div class="col-xs-6 col-sm-3">
 							<select id="hoodie_kid_xs" name="hoodie_kid_xs" class="form-control">
@@ -713,7 +709,7 @@
 		<!-- END KID HOODIES -->
 
 		<!-- ADULT F HOODIES -->
-		<div class="row" {% if 'hoodies' in selling_inhibited %} hidden {% endif %}>
+		<div class="row spacebelow" {% if 'hoodies' in selling_inhibited %} hidden {% endif %}>
 			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
 				<div class="thumbnail">
 					<img src="/static/img/hoodie_f.jpg" class="img-rounded">
@@ -723,9 +719,9 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-6 col-sm-offset-3">
+			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
 				<div class="row">
-					<div class="form-group">
+					<div>
 						<label for="hoodie_adult_f_s" class="col-xs-2 col-sm-2 control-label">S</label>
 						<div class="col-xs-4 col-sm-4">
 							<select id="hoodie_adult_f_s" name="hoodie_adult_f_s" class="form-control">
@@ -797,7 +793,7 @@
 		<!-- ADULT F HOODIES -->
 
 		<!-- ADULT M HOODIES -->
-		<div class="row" {% if 'hoodies' in selling_inhibited %} hidden {% endif %}>
+		<div class="row spacebelow" {% if 'hoodies' in selling_inhibited %} hidden {% endif %}>
 			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
 				<div class="thumbnail">
 					<img src="/static/img/hoodie_m.jpg" class="img-rounded">
@@ -807,9 +803,9 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-6 col-sm-offset-3">
+			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
 				<div class="row">
-					<div class="form-group">
+					<div>
 						<label for="hoodie_adult_m_s" class="col-xs-2 col-sm-2 control-label">S</label>
 						<div class="col-xs-4 col-sm-4">
 							<select id="hoodie_adult_m_s" name="hoodie_adult_m_s" class="form-control">
@@ -931,93 +927,87 @@
 		<!-- BEGIN TOKENS -->
 		{% if 'tokens' in selling_inhibited %}
 		<div class="row">
-			<div class="col-xs-12 col-sm-8 col-sm-offset-2 text-center">
+			<div class="col-xs-12 col-sm-10 col-sm-offset-2 text-center">
 				<div class="well">
 					<p>Helaas is de verkoop van tokens stopgezet, je kan nog wel andere zaken bestellen.</p>
 				</div>
 			</div>
 		</div>
 		{% endif %}
-		<div class="row">
-			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
+		<div class="row spacebelow">
+			<div class="col-xs-12 col-sm-10 col-sm-offset-2">
 				<div class="caption">
 					<h3>Tokens voor consumpties</h3>
 					<p>€1.5 per token. De meeste drankjes of een snack kosten één token, duurdere drankjes kosten meer. Tijdens het kamp kan je natuurlijk ook tokens kopen, maar door ze hier mee te bestellen, liggen ze voor je klaar wanneer je toekomt.</p>
 				</div>
-				<div class="form-group" {% if 'tokens' in selling_inhibited %} hidden {% endif %}>
-						<label for="token" class="col-xs-4 col-sm-4 control-label" >Tokens</label>
-						<div class="col-xs-8 col-sm-6">
-							<select id="token" name="token" class="form-control">
-								<option value="0" selected>0</option>
-								<option value="10">10 – € 15</option>
-								<option value="20">20 – € 30</option>
-								<option value="30">30 – € 45</option>
-								<option value="40">40 – € 60</option>
-								<option value="50">50 – € 75</option>
-								<option value="100">100 – € 150</option>
-							</select>
-						</div>
-					</div>
+				<div {% if 'tokens' in selling_inhibited %} hidden {% endif %}>
+					<label for="token" class="control-label" >Tokens</label>
+					<select id="token" name="token" class="form-control">
+						<option value="0" selected>0</option>
+						<option value="10">10 – € 15</option>
+						<option value="20">20 – € 30</option>
+						<option value="30">30 – € 45</option>
+						<option value="40">40 – € 60</option>
+						<option value="50">50 – € 75</option>
+						<option value="100">100 – € 150</option>
+					</select>
+				</div>
 			</div>
 			
 		</div>
 		<!-- END TOKENS -->
 
-	<!-- DONATIONS -->
+		<!-- DONATIONS -->
 		{% if 'donation' in selling_inhibited %}
-		<div class="row">
-			<div class="col-xs-12 col-sm-8 col-sm-offset-2 text-center">
+		<div class="row spacebelow">
+			<div class="col-xs-12 col-sm-10 col-sm-offset-2 text-center">
 				<div class="well">
 					<p>Helaas is de mogelijkheid tot doneren afgelopen, je kan nog wel andere zaken bestellen.</p>
 				</div>
 			</div>
 		</div>
 		{% endif %}
-		<div class="row" {% if 'donation' in selling_inhibited %} hidden {% endif %}>
-			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
+		<div class="row spacebelow" {% if 'donation' in selling_inhibited %} hidden {% endif %}>
+			<div class="col-xs-12 col-sm-10 col-sm-offset-2">
 				<div class="caption">
 					<h3>Donatie - <strong>€10</strong></h3>
 					<p>Niet iedereen heeft de mogelijkheid een ticket aan te kopen. Je kan een donatie doen om deze mensen te helpen mee naar het kamp te komen.</p>
 				</div>
-				<div class="form-group">
-					<label for="donation" class="col-xs-4 col-sm-4 control-label">Donatie</label>
-					<div class="col-xs-8 col-sm-6">
-						<select id="donation" name="donation" class="form-control">
-							<option value="0" selected>0</option>
-							<option value="1">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-							<option value="4">4</option>
-							<option value="5">5</option>
-							<option value="6">6</option>
-							<option value="7">7</option>
-							<option value="8">8</option>
-							<option value="9">9</option>
-							<option value="10">10</option>
-						</select>
-					</div>
+				<div>
+					<label for="donation" class=" control-label">Donatie</label>
+					<select id="donation" name="donation" class="form-control">
+						<option value="0" selected>0</option>
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="10">10</option>
+					</select>
 				</div>
 			</div>
 		</div> <!-- row -->
 		<!-- END DONATIONS -->
 
 		<!-- BEGIN VOUCHER -->
-		<div class="row"><div class="col-xs-12">
-			<h3 class="text-center">Vouchers</h3>
-			<div class="well col-xs-12 col-sm-11 col-sm-offset-1"><p>Vouchers kunnen recht geven op korting. Eventuele vouchers heb je normaal per mail ontvangen.</p></div>
-		</div></div>
-		<div class="form-group">
-			<div class="col-xs-12 col-sm-11 col-sm-offset-1">
-				<div class="checkbox">
-					<label>
-						<input type="checkbox" id="have_voucher" name="have_voucher" class="filled-in">Ik heb één of meerdere vouchers.
-					</label>
+		<div class="row">
+			<div class="col-xs-12 col-sm-10 col-sm-offset-2">
+				<div class="well">
+					<h3 class="text-center">Vouchers</h3>
+					<p>Vouchers kunnen recht geven op korting. Eventuele vouchers heb je normaal per mail ontvangen.</p>
+				</div>
+				<label>
+					<input type="checkbox" id="have_voucher" name="have_voucher" class="filled-in">Ik heb één of meerdere vouchers.
+				</label>
+				<div class="collapsible" id="voucher">
 				</div>
 			</div>
 		</div>
-		<div class="collapsible" id="voucher">
-		</div>
-		<div class="row">
+		<div class="row spacebelow">
 			<div class="col-sm-offset-1 col-sm-10">
 				<div class="collapsable" id="reservation_message_collapse">
 				</div>
@@ -1028,7 +1018,7 @@
 		<!-- BLACK TONGUE OF MORDOR -->
 		<div class="form-group">
 			<h3 class="text-center">Final check</h3>
-			<div class="col-xs-12 col-sm-11 col-sm-offset-1">
+			<div class="col-xs-12 col-sm-10 col-sm-offset-2">
 				<div class="checkbox">
 					<label>
 						<input type="checkbox" id="terms_payment" name="terms_payment" required aria-required="true" class="filled-in">Ik stem er mee in het totale bedrag binnen 14 dagen via bankoverschrijving te betalen (details op volgende pagina). Als mijn betaling niet binnen de termijn ontvangen is, worden mijn bestelde tickets en extra's terug te koop aangeboden.
@@ -1037,7 +1027,7 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<div class="col-xs-12 col-sm-11 col-sm-offset-1">
+			<div class="col-xs-12 col-sm-10 col-sm-offset-2">
 				<div class="checkbox">
 					<label>
 						<input type="checkbox" id="terms_supervision" name="terms_supervision" required aria-required="true" class="filled-in">Ik bevestig dat personen jonger dan 16 vergezeld worden door een verantwoordelijke meerderjarige.
@@ -1046,23 +1036,23 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<div class="col-xs-12 col-sm-11 col-sm-offset-1">
+			<div class="col-xs-12 col-sm-10 col-sm-offset-2">
 				<div class="checkbox">
 					<label>
-					<input type="checkbox" id="terms_excellent" name="terms_excellent" required aria-required="true" class="filled-in">Ik sta achter het motto "<!-- <a href="http://www.fri3d.be/deelnemen/gedragscode.html"> -->Be excellent to each other</a>" en beloof me zo te gedragen.
+					<input type="checkbox" id="terms_excellent" name="terms_excellent" required aria-required="true" class="filled-in">Ik sta achter het motto "<a href="https://www.fri3d.be/deelnemers/excellent/"> Be excellent to each other</a>" en beloof me zo te gedragen.
 					</label>
 				</div>
 			</div>
 		</div>
 		<!-- END BLACK TONGUE OF MORDOR -->
 		<div class="row">
-			<div class="well col-xs-12 col-sm-11 col-sm-offset-1">
-					<div class="col-xs-6">	
+			<div class="well col-xs-12 col-sm-10 col-sm-offset-2">
+					<div class="col-xs-12 col-sm-6 ">	
 						<strong>Totaal:</strong>
 						<span id="price_total">no js :/</span>
 					</div>
-					<div class="form-group col-xs-6 text-right">
-						<button type="submit" class="btn btn-submit" id="check_button">Bestelling controleren</button>
+					<div class="col-xs-12 col-sm-6 ">
+						<button type="submit" class="btn btn-submit btn-block" id="check_button">Bestelling controleren</button>
 					</div>
 			</div>
 		</div>

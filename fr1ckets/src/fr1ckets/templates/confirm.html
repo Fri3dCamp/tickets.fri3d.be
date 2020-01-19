@@ -10,6 +10,7 @@
 -->
 		<link rel="stylesheet" href="/static/css/app.css">
 		<link rel="stylesheet" href="/static/css/tickets.css">
+		<link rel="stylesheet" href="/static/css/fri3d2020_overrides.css">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 	</head>
 	<body>
@@ -20,12 +21,14 @@
 	{% include "fri3dheader.html" %}
 
 	<div class="row">
-		<div class="col-xs-12 col-sm-8 col-sm-offset-2 text-center">
-			<div class="well">
+		<div class="col-xs-12 col-sm-8 col-sm-offset-2 ">
 				<h1>Bedankt!</h1>
-				<h4>
 {% if not queued %}
-				<p>Je bestelling is goed ontvangen. Gelieve binnen de {{ days_max }} dagen het bedrag van €{{ price_total }} over te schrijven naar rekeningnummer <b>{{ payment_account }}</b>  met als vermelding <b>{{ payment_code }}</b>.</p>
+				<p>Je bestelling is goed ontvangen. Gelieve binnen de {{ days_max }} dagen het bedrag van €{{ price_total }} over te schrijven:</p>
+					<ul>
+						<li>rekeningnummer <b>{{ payment_account }}</b></li>
+						<li>met mededeling <b>{{ payment_code }}</b></li>
+					</ul>
 				<p>Als we je betaling niet binnen de {{ days_max }} dagen ontvangen hebben, worden je tickets opnieuw vrijgegeven voor verkoop.</p>
 	{% if price_billable > 0 %}
 				<p>Je hebt één of meerdere factureerbare tickets gekocht, voor €{{ price_billable }}. Je ontvangt daarvoor spoedig een factuur.</p>
@@ -33,7 +36,7 @@
 {% else %}
 				<p>Er zijn niet genoeg tickets beschikbaar voor je bestelling. We hebben je bestelling in de wachtrij gezet. Als er voldoende plaatsen vrijkomen, word je per mail verwittigd op {{ email }}.</p>
 {% endif %}
-				<p>Nog vragen? Mail naar <a href="mailto:tickets@fri3d.be">tickets@fri3d.be</a>.</p>
+				<p>Heb je een vraag? Mail naar <a href="mailto:tickets@fri3d.be">tickets@fri3d.be</a>.</p>
 				<p>Je ontvangt de gegevens van je bestelling ook nog per mail op {{ email }}.</p>
 				<p>Hier volgt nog een overzichtje:</p>
 				</h4>
@@ -69,6 +72,11 @@
 					</table>
 				</h5>
 			</div>
+		</div>
+	</div>
+	<div class="row spacebelow">
+		<div class="col-xs-12 col-sm-10 col-sm-offset-1 text-center">
+			<a href="/tickets">Nog tickets bestellen</a>
 		</div>
 	</div>
 

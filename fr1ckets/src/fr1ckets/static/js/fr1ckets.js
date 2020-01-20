@@ -528,7 +528,10 @@ $(document).ready(function() {
 
 });
 
-var ticket_volunteering_cutoff = new Date(2000, 8, 13).getTime();
+// Every argument to Date() is 1-indexed. Except months.
+// People are now using this language to write async server code.
+// All things pass.
+var ticket_volunteering_cutoff = new Date(2004, 7, 14).getTime();
 
 var showing_business_info = false;
 function display_business_info() {
@@ -599,6 +602,8 @@ function mk_cb_update_visitor_options(index) {
 			return;
 		}
 		var dob = new Date($('#'+dob_year_id).val(), $('#'+dob_month_id).val()-1, $('#'+dob_day_id).val()).getTime();
+		console.dir(dob);
+		console.dir(ticket_volunteering_cutoff);
 		var billable = Boolean($('#'+billable_id).prop('checked'));
 		var can_volunteer = Boolean(dob < ticket_volunteering_cutoff);
 
@@ -643,19 +648,19 @@ function mk_cb_update_visitor_options(index) {
 			if (billable) {
 				ef = 'checked="checked"';
 			}
-			f += '      <input type="checkbox" id="'+volunteering_id+'" name="'+volunteering_id+'" '+ef+' data-toggle="popover" data-placement="top" data-trigger="focus" data-content="Om het kamp te doen lukken, hopen we dat iedereen vanaf 16 jaar minstens één volunteer-shift van een drietal uurtjes kan bijdragen. Als dit niet voor je lukt, kan je dit aanvinken, je betaalt dan wel iets meer.">';
-			f += '      Kan géén vrijwilligers-shift doen (<i>premium</i>).';
+			f += '      <input type="checkbox" id="'+volunteering_id+'" name="'+volunteering_id+'" '+ef+' data-toggle="popover" data-placement="top" data-trigger="focus" data-content="Om het kamp te doen lukken, vertrouwen we er op dat iedereen even mee wil helpen op het kamp zelf. Als dit niet voor je lukt, kan je dit hier aanvinken, je betaalt dan wel iets meer.">';
+			f += '      Kan niet meehelpen op het kamp (<i>premium</i>).';
 			f += '    </label>';
 			f += '  </div>';
 			f += '  <div class="checkbox col-sm-offset-4 col-sm-4 col-xs-6">';
 			f += '    <label>';
-			f += '      <input type="checkbox" id="'+buildup_id+'" name="'+buildup_id+'" data-toggle="popover" data-placement="top" data-trigger="focus" data-content="Ik kan in de dagen voor het kamp helpen met de opbouw. We contacteren je hierover dan nog.">';
+			f += '      <input type="checkbox" id="'+buildup_id+'" name="'+buildup_id+'" data-toggle="popover" data-placement="top" data-trigger="focus" data-content="We zoeken altijd vrijwilligers om in de dagen voor het kamp mee te helpen opbouwen. We contacteren je hierover dan nog.">';
 			f += '      Helpt mee opbouwen voor het kamp.';
 			f += '    </label>';
 			f += '  </div>';
 			f += '  <div class="checkbox col-sm-4 col-xs-6">';
 			f += '    <label>';
-			f += '      <input type="checkbox" id="'+cleanup_id+'" name="'+cleanup_id+'" data-toggle="popover" data-placement="top" data-trigger="focus" data-content="Ik kan in de dagen na het kamp helpen afbreken en opruimen. We contacteren je hierover dan nog.">';
+			f += '      <input type="checkbox" id="'+cleanup_id+'" name="'+cleanup_id+'" data-toggle="popover" data-placement="top" data-trigger="focus" data-content="We zoeken altijd vrijwilligers om in de dagen na het kamp mee te helpen afbreken. We contacteren je hierover dan nog.">';
 			f += '      Helpt afbreken na het kamp.';
 			f += '    </label>';
 			f += '  </div>';

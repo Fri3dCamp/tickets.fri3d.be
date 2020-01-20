@@ -761,7 +761,7 @@ $('#n_tickets').on('change', function() {
 	f += '    <div class="checkbox">';
 	f += '      <label>';
 	f += '        <input type="checkbox" id="special_accomodation_needs" name="special_accomodation_needs">';
-	f += '          Er zijn enkele hostel-kamers met bedden welke te huren zijn, als je dit aanvinkt nemen we hierover contact met je op.';
+	f += '          We beschikken over enkele hostel-kamers op het terrein (gedeelde kamers met een aantal bedden) welke we te huur aanbieden. Als je dit aanvinkt nemen we hierover contact met je op. First come first served!';
 	f += '      </label>';
 	f += '    </div>';
 	f += '  </div>';

@@ -113,17 +113,35 @@
 	{% endfor %}
 			</tbody>
 		</table>
-
 	</div><!-- col-sm-6 -->
+
 	<div class="col-sm-6 col-xs-12">
 		<table class="table table-condensed table-striped table-bordered">
-			<caption>Breakdown badge_robot_parts</caption>
+			<caption>Breakdown hoodies</caption>
 			<thead>
 				<th></th>
 				<th>Totaal</th>
 			</thead>
 			<tbody>
-	{% for b in badge_robot_parts %}
+	{% for t in hoodies %}
+			{% if 'total' in t.type %}<tr class="success">{% else %}<tr>{% endif %}
+					<td>{{ t.type }}</td>
+					<td>{{ t.n_total}}</td>
+				</tr>
+	{% endfor %}
+			</tbody>
+		</table>
+	</div><!-- col-sm-6 -->
+
+	<div class="col-sm-6 col-xs-12">
+		<table class="table table-condensed table-striped table-bordered">
+			<caption>Breakdown badge_accessory_a</caption>
+			<thead>
+				<th></th>
+				<th>Totaal</th>
+			</thead>
+			<tbody>
+	{% for b in badge_accessory_a %}
 			{% if 'total' in b.type %}<tr class="success">{% else %}<tr>{% endif %}
 					<td>{{ b.type }}</td>
 					<td>{{ b.n_total}}</td>
@@ -131,7 +149,24 @@
 	{% endfor %}
 			</tbody>
 		</table>
+	</div><!-- col-sm-6 -->
 
+	<div class="col-sm-6 col-xs-12">
+		<table class="table table-condensed table-striped table-bordered">
+			<caption>Breakdown badge_accessory_b</caption>
+			<thead>
+				<th></th>
+				<th>Totaal</th>
+			</thead>
+			<tbody>
+	{% for b in badge_accessory_b %}
+			{% if 'total' in b.type %}<tr class="success">{% else %}<tr>{% endif %}
+					<td>{{ b.type }}</td>
+					<td>{{ b.n_total}}</td>
+				</tr>
+	{% endfor %}
+			</tbody>
+		</table>
 	</div><!-- col-sm-6 -->
 
 </div>

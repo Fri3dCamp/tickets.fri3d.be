@@ -8,7 +8,7 @@ texts['MAIL_TICKETS_ORDERED_OK_HTML'] = u"""<html>
 <body>
 <p>Beste,</p>
 <p>Bedankt voor je aankoop op de Fri3d Camp 2020 ticketshop!</p>
-<p>Gelieve binnen de {days_max} dagen het bedrag van <b>€{amount}</b> over te maken op rekening {payment_account}, met als vermelding "{payment_code}".</p>
+<p>Gelieve binnen de {days_max} dagen het bedrag van <b>€{amount}</b> over te maken op onze nieuwe (!) rekening {payment_account}, met als vermelding "{payment_code}".</p>
 <p>We sturen je een bevestigingsmail op {email} als de betaling ontvangen is.</p>
 <p>Als we je betaling niet binnen de 14 dagen ontvangen hebben, worden je tickets opnieuw vrijgegeven voor verkoop.</p>
 <p>Nog even een overzicht van je aankoop:</p>
@@ -16,6 +16,7 @@ texts['MAIL_TICKETS_ORDERED_OK_HTML'] = u"""<html>
 <p>We zien je graag op het kamp!</p>
 <p>Met vriendelijke groeten,</p>
 <p>Het Fri3d Camp orga-team.</p>
+<p>Fri3d VZW, Grote Hondstraat 44 - APE Collective, 2018 Antwerpen. BTW BE 0734.464.006.</p>
 <p><small>Dit is een automatische mail. Heb je nog vragen? Mail dan naar <a mailto="tickets@fri3d.be">tickets@fri3d.be</a>.</small></p>
 </body>
 </html>"""
@@ -24,7 +25,7 @@ texts['MAIL_TICKETS_ORDERED_OK_TEXT'] = u"""Beste,
 
 Bedankt voor je aankoop op de Fri3d Camp 2020 ticketshop!
 
-Gelieve binnen de {days_max} dagen het bedrag van €{amount} over te maken op rekening {payment_account}, met als vermelding "{payment_code}".
+Gelieve binnen de {days_max} dagen het bedrag van €{amount} over te maken op onze nieuwe (!) rekening {payment_account}, met als vermelding "{payment_code}".
 
 We sturen je een bevestigingsmail op {email} als de betaling ontvangen is.
 
@@ -39,6 +40,8 @@ We zien je graag op het kamp!
 Met vriendelijke groeten,
 
 Het Fri3d Camp orga-team.
+
+Fri3d VZW, Grote Hondstraat 44 - APE Collective, 2018 Antwerpen. BTW BE 0734.464.006.
 
 Dit is een automatische mail. Heb je nog vragen? Mail dan naar tickets@fri3d.be."""
 

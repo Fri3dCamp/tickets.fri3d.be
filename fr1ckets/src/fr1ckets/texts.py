@@ -109,7 +109,7 @@ Het Fri3d Camp orga-team.
 Dit is een automatische mail. Heb je nog vragen? Mail dan naar tickets@fri3d.be."""
 
 # mail sent when payment has been received
-texts['MAIL_PAYMENT_RECEIVED_SUBJECT'] = u"Uw Fri3d Camp 2020 betaling is binnen!"
+texts['MAIL_PAYMENT_RECEIVED_SUBJECT'] = u"Je Fri3d Camp 2020 betaling is binnen!"
 texts['MAIL_PAYMENT_RECEIVED_HTML'] = u"""<html>
 <body>
 <p>Beste,</p>
@@ -131,7 +131,7 @@ Het Fri3d Camp orga-team.
 Dit is een automatische mail. Heb je nog vragen? Mail dan naar tickets@fri3d.be."""
 
 # mail sent when payment has been removed
-texts['MAIL_REMOVED_SUBJECT'] = u"Uw Fri3d Camp 2020 bestelling is geschrapt"
+texts['MAIL_REMOVED_SUBJECT'] = u"Je Fri3d Camp 2020 bestelling is geschrapt"
 texts['MAIL_REMOVED_HTML'] = u"""<html>
 <body>
 <p>Beste,</p>
@@ -156,7 +156,7 @@ Het Fri3d Camp orga-team.
 Dit is een automatische mail. Heb je nog vragen? Mail dan naar tickets@fri3d.be."""
 
 # mail sent when user commits a volunteering schedule
-texts['MAIL_VOLUNTEERING_SCHEDULE_SUBJECT'] = u"Uw Fri3d Camp 2020 vrijwilligers-schema is opgeslagen."
+texts['MAIL_VOLUNTEERING_SCHEDULE_SUBJECT'] = u"Je Fri3d Camp 2020 vrijwilligers-schema is opgeslagen."
 texts['MAIL_VOLUNTEERING_SCHEDULE_HTML'] = u"""<html>
 <body>
 <p>Beste,</p>

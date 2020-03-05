@@ -22,9 +22,6 @@
 					<p>Alle beschikbare tickets zijn weg! Je kan zeker nog een bestelling plaatsen, deze komt in de wachtrij en we laten je iets weten als er terug plaats is.</p>
 				{% endif %}
 			{% endif %}
-			{% if selling_inhibited|length > 0 %}
-					<p>De volgende items zijn niet meer beschikbaar: <b>{{ selling_inhibited|join(', ') }}</b>.</p>
-			{% endif %}
 			<p>Nog vragen? Check de <a href="https://www.fri3d.be/deelnemers/faq/">FAQ</a>, of mail naar <a href="mailto:tickets@fri3d.be">tickets@fri3d.be</a>.</p>
 			</div>
 		</div>

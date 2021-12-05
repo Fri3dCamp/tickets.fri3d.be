@@ -21,10 +21,10 @@ create table product (
 );
 
 insert into product (name, display, price, volunteering_price, price_net, volunteering_price_net, part_vat_21, volunteering_part_vat_21, part_vat_12, part_vat_6, part_vat_0, max_dob, billable) values
-	( 'ticket_3bit',     'Ticket 0-3 jaar',                  12,   12,  11.32,  11.32,   0,   0,  0, 12, 0, '2017-08-14 02:00:00', 0),
-	( 'ticket_4bit',     'Ticket 3-6 jaar',                  21,   21,  19.29,  19.29,   1,   1,  8, 12, 0, '2014-08-14 02:00:00', 0),
-	( 'ticket_5bit',     'Ticket 6-12 jaar',                 40,   40,  35.52,  35.52,  12,  12, 16, 12, 0, '2008-08-14 02:00:00', 0),
-	( 'ticket_6bit',     'Ticket 12-24 jaar',                78,   78,  69.16,  69.16,  24,  24, 32, 22, 0, '1996-08-14 02:00:00', 0),
+	( 'ticket_3bit',     'Ticket 0-3 jaar',                  12,   12,  11.32,  11.32,   0,   0,  0, 12, 0, '2019-08-14 02:00:00', 0),
+	( 'ticket_4bit',     'Ticket 3-6 jaar',                  21,   21,  19.29,  19.29,   1,   1,  8, 12, 0, '2016-08-14 02:00:00', 0),
+	( 'ticket_5bit',     'Ticket 6-12 jaar',                 40,   40,  35.52,  35.52,  12,  12, 16, 12, 0, '2010-08-14 02:00:00', 0),
+	( 'ticket_6bit',     'Ticket 12-24 jaar',                78,   78,  69.16,  69.16,  24,  24, 32, 22, 0, '1998-08-14 02:00:00', 0),
 	( 'ticket_7bit',     'Ticket +24 jaar',                  167, 145, 145.05, 126.87,  93,  71, 32, 42, 0, '1900-01-01 00:00:00', 0),
 	( 'ticket_8bit',     'Ticket zakelijk',                  334, 334, 283.07, 283.07, 260, 260, 32, 42, 0, '1900-01-01 00:00:00', 1),
 	( 'tshirt_adult_m_xs',  'Volwassenen mannen t-shirt XS',       20, 20, 16.53, 16.53, 20, 20, 0, 0, 0, '1900-01-01 00:00:00', 0),
@@ -88,8 +88,8 @@ create table reservation (
 	index reservation_email_index (email asc)
 );
 insert into reservation (email, available_from) values
-	('default', '2020-01-29 19:00:00'),
-	('someone@who.reserved', '2020-01-22 19:00:00');
+	('default', '2022-01-29 19:00:00'),
+	('someone@who.reserved', '2022-01-22 19:00:00');
 
 drop table if exists purchase;
 create table purchase (

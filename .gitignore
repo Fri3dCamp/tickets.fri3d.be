@@ -1,7 +1,7 @@
 *.pyc
 *_priv.conf
+docker-compose.override.yml
 db/contents
 fr1ckets/src/fr1ckets/node_modules
 .DS_Store
 orga.csv
-docker-compose.override.yml

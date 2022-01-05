@@ -1,0 +1,288 @@
+@import "fri3dcolors";
+@import "reset";
+@import "opensans";
+
+// $maxwidth: 1400px;
+
+// $breakpoint0: 1024px;
+// $breakpoint1: 860px;
+// $breakpoint2: 800px;
+// $breakpoint2b: 620px;
+// $breakpoint3: 460px;
+// $breakpoint4: 360px;
+
+$smallcol: 300px;
+$bigcol: 500px;
+
+$width0: 600px;
+$width1: 800px;
+$width2: 1000px;
+$width3: 1200px;
+$width4: 1200px;
+$width5: 1600px;
+$width6: 1800px;
+
+
+$fontsize_main: 1.6rem;
+$fontsize_small: 1.2rem;
+$spacer: 10px;
+
+.hidden {
+    display: none;
+}
+
+.visuallyhidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+.noscroll {
+    overflow-y: hidden;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-family: "Open Sans","sans-serif";
+    font-size: $fontsize_main;
+}
+
+.siteheader {
+  background-image: url("../img/headerimg.svg");
+  height: 150px;
+  background-size: auto 250px;
+  background-position: top center;
+  background-repeat: repeat-x;
+  display: flex;
+  justify-content: center;
+  background-color: $clr_C;
+  margin-bottom: $spacer;
+  .headerlogo { 
+    display: block;
+    background-color: black;
+    width:200px;
+    height:100px;
+    box-sizing: border-box;
+    padding:20px;
+  }
+}
+
+.pageheader {
+    margin-bottom: $spacer*5;
+}
+
+/** BEGIN notices **/
+
+.notice {
+    padding: $spacer;
+    padding-left: $spacer*2;
+    background-color: $clr_C;
+    margin-top: $spacer;
+    margin-bottom: $spacer;
+    &-warning {
+        background-color: lighten(yellow,20%);
+    }
+}
+
+/** END notices **/
+
+/** BEGIN layout **/
+
+ul {
+    margin-top: 0;
+    margin-bottom: $spacer;
+    padding-left:1em;
+}
+
+p {
+    display: block;
+    margin-bottom: $spacer;
+}
+
+.sitebody {
+    margin-left: $spacer*3;
+    margin-right:$spacer*3;
+}
+
+.pagesection {
+    margin-bottom: $spacer*2;
+}
+
+.block {
+    display: block;
+    margin-left: $spacer*3;
+    margin-right: $spacer*3;
+    &-narrow {
+        max-width: $width1;
+        @media screen and (min-width:($width1+6*$spacer)) {
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+    &-wide {
+        max-width: $width3;
+        @media screen and (min-width:($width3+6*$spacer)) {
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+    &-ultrawide {
+        max-width: $width5;
+        @media screen and (min-width:($width5+6*$spacer)) {
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+}
+
+.cols {
+    display:grid;
+    column-gap: $spacer*2;
+    row-gap: $spacer*4;
+    &-big {
+        @media screen and (min-width:$width1) {
+            grid-template-columns: auto auto;
+        }
+        @media screen and (min-width:$width3) {
+            grid-template-columns: auto auto auto;
+        }
+        @media screen and (min-width:$width5) {
+            grid-template-columns: auto auto auto auto;
+        }
+        .col {
+            min-width: $bigcol;
+        }
+    }
+    &-small {
+        @media screen and (min-width:$width0) {
+            grid-template-columns: auto auto;
+        }
+        @media screen and (min-width:$width2) {
+            grid-template-columns: auto auto auto;
+        }
+        @media screen and (min-width:$width4) {
+            grid-template-columns: auto auto auto auto;
+        }
+        @media screen and (min-width:$width6) {
+            grid-template-columns: auto auto auto auto auto;
+        }
+        .col {
+            min-width: $smallcol;
+        }
+    }
+    .col {
+        width: auto;
+    }
+}
+
+/** END layout **/
+
+/** BEGIN form **/
+
+.fieldwrapper {
+    margin-bottom: $spacer;
+    label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        display:block;
+    }
+}
+
+.field {
+    background-color: white;
+    border: 1px solid $clr_darkgrey;
+    width: 100%;
+    padding: $spacer;
+    z-index: 10;
+}
+
+.fieldlegend {
+    margin-top:5px;
+    font-style: italic;
+}
+
+option {
+    font-family: "Open Sans","sans-serif";
+}
+
+/** END form **/
+
+/** BEGIN products **/
+
+.product--image img {
+    width: 100%;
+    object-fit: contain;
+}
+
+.modalwrapper {
+    position: fixed;
+    left:0;
+    top:0;
+    width: 100%;
+    height: 100%;
+    padding: $spacer*2;
+    box-sizing: border-box;
+    overflow: hidden;
+    background-color: rgba(0,0,0,0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.modalwrapper .image {
+    // max-width: 90%;
+    // max-height: 90%;
+    height: auto;
+    width: auto;
+}
+
+a {
+    color:black;
+    &:visited {
+        color:black;
+    }
+}
+
+.product--desc {
+    max-width:500px;
+    max-height: 100%;
+    padding:$spacer;
+    background-color: white;
+    overflow-y: scroll;
+}
+
+.product--ttl {
+    font-weight: bold;
+    font-size: $fontsize_main;
+    margin-bottom: $spacer;
+    margin-top:$spacer;
+    display: block;
+}
+
+.product--variants {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    li {
+        display:flex;
+        margin-bottom: $spacer;
+        label {
+            width:7rem;
+            box-sizing: content-box;
+            font-weight: bold;
+            padding-left: 0;
+            padding: $spacer;
+        }
+    }
+}
+
+/** END products **/

@@ -311,6 +311,17 @@ def price_distribution_strategy(cursor, nonce):
 	return price_unbillable - price_discount, price_billable
 
 
+@app.route('/tickets_vanilla', methods=[ 'GET' ])
+@req_auth_public
+def tickets_vanilla():
+	if app.config['CLOSED']:
+		return render_template('closed.html')
+	form = TicketForm()
+	tickets_available = app.config['TICKETS_MAX'] - model.tickets_actual_total(g.db_cursor)
+	return render_template('tickets_vanilla.html',
+			selling_inhibited=app.config['INHIBIT_SELLING'],
+			form=form, tickets_available=tickets_available)
+
 @app.route('/tickets', methods=[ 'GET' ])
 @req_auth_public
 def tickets():

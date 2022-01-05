@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- vim: set sw=2 ts=2: -->
+	<head>
+		<meta charset="utf-8">
+		<title>Fri3d Camp 2022 tickets</title>
+		<link rel="stylesheet" href="/static/css/vanilla.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="apple-touch-icon" sizes="57x57" href="//static/img/apple-icon-57x57.png">
+		<link rel="apple-touch-icon" sizes="60x60" href="//static/img/apple-icon-60x60.png">
+		<link rel="apple-touch-icon" sizes="72x72" href="//static/img/apple-icon-72x72.png">
+		<link rel="apple-touch-icon" sizes="76x76" href="//static/img/apple-icon-76x76.png">
+		<link rel="apple-touch-icon" sizes="114x114" href="//static/img/apple-icon-114x114.png">
+		<link rel="apple-touch-icon" sizes="120x120" href="//static/img/apple-icon-120x120.png">
+		<link rel="apple-touch-icon" sizes="144x144" href="//static/img/apple-icon-144x144.png">
+		<link rel="apple-touch-icon" sizes="152x152" href="//static/img/apple-icon-152x152.png">
+		<link rel="icon" type="image/png" sizes="192x192"  href="/static/img/android-icon-192x192.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/static/img/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="96x96" href="/static/img/favicon-96x96.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/static/img/favicon-16x16.png">
+		<link rel="manifest" href="/static/img/manifest.json">
+	</head>
+	<body>
+        <header class="siteheader">
+            <a href="https://www.fri3d.be/" class="headerlogo">
+                <img src="/static/img/logo_white_noyear.svg" alt="Fri3d Camp">
+            </a>
+        </header>
+        <div class="notice notice-warning block-narrow" id="js_warning">
+        <p>Deze pagina vereist Javascript! Gelieve Javascript op te zetten voor deze site.</p>
+        </div>
+		<div class="sitebody hidden" id="js_container">
+
+            <header class="pageheader block block-narrow">
+                <h1>Bestel je tickets voor Fri3d Camp 2022</h1>
+                <p>Alles over Fri3d Camp en wat je als deelnemer kan verwachten, lees je op <a href="https://www.fri3d.be/">www.fri3d.be</a>.</p>
+                <div class="notice"><p>Alle beschikbare tickets zijn weg! Je kan zeker nog een bestelling plaatsen, deze komt in de wachtrij en we laten je iets weten als er terug plaats is.</p></div>
+            </header>
+
+            <div class="pagesection block block-wide cols cols-small">
+                <div class="col">
+                    <div class="fieldwrapper">
+                        <label for="email">E-mailadres</label>
+                        <input type="email" name="email" id="email" class="field" />
+                    </div>
+                    <div class="fieldwrapper">
+                        <label for="n_tickets">Aantal tickets</label>
+                        <select id="n_tickets" name="n_tickets" class="field field-select">
+                            <option value="0" selected="">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                        </select>
+                    </div>
+                    <div class="fieldwrapper">
+                        <label for="camper_spot">Camper of caravan plaats - €25</label>
+                        <select id="camper_spot" name="camper_spot" class="field field-select">
+                            <option value="0" selected="">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <p class="fieldlegend">We voorzien een plaatsje voor je camper of caravan op de daarvoor voorziene parking op het grote event-plein. Stroom en wifi inbegrepen.</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <ul>
+                        <li>Toegang tot Fri3d Camp 2022 van vrijdag 12 augustus tot en met zondag 14 augustus. Elk ticket bevat twee warme maaltijden.</li>
+                        <li><strong>Elke kampganger heeft een ticket nodig.</strong></li>
+                        <li>We hopen dat iedereen ouder dan 16 ter plekke even mee helpt met het kamp (enkele uren tappen, de infobalie bemannen, etc).</li>
+                        <li>Wil je niet mee helpen aan het kamp, vink dan de optie <em>premium</em> aan. Je ticket wordt dan wel duurder.</li>
+                        <li>Selecteer het aantal tickets om de per-ticket opties te zien.</li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <div class="pagesection block block-ultrawide">
+            <div class="modalwrapper js_modalclose visuallyhidden" id="large_image">
+                <img class="image" src="" alt=""/>
+            </div>
+            <h2>Extra's bij je ticket</h2>
+            <div class="cols cols-small">
+                {% for i in range(0,8) %}
+                <article class="product">
+                    <figure class="product--image">
+                        <img src="/static/img/hoodie_kids_teal.jpg">
+                    </figure>
+                    <h3 class="product--ttl">Hoodie kinderen (vos) - € 40</h3>
+                   
+                    <p><a href="#desc_hoodie_kids_teal" class="js_desclink">Beschrijving & maten</a></p>
+                    <div class="modalwrapper visuallyhidden js_modalclose" id="desc_hoodie_kids_teal">
+                        <div class="product--desc">
+                            <h3>Hoodie kinderen (vos) - € 40</h3>
+                            <p>Deze topkwaliteit hoodie is van het Belgische Stanley & Stella, een merk met veel aandacht voor duurzaamheid en een transparant productieproces. Je Fri3d Camp hoodie is geen promo-wear, maar gemaakt om lang van te genieten en écht te gebruiken.</p>
+                            <p>Shell: Geborstelde molton, 85% Gesponnen en gekamd biologisch katoen, 15% Gerecycled polyester, Gewassen stof, Zachte stof, 300 g/m² </p>
+                        </div>
+                    </div>
+                    <ul class="product--variants">
+                        <li>
+                            <label for="hoodie_kids_teal_3_4">3-4j</label>
+                            <select id="hoodie_kids_teal_3_4" name="hoodie_kids_teal_3_4" class="field field-select">
+                                <option value="0" selected>0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </li>
+                        <li>
+                            <label for="hoodie_kids_teal_5_6">5-6j</label>
+                            <select id="hoodie_kids_teal_5_6" name="hoodie_kids_teal_5_6" class="field field-select">
+                                <option value="0" selected>0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </li>
+                        <li>
+                            <label for="hoodie_kids_teal_7_8">7-8j</label>
+                            <select id="hoodie_kids_teal_7_8" name="hoodie_kids_teal_7_8" class="field field-select">
+                                <option value="0" selected>0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </li> 
+                        <li>
+                            <label for="hoodie_kids_teal_9_11">9-11j</label>
+                            <select id="hoodie_kids_teal_9_11" name="hoodie_kids_teal_9_11" class="field field-select">
+                                <option value="0" selected>0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </li>
+                        <li>
+                            <label for="hoodie_kids_teal_12_14">12-14j</label>
+                            <select id="hoodie_kids_teal_12_14" name="hoodie_kids_teal_12_14" class="field field-select">
+                                <option value="0" selected>0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </li>
+                    </ul>
+
+                </article>
+                {% endfor %}
+                <article class="product">
+                    <figure class="product--image">
+                        <img src="/static/img/badge_accessory_a.jpg">
+                    </figure>
+                    <div class="product--variants">
+                        <label for="badge_accessory_a" class="product--ttl">Time Blaster - € 20</label>
+                        <p><a href="#desc_badge_accessory_a" class="js_desclink">Beschrijving</a></p>
+                        <div class="modalwrapper visuallyhidden js_modalclose" id="desc_badge_accessory_a">
+                            <div class="product--desc">
+                                <h3>Time Blaster - € 20</h3>
+                                <p>Altijd al jouw eigen lasertag willen maken? Het kan nu op fri3d camp! Als uitbreiding op de badge, maar ook als standalone, heeft het badge team een blaster ontwikkeld als soldeerkit. Deze volledige Arduino compatibele kit is opgebouwd uit makkelijk te solderen componenten. Voor de durvers zijn er uitbreidingen met RGB LEDs en een USB interface voorzien in de kit waar toch enige vorm van geduld en een vast hand vereist zijn.</p>
+                            </div>
+                        </div>
+                        <select id="badge_accessory_a" name="badge_accessory_a" class="field">
+                            <option value="0" selected>0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+                    </div>
+                    
+                </article>
+            </div>
+            </div>
+        </div>
+<!-- vim: set sw=2 ts=2: -->
+		</div><!-- container-->
+		<!-- eff your french article meme -->
+		<script src="/static/js/vanilla.js"></script>
+		<script src="/static/js/ext/moment.js"></script>
+		{% if page_opts and page_opts['charting'] %}
+		<script src="/static/js/ext/Chart.js"></script>
+		{% endif %}
+		{% if page_opts and page_opts['internal'] %}
+		<script src="/static/js/fr1ckets_internal.js"></script>
+		{% endif %}
+		{% if page_opts and page_opts['shift'] %}
+		<script src="/static/js/fr1ckets_shifts.js"></script>
+		{% endif %}
+		<script src="/static/js/fr1ckets.js"></script>
+	</body>
+</html>

@@ -7,6 +7,7 @@ from wtforms import BooleanField, IntegerField, TextAreaField
 from wtforms.fields.html5 import EmailField, DateTimeField
 from fr1ckets import app
 from fr1ckets.texts import texts
+import fr1ckets.products as products
 from fr1ckets.model import model
 from fr1ckets.mail import mail
 from functools import wraps
@@ -46,6 +47,21 @@ def req_auth_public(f):
 				return auth_basic()
 		return f(*args, **kwargs)
 	return fn
+
+def load_products():
+	output = {}
+	output['simple'] = products.products['simple']
+	output['clothing'] = []
+	for p in products.products['clothing']:
+		size_ref = p["sizes"]
+		parsed_p = p
+		try:
+			parsed_p["sizes"] = products.clothing_sizes[size_ref]
+		except:
+			parsed_p["sizes"] = products.clothing_sizes["default"]
+		output['clothing'].append(parsed_p)
+	return output
+
 
 def generate_garment_names():
 	out = []
@@ -320,7 +336,7 @@ def tickets_vanilla():
 	tickets_available = app.config['TICKETS_MAX'] - model.tickets_actual_total(g.db_cursor)
 	return render_template('tickets_vanilla.html',
 			selling_inhibited=app.config['INHIBIT_SELLING'],
-			form=form, tickets_available=tickets_available)
+			form=form, tickets_available=tickets_available, products=load_products())
 
 @app.route('/tickets', methods=[ 'GET' ])
 @req_auth_public
@@ -1402,7 +1418,7 @@ def api_set_volunteering_data(nonce):
 		schedule_text += '* {0}:\n'.format(unicodedata.normalize('NFKD', person).encode('ascii', 'ignore'))
 		for e in mail_schedule[person]:
 			when, what = e
-			schedule_html += '    <li>{0}: {1}</li>'.format(when, what)
+			schedule_html += '<li>{0}: {1}</li>'.format(when, what)
 			schedule_text += '\t- {0}: {1}\n'.format(when, what)
 		schedule_html += '</ul></li>'
 	schedule_html += '</ul>'

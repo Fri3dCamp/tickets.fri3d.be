@@ -99,136 +99,74 @@
                 <img class="image" src="" alt=""/>
             </div>
             <h2>Extra's bij je ticket</h2>
-            <div class="cols cols-small">
-                {% for i in range(0,8) %}
-                <article class="product">
-                    <figure class="product--image">
-                        <img src="/static/img/hoodie_kids_teal.jpg">
-                    </figure>
-                    <h3 class="product--ttl">Hoodie kinderen (vos) - € 40</h3>
-                   
-                    <p><a href="#desc_hoodie_kids_teal" class="js_desclink">Beschrijving & maten</a></p>
-                    <div class="modalwrapper visuallyhidden js_modalclose" id="desc_hoodie_kids_teal">
-                        <div class="product--desc">
-                            <h3>Hoodie kinderen (vos) - € 40</h3>
-                            <p>Deze topkwaliteit hoodie is van het Belgische Stanley & Stella, een merk met veel aandacht voor duurzaamheid en een transparant productieproces. Je Fri3d Camp hoodie is geen promo-wear, maar gemaakt om lang van te genieten en écht te gebruiken.</p>
-                            <p>Shell: Geborstelde molton, 85% Gesponnen en gekamd biologisch katoen, 15% Gerecycled polyester, Gewassen stof, Zachte stof, 300 g/m² </p>
-                        </div>
-                    </div>
-                    <ul class="product--variants">
-                        <li>
-                            <label for="hoodie_kids_teal_3_4">3-4j</label>
-                            <select id="hoodie_kids_teal_3_4" name="hoodie_kids_teal_3_4" class="field field-select">
-                                <option value="0" selected>0</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                            </select>
-                        </li>
-                        <li>
-                            <label for="hoodie_kids_teal_5_6">5-6j</label>
-                            <select id="hoodie_kids_teal_5_6" name="hoodie_kids_teal_5_6" class="field field-select">
-                                <option value="0" selected>0</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                            </select>
-                        </li>
-                        <li>
-                            <label for="hoodie_kids_teal_7_8">7-8j</label>
-                            <select id="hoodie_kids_teal_7_8" name="hoodie_kids_teal_7_8" class="field field-select">
-                                <option value="0" selected>0</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                            </select>
-                        </li> 
-                        <li>
-                            <label for="hoodie_kids_teal_9_11">9-11j</label>
-                            <select id="hoodie_kids_teal_9_11" name="hoodie_kids_teal_9_11" class="field field-select">
-                                <option value="0" selected>0</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                            </select>
-                        </li>
-                        <li>
-                            <label for="hoodie_kids_teal_12_14">12-14j</label>
-                            <select id="hoodie_kids_teal_12_14" name="hoodie_kids_teal_12_14" class="field field-select">
-                                <option value="0" selected>0</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                            </select>
-                        </li>
-                    </ul>
 
-                </article>
-                {% endfor %}
+            <div class="cols cols-small">
+
+                {% for sp in products.simple %}
                 <article class="product">
                     <figure class="product--image">
-                        <img src="/static/img/badge_accessory_a.jpg">
+                        <img src="/static/img/{{ sp.images | first }}">
                     </figure>
                     <div class="product--variants">
-                        <label for="badge_accessory_a" class="product--ttl">Time Blaster - € 20</label>
-                        <p><a href="#desc_badge_accessory_a" class="js_desclink">Beschrijving</a></p>
-                        <div class="modalwrapper visuallyhidden js_modalclose" id="desc_badge_accessory_a">
+                        <label for="{{ sp.name }}" class="product--ttl">{{ sp.label }} - € {{ sp.price }}</label>
+                        <p><a href="#desc_{{ sp.name }}" class="js_desclink">Beschrijving</a></p>
+                        <div class="modalwrapper visuallyhidden js_modalclose" id="desc_{{ sp.name }}">
                             <div class="product--desc">
-                                <h3>Time Blaster - € 20</h3>
-                                <p>Altijd al jouw eigen lasertag willen maken? Het kan nu op fri3d camp! Als uitbreiding op de badge, maar ook als standalone, heeft het badge team een blaster ontwikkeld als soldeerkit. Deze volledige Arduino compatibele kit is opgebouwd uit makkelijk te solderen componenten. Voor de durvers zijn er uitbreidingen met RGB LEDs en een USB interface voorzien in de kit waar toch enige vorm van geduld en een vast hand vereist zijn.</p>
+                                <h3>{{ sp.label }} - € {{ sp.price }}</h3>
+                                {{ sp.description }}
                             </div>
                         </div>
-                        <select id="badge_accessory_a" name="badge_accessory_a" class="field">
-                            <option value="0" selected>0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
+                        <select id="{{ sp.name }}" name="{{ sp.name }}" class="field">
+                            {% if sp.max_n %}
+                            {% set max_n = sp.max_n %}
+                            {% else %}
+                            {% set max_n = 10 %}
+                            {% endif %}
+                            {% for n in range(0,max_n+1) %}
+                            <option value="{{ n }}">{{ n }}</option>
+                            {% endfor %}
                         </select>
                     </div>
                     
                 </article>
+                {% endfor %}
+
+
+                {% for c in products.clothing %}
+                <article class="product">
+                    <figure class="product--image">
+                        <img src="/static/img/{{ c.images | first }}">
+                    </figure>
+                    <h3 class="product--ttl">{{ c.label }} - € {{ c.price }}</h3>
+                   
+                    <p><a href="#desc_{{ c.name }}" class="js_desclink">Beschrijving & maten</a></p>
+                    <div class="modalwrapper visuallyhidden js_modalclose" id="desc_{{ c.name }}">
+                        <div class="product--desc">
+                            <h3>{{ c.label }} - € {{ c.price }}</h3>
+                            {{ c.description }}
+                        </div>
+                    </div>
+                    <ul class="product--variants">
+                        {% for s in c.sizes %}
+                        <li>
+                            <label for="{{ c.name }}_{{ s[0] }}">{{ s[1] }}</label>
+                            <select id="{{ c.name }}_{{ s[0] }}" name="{{ c.name }}_{{ s[0] }}" class="field field-select">
+                                {% if c.max_n %}
+                                {% set max_n = c.max_n %}
+                                {% else %}
+                                {% set max_n = 10 %}
+                                {% endif %}
+                                {% for n in range(0,max_n+1) %}
+                                <option value="{{ n }}">{{ n }}</option>
+                                {% endfor %}
+                            </select>
+                        </li>
+                        {% endfor %}
+                    </ul>
+
+                </article>
+                {% endfor %}
+                
             </div>
             </div>
         </div>

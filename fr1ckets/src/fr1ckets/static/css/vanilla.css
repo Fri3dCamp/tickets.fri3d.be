@@ -161,8 +161,16 @@ body {
   padding: 20px;
 }
 
+h1, h2 {
+  margin-bottom: 1rem;
+}
+
 .pageheader {
   margin-bottom: 50px;
+}
+
+.hilite {
+  background-color: #ffe3ca;
 }
 
 /** BEGIN notices **/
@@ -196,13 +204,11 @@ p {
 }
 
 .pagesection {
-  margin-bottom: 20px;
+  margin-bottom: 3rem;
 }
 
 .block {
   display: block;
-  margin-left: 30px;
-  margin-right: 30px;
 }
 .block-narrow {
   max-width: 800px;
@@ -230,6 +236,9 @@ p {
     margin-left: auto;
     margin-right: auto;
   }
+}
+.block-padded {
+  padding: 20px;
 }
 
 .cols {
@@ -282,6 +291,41 @@ p {
   width: auto;
 }
 
+.modalwrapper {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.2);
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+@media screen and (min-width: 600px) {
+  .modalwrapper {
+    padding: 20px;
+  }
+}
+.modalwrapper:not(.hidden) {
+  display: flex;
+}
+
+.modalwrapper .image {
+  height: auto;
+  width: auto;
+}
+
+.modalcontent {
+  max-width: 500px;
+  max-height: 100%;
+  padding: 10px;
+  background-color: white;
+  overflow-y: scroll;
+}
+
 /** END layout **/
 /** BEGIN form **/
 .fieldwrapper {
@@ -292,6 +336,26 @@ p {
   margin-bottom: 5px;
   display: block;
 }
+.fieldwrapper-checkbox {
+  display: flex;
+}
+.fieldwrapper-checkbox .label-checkbox {
+  flex-grow: 100%;
+  margin-bottom: 0;
+  margin-top: 2px;
+}
+
+.btn {
+  border-radius: 0;
+  border: none;
+  border-bottom: 5px solid #512078;
+  background-color: #8835c9;
+  padding: 10px;
+  font-size: 1.6rem;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
 
 .field {
   background-color: white;
@@ -299,6 +363,41 @@ p {
   width: 100%;
   padding: 10px;
   z-index: 10;
+}
+.field-checkbox {
+  position: relative;
+  width: 1.6rem;
+  height: 1.6rem;
+  color: black;
+  border: 1px solid #2d2d2d;
+  appearance: none;
+  outline: 0;
+  margin-left: 0;
+  cursor: pointer;
+  transition: background 175ms cubic-bezier(0.1, 0.1, 0.25, 1);
+  margin-right: 10px;
+}
+.field-checkbox::before {
+  position: absolute;
+  content: "";
+  display: block;
+  top: 2px;
+  left: 7px;
+  width: 8px;
+  height: 14px;
+  border-style: solid;
+  border-color: white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  opacity: 0;
+}
+.field-checkbox:checked {
+  color: white;
+  border-color: #8835c9;
+  background: #8835c9;
+}
+.field-checkbox:checked::before {
+  opacity: 1;
 }
 
 .fieldlegend {
@@ -317,25 +416,8 @@ option {
   object-fit: contain;
 }
 
-.modalwrapper {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  padding: 20px;
-  box-sizing: border-box;
-  overflow: hidden;
-  background-color: rgba(0, 0, 0, 0.2);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 100;
-}
-
-.modalwrapper .image {
-  height: auto;
-  width: auto;
+.products {
+  margin-bottom: 5rem;
 }
 
 a {
@@ -343,14 +425,6 @@ a {
 }
 a:visited {
   color: black;
-}
-
-.product--desc {
-  max-width: 500px;
-  max-height: 100%;
-  padding: 10px;
-  background-color: white;
-  overflow-y: scroll;
 }
 
 .product--ttl {
@@ -376,6 +450,30 @@ a:visited {
   font-weight: bold;
   padding-left: 0;
   padding: 10px;
+}
+
+.size_table_wrapper {
+  width: 100%;
+  overflow-x: scroll;
+}
+
+.size_thumbnail {
+  margin-bottom: 10px;
+}
+
+.size_table {
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+}
+.size_table td, .size_table th {
+  border: 1px solid gainsboro;
+  padding: 10px;
+}
+.size_table th {
+  text-align: left;
+  background-color: gainsboro;
 }
 
 /** END products **/

@@ -1,0 +1,17 @@
+<div class="size_thumbnail"><img src="/static/img/{{c.size_table.image}}" alt=""/></div>
+<div class="size_table_wrapper">
+    <table class="size_table">
+        <tr>
+            <th>Afmeting</th>{% for v in c.size_table.sizes %}<th>{{v.label}}</th>{% endfor %}
+        </tr>
+        <tr>
+            <td>A - Halve borstomtrek</td>{% for v in c.size_table.sizes %}<td>{{v.A}}</td>{% endfor %}
+        </tr>
+        <tr>
+            <td>B - Ruglengte</td>{% for v in c.size_table.sizes %}<td>{{v.B}}</td>{% endfor %}
+        </tr>
+        <tr>
+            <td>C - Mouwlengte</td>{% for v in c.size_table.sizes %}<td>{{v.C}}</td>{% endfor %}
+        </tr>
+    </table>
+</div>

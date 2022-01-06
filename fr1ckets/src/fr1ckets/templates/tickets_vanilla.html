@@ -93,9 +93,27 @@
                 </div>
             </div>
 
+            <div class="pagesection block block-narrow participants">
+            <h2>Jouw tickets</h2>
+            <article class="participant">
+                <h3>Deelnemer 1</h3>
+                <div class="fieldwrapper">
+                    <label for="tickets_0_name">Naam</label>
+                    <input class="field" id="tickets_0_name" name="tickets_0_name" type="text" required>
+                </div>
+                <div class="fieldwrapper">
+                    <label for="tickets_0_dob_year">Geboortedatum</label>
+                    <input class="field" id="tickets_0_dob" name="tickets_0_dob" type="date" max="{{ today }}" required>
+                </div>
+                 <div class="fieldwrapper fieldwrapper-checkbox">
+                    <input type="checkbox" id="tickets_0_billable" name="tickets_0_billable" class="field field-checkbox">
+                    <label for="tickets_0_billable" class="label-checkbox">Ticket met factuur (altijd €334 inclusief BTW)</label>
+                </div>
+            </article>
+            </div>
 
-            <div class="pagesection block block-ultrawide">
-            <div class="modalwrapper js_modalclose visuallyhidden" id="large_image">
+            <div class="pagesection block block-ultrawide products">
+            <div class="modalwrapper js_modalclose hidden" data-hideclass="hidden" id="large_image">
                 <img class="image" src="" alt=""/>
             </div>
             <h2>Extra's bij je ticket</h2>
@@ -110,10 +128,10 @@
                     <div class="product--variants">
                         <label for="{{ sp.name }}" class="product--ttl">{{ sp.label }} - € {{ sp.price }}</label>
                         <p><a href="#desc_{{ sp.name }}" class="js_desclink">Beschrijving</a></p>
-                        <div class="modalwrapper visuallyhidden js_modalclose" id="desc_{{ sp.name }}">
-                            <div class="product--desc">
+                        <div class="modalwrapper visuallyhidden js_modalclose" data-hideclass="visuallyhidden" id="desc_{{ sp.name }}">
+                            <div class="modalcontent">
                                 <h3>{{ sp.label }} - € {{ sp.price }}</h3>
-                                {{ sp.description }}
+                                {{ sp.description|safe }}
                             </div>
                         </div>
                         <select id="{{ sp.name }}" name="{{ sp.name }}" class="field">
@@ -140,10 +158,13 @@
                     <h3 class="product--ttl">{{ c.label }} - € {{ c.price }}</h3>
                    
                     <p><a href="#desc_{{ c.name }}" class="js_desclink">Beschrijving & maten</a></p>
-                    <div class="modalwrapper visuallyhidden js_modalclose" id="desc_{{ c.name }}">
-                        <div class="product--desc">
+                    <div class="modalwrapper visuallyhidden js_modalclose" data-hideclass="visuallyhidden" id="desc_{{ c.name }}">
+                        <div class="modalcontent">
                             <h3>{{ c.label }} - € {{ c.price }}</h3>
-                            {{ c.description }}
+                            {% if c.size_table %}
+                            {% include "size_table.html" %}
+                            {% endif %}
+                            {{ c.description|safe }}
                         </div>
                     </div>
                     <ul class="product--variants">
@@ -169,7 +190,108 @@
                 
             </div>
             </div>
+
+            <div class="pagesection block block-narrow">
+                <h2>Tokens voor consumpties</h2>
+                <p>Je betaalt € 1.50 per token. De meeste drankjes of een snack kosten één token, duurdere drankjes kosten meer. Tijdens het kamp kan je natuurlijk ook tokens kopen, maar door ze hier mee te bestellen, liggen ze voor je klaar wanneer je toekomt.</p>
+                <div class="fieldwrapper">
+                    <label for="token">Aantal tokens</label>
+                    <select id="token" name="token" class="field field-select">
+						<option value="0" selected>0</option>
+						<option value="10">10 – € 15</option>
+						<option value="20">20 – € 30</option>
+						<option value="30">30 – € 45</option>
+						<option value="40">40 – € 60</option>
+						<option value="50">50 – € 75</option>
+						<option value="100">100 – € 150</option>
+					</select>
+                </div>
+            </div>
+            <div class="pagesection block block-narrow">
+                <h2>Donatie - € 10</h2>
+                <p>Niet iedereen heeft de mogelijkheid een ticket aan te kopen. Je kan een donatie doen om deze mensen te helpen mee naar het kamp te komen.</p>
+                <div class="fieldwrapper">
+                    <label for="donation">Donatie</label>
+                    <select id="donation" name="donation" class="field field-select">
+						<option value="0" selected>—</option>
+						<option value="1">€ 10</option>
+						<option value="2">€ 20</option>
+						<option value="3">€ 30</option>
+						<option value="4">€ 40</option>
+						<option value="5">€ 50</option>
+						<option value="6">€ 60</option>
+						<option value="7">€ 70</option>
+						<option value="8">€ 80</option>
+						<option value="9">€ 90</option>
+						<option value="10">€ 100</option>
+					</select>
+                </div>
+            </div>
+            <div class="pagesection block block-narrow">
+                <h2>Voucher</h2>
+                <div class="notice">
+                    <p>Vouchers kunnen recht geven op korting. Eventuele vouchers heb je normaal per mail ontvangen.</p>
+                </div>
+                <div class="fieldwrapper fieldwrapper-checkbox">
+                    <input type="checkbox" id="have_voucher" name="have_voucher" class="field field-checkbox">
+                    <label for="have_voucher" class="label-checkbox">Ik heb één of meerdere vouchers.</label>
+                </div>
+                <div class="fieldwrapper">
+                    <label for="voucher_code_0">Voucher</label>
+                    <input class="field" id="voucher_code_0" name="voucher_code_0" type="text">
+                </div>
+            </div>
+
+            <div class="pagesection block block-narrow">
+                <h2>Laatste check</h2>
+                <div class="fieldwrapper fieldwrapper-checkbox">
+                    <input type="checkbox" id="terms_payment" name="terms_payment" class="field field-checkbox">
+                    <label for="terms_payment" class="label-checkbox">Ik stem er mee in het totale bedrag binnen 14 dagen via bankoverschrijving te betalen (details op volgende pagina). Als mijn betaling niet binnen de termijn ontvangen is, worden mijn bestelde tickets en extra's terug te koop aangeboden.</label>
+                </div>
+                <div class="fieldwrapper fieldwrapper-checkbox">
+                    <input type="checkbox" id="terms_supervision" name="terms_supervision" class="field field-checkbox">
+                    <label for="terms_supervision" class="label-checkbox">Ik bevestig dat personen jonger dan 16 vergezeld worden door een verantwoordelijke meerderjarige.</label>
+                </div>
+                <div class="fieldwrapper fieldwrapper-checkbox">
+                    <input type="checkbox" id="terms_excellent" name="terms_excellent" class="field field-checkbox">
+                    <label for="terms_excellent" class="label-checkbox">Ik sta achter het motto "<a href="https://www.fri3d.be/deelnemen/excellent/" target="_blank"> Be excellent to each other</a>" en beloof me zo te gedragen.</label>
+                </div>
+            </div>
+
+            <div class="pagesection block block-narrow block-padded hilite cols cols-big">
+                <div class="col"><strong>Totaal: </strong><span id="price_total">no js :/</span></div>
+                <div class="col"><button type="submit" class="btn btn-submit btn-block" id="check_button">Bestelling controleren</button></div>
+            </div>
         </div>
+
+	<!-- ORDER OVERVIEW MODAL -->
+    <div class="modalwrapper hidden dialog" data-hideclass="hidden" tabindex="-1" role="dialog" id="order_overview">
+        <div class="modalcontent">
+            <h2 class="modal-title" id="overview_modal_label">Kijk je bestelling na</h2>
+            <div id="overview_content">
+            </div>
+            <div class="dialog--footer">
+                <button type="button" class="btn btn-default js_modalclose" id="overview_cancel" data-dismiss="modal">Aanpassen</button>
+                <button type="button" class="btn btn-default" id="overview_order">Bestellen!</button>
+            </div>
+        </div>
+    </div>
+	<!-- END ORDER OVERVIEW MODAL -->
+
+
+	<!-- REGISTRATION OUTCOME MODAL -->
+    <div class="modalwrapper js_modalclose hidden dialog" data-hideclass="hidden" tabindex="-1" role="dialog" id="order_overview">
+        <div class="modalcontent">
+            <h2 class="modal-title" id="overview_modal_label">Woops</h2>
+            <div id="outcome_content">
+            </div>
+            <div class="dialog--footer">
+                <button type="button" class="btn btn-default js_modalclose" data-dismiss="modal">Sluiten</button>
+            </div>
+        </div>
+    </div>
+	<!-- END REGISTRATION OUTCOME MODAL -->
+
 <!-- vim: set sw=2 ts=2: -->
 		</div><!-- container-->
 		<!-- eff your french article meme -->

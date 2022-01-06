@@ -38,11 +38,19 @@ document.addEventListener('DOMContentLoaded', function(event) {
         item.addEventListener('click', event => { 
              document.querySelectorAll('.modalwrapper').forEach(wrapper => {
                 console.log(wrapper);
-                wrapper.classList.add("visuallyhidden");
+                hideclass = wrapper.getAttribute("data-hideclass");
+                wrapper.classList.add(hideclass);
             });
             document.querySelector("body").classList.remove("noscroll");
         });
     });
+
+    // Bestelling nakijken
+    document.querySelector("#check_button").addEventListener('click', event => {
+        event.preventDefault();
+        document.querySelector("#order_overview").classList.remove("hidden");
+    });
+
 
 });
 

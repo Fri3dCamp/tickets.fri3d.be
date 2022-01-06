@@ -56,6 +56,10 @@ def load_products():
 		size_ref = p["sizes"]
 		parsed_p = p
 		try:
+			parsed_p["size_table"] = products.size_tables[p["size_table_ref"]]
+		except:
+			parsed_p["size_table"] = False
+		try:
 			parsed_p["sizes"] = products.clothing_sizes[size_ref]
 		except:
 			parsed_p["sizes"] = products.clothing_sizes["default"]
@@ -336,7 +340,7 @@ def tickets_vanilla():
 	tickets_available = app.config['TICKETS_MAX'] - model.tickets_actual_total(g.db_cursor)
 	return render_template('tickets_vanilla.html',
 			selling_inhibited=app.config['INHIBIT_SELLING'],
-			form=form, tickets_available=tickets_available, products=load_products())
+			form=form, tickets_available=tickets_available, products=load_products(), today=datetime.date.today())
 
 @app.route('/tickets', methods=[ 'GET' ])
 @req_auth_public

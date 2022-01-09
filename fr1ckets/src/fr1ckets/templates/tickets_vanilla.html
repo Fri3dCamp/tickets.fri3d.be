@@ -21,182 +21,217 @@
 		<link rel="manifest" href="/static/img/manifest.json">
 	</head>
 	<body>
-        <header class="siteheader">
-            <a href="https://www.fri3d.be/" class="headerlogo">
-                <img src="/static/img/logo_white_noyear.svg" alt="Fri3d Camp">
-            </a>
-        </header>
-        <div class="notice notice-warning block-narrow" id="js_warning">
-        <p>Deze pagina vereist Javascript! Gelieve Javascript op te zetten voor deze site.</p>
-        </div>
+				<header class="siteheader">
+						<a href="https://www.fri3d.be/" class="headerlogo">
+								<img src="/static/img/logo_white_noyear.svg" alt="Fri3d Camp">
+						</a>
+				</header>
+				<div class="notice notice-warning block-narrow" id="js_warning">
+				<p>Deze pagina vereist Javascript! Gelieve Javascript op te zetten voor deze site.</p>
+				</div>
 		<div class="sitebody hidden" id="js_container">
 
-            <header class="pageheader block block-narrow">
-                <h1>Bestel je tickets voor Fri3d Camp 2022</h1>
-                <p>Alles over Fri3d Camp en wat je als deelnemer kan verwachten, lees je op <a href="https://www.fri3d.be/">www.fri3d.be</a>.</p>
-                <div class="notice"><p>Alle beschikbare tickets zijn weg! Je kan zeker nog een bestelling plaatsen, deze komt in de wachtrij en we laten je iets weten als er terug plaats is.</p></div>
-            </header>
+						<header class="pageheader block block-narrow">
+								<h1>Bestel je tickets voor Fri3d Camp 2022</h1>
+								<p>Alles over Fri3d Camp en wat je als deelnemer kan verwachten, lees je op <a href="https://www.fri3d.be/">www.fri3d.be</a>.</p>
+								<div class="notice"><p>Alle beschikbare tickets zijn weg! Je kan zeker nog een bestelling plaatsen, deze komt in de wachtrij en we laten je iets weten als er terug plaats is.</p></div>
+						</header>
 
-            <div class="pagesection block block-wide cols cols-small">
-                <div class="col">
-                    <div class="fieldwrapper">
-                        <label for="email">E-mailadres</label>
-                        <input type="email" name="email" id="email" class="field" />
-                    </div>
-                    <div class="fieldwrapper">
-                        <label for="n_tickets">Aantal tickets</label>
-                        <select id="n_tickets" name="n_tickets" class="field field-select">
-                            <option value="0" selected="">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-                            <option value="13">13</option>
-                            <option value="14">14</option>
-                            <option value="15">15</option>
-                            <option value="16">16</option>
-                            <option value="17">17</option>
-                            <option value="18">18</option>
-                            <option value="19">19</option>
-                            <option value="20">20</option>
-                        </select>
-                    </div>
-                    <div class="fieldwrapper">
-                        <label for="camper_spot">Camper of caravan plaats - €25</label>
-                        <select id="camper_spot" name="camper_spot" class="field field-select">
-                            <option value="0" selected="">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                        <p class="fieldlegend">We voorzien een plaatsje voor je camper of caravan op de daarvoor voorziene parking op het grote event-plein. Stroom en wifi inbegrepen.</p>
-                    </div>
-                </div>
-                <div class="col">
-                    <ul>
-                        <li>Toegang tot Fri3d Camp 2022 van vrijdag 12 augustus tot en met zondag 14 augustus. Elk ticket bevat twee warme maaltijden.</li>
-                        <li><strong>Elke kampganger heeft een ticket nodig.</strong></li>
-                        <li>We hopen dat iedereen ouder dan 16 ter plekke even mee helpt met het kamp (enkele uren tappen, de infobalie bemannen, etc).</li>
-                        <li>Wil je niet mee helpen aan het kamp, vink dan de optie <em>premium</em> aan. Je ticket wordt dan wel duurder.</li>
-                        <li>Selecteer het aantal tickets om de per-ticket opties te zien.</li>
-                    </ul>
-                </div>
-            </div>
+						<div class="pagesection block block-wide cols cols-small">
+								<div class="col">
+										<div class="fieldwrapper" id="email_input">
+												<label for="email">E-mailadres</label>
+												<input type="email" name="email" id="email" class="field" />
+										</div>
+										<template id="reservation_result_too_soon" class="needsToon">
+											<div style="background: red;">
+												Met dit email-adres kan je pas vanaf <b id="from_when"></b> bestellen (je kan het tot 12h op voorhand invullen).
+											</div>
+										</template>
+										<template id="reservation_result_ok_special" class="needsToon">
+											<div style="background: green;">
+												Reservatie gevonden! Let op, deze is slechts goed voor één bestelling. Eens de publieke verkoop start kan je natuurlijk bijbestellen.
+												<input class="foobar" name="azdlmkd">foo</input>
+											</div>
+										</template>
 
-            <div class="pagesection block block-narrow participants">
-            <h2>Jouw tickets</h2>
-            <article class="participant">
-                <h3>Deelnemer 1</h3>
-                <div class="fieldwrapper">
-                    <label for="tickets_0_name">Naam</label>
-                    <input class="field" id="tickets_0_name" name="tickets_0_name" type="text" required>
-                </div>
-                <div class="fieldwrapper">
-                    <label for="tickets_0_dob_year">Geboortedatum</label>
-                    <input class="field" id="tickets_0_dob" name="tickets_0_dob" type="date" max="{{ today }}" required>
-                </div>
-                 <div class="fieldwrapper fieldwrapper-checkbox">
-                    <input type="checkbox" id="tickets_0_billable" name="tickets_0_billable" class="field field-checkbox">
-                    <label for="tickets_0_billable" class="label-checkbox">Ticket met factuur (altijd €334 inclusief BTW)</label>
-                </div>
-            </article>
-            </div>
+										<div class="fieldwrapper">
+												<label for="n_tickets">Aantal tickets</label>
+												<select id="n_tickets" name="n_tickets" class="field field-select">
+														<option value="0" selected="">0</option>
+														<option value="1">1</option>
+														<option value="2">2</option>
+														<option value="3">3</option>
+														<option value="4">4</option>
+														<option value="5">5</option>
+														<option value="6">6</option>
+														<option value="7">7</option>
+														<option value="8">8</option>
+														<option value="9">9</option>
+														<option value="10">10</option>
+														<option value="11">11</option>
+														<option value="12">12</option>
+														<option value="13">13</option>
+														<option value="14">14</option>
+														<option value="15">15</option>
+														<option value="16">16</option>
+														<option value="17">17</option>
+														<option value="18">18</option>
+														<option value="19">19</option>
+														<option value="20">20</option>
+												</select>
+										</div>
+										<div class="fieldwrapper">
+												<label for="camper_spot">Camper of caravan plaats - €25</label>
+												<select id="camper_spot" name="camper_spot" class="field field-select">
+														<option value="0" selected="">0</option>
+														<option value="1">1</option>
+														<option value="2">2</option>
+														<option value="3">3</option>
+														<option value="4">4</option>
+														<option value="5">5</option>
+												</select>
+												<p class="fieldlegend">We voorzien een plaatsje voor je camper of caravan op de daarvoor voorziene parking op het grote event-plein. Stroom en wifi inbegrepen.</p>
+										</div>
+								</div>
+								<div class="col">
+										<ul>
+												<li>Toegang tot Fri3d Camp 2022 van vrijdag 12 augustus tot en met zondag 14 augustus. Elk ticket bevat twee warme maaltijden.</li>
+												<li><strong>Elke kampganger heeft een ticket nodig.</strong></li>
+												<li>We hopen dat iedereen ouder dan 16 ter plekke even mee helpt met het kamp (enkele uren tappen, de infobalie bemannen, etc).</li>
+												<li>Wil je niet mee helpen aan het kamp, vink dan de optie <em>premium</em> aan. Je ticket wordt dan wel duurder.</li>
+												<li>Selecteer het aantal tickets om de per-ticket opties te zien.</li>
+										</ul>
+								</div>
+						</div>
 
-            <div class="pagesection block block-ultrawide products">
-            <div class="modalwrapper js_modalclose hidden" data-hideclass="hidden" id="large_image">
-                <img class="image" src="" alt=""/>
-            </div>
-            <h2>Extra's bij je ticket</h2>
-
-            <div class="cols cols-small">
-
-                {% for sp in products.simple %}
-                <article class="product">
-                    <figure class="product--image">
-                        <img src="/static/img/{{ sp.images | first }}">
-                    </figure>
-                    <div class="product--variants">
-                        <label for="{{ sp.name }}" class="product--ttl">{{ sp.label }} - € {{ sp.price }}</label>
-                        <p><a href="#desc_{{ sp.name }}" class="js_desclink">Beschrijving</a></p>
-                        <div class="modalwrapper visuallyhidden js_modalclose" data-hideclass="visuallyhidden" id="desc_{{ sp.name }}">
-                            <div class="modalcontent">
-                                <h3>{{ sp.label }} - € {{ sp.price }}</h3>
-                                {{ sp.description|safe }}
-                            </div>
-                        </div>
-                        <select id="{{ sp.name }}" name="{{ sp.name }}" class="field">
-                            {% if sp.max_n %}
-                            {% set max_n = sp.max_n %}
-                            {% else %}
-                            {% set max_n = 10 %}
-                            {% endif %}
-                            {% for n in range(0,max_n+1) %}
-                            <option value="{{ n }}">{{ n }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    
-                </article>
-                {% endfor %}
+						<div class="pagesection block block-narrow participants">
+						<h2>Jouw tickets</h2>
+						<div id="template_dest_participants">
+						</div>
+						<template id="template_participant">
+							<article class="participant">
+								<h3>Deelnemer <span class="count"></span></h3>
+								<div class="fieldwrapper">
+									<label>Naam
+										<input class="field" id="ticket_CNT_name" name="ticket_CNT_name" type="text" required>
+									</label>
+								</div>
+								<div class="fieldwrapper">
+									<label>Geboortedatum
+										<input class="field" id="ticket_CNT_dob_year" name="ticket_CNT_dob_year" type="tel"  maxlength="4" pattern="(19|20|21)[0-9]{2}" placeholder="YYYY" required>
+										<input class="field" id="ticket_CNT_dob_month" name="ticket_CNT_dob_month" type="tel"  maxlength="2" pattern="^(1[0-2]|0?[1-9])$" placeholder="MM" required>
+										<input class="field" id="ticket_CNT_dob_day" name="ticket_CNT_dob_day" type="tel"  maxlength="2" pattern="^(3[01]|[12][0-9]|0?[1-9])$" placeholder="DD" required>
+									</label>
+								</div>
+								<div class="fieldwrapper fieldwrapper-checkbox">
+									<label>
+										<input type="checkbox" id="ticket_CNT_billable" name="ticket_CNT_billable" class="field field-checkbox">
+										Ticket met factuur (altijd €334 inclusief BTW)
+									</label>
+								</div>
+								<div id="ticket_CNT_meta">
+								</div>
+							</article>
+						</template>
+						<template id="template_participant_meta_is_not_human">
+							<div style="background: red;" class="needsToon">Ongeldige datum!</div>
+						</template>
+						<template id="template_participant_meta_is_volunteerable">
+							<div style="background: green;" class="needsToon">Volunteering options voor deze mens!</div>
+						</template>
+						<template id="template_participant_meta_is_billable">
+							<div style="background: blue;" class="needsToon">Billing info voor deze mens!</div>
+						</template>
 
 
-                {% for c in products.clothing %}
-                <article class="product">
-                    <figure class="product--image">
-                        <img src="/static/img/{{ c.images | first }}">
-                    </figure>
-                    <h3 class="product--ttl">{{ c.label }} - € {{ c.price }}</h3>
-                   
-                    <p><a href="#desc_{{ c.name }}" class="js_desclink">Beschrijving & maten</a></p>
-                    <div class="modalwrapper visuallyhidden js_modalclose" data-hideclass="visuallyhidden" id="desc_{{ c.name }}">
-                        <div class="modalcontent">
-                            <h3>{{ c.label }} - € {{ c.price }}</h3>
-                            {% if c.size_table %}
-                            {% include "size_table.html" %}
-                            {% endif %}
-                            {{ c.description|safe }}
-                        </div>
-                    </div>
-                    <ul class="product--variants">
-                        {% for s in c.sizes %}
-                        <li>
-                            <label for="{{ c.name }}_{{ s[0] }}">{{ s[1] }}</label>
-                            <select id="{{ c.name }}_{{ s[0] }}" name="{{ c.name }}_{{ s[0] }}" class="field field-select">
-                                {% if c.max_n %}
-                                {% set max_n = c.max_n %}
-                                {% else %}
-                                {% set max_n = 10 %}
-                                {% endif %}
-                                {% for n in range(0,max_n+1) %}
-                                <option value="{{ n }}">{{ n }}</option>
-                                {% endfor %}
-                            </select>
-                        </li>
-                        {% endfor %}
-                    </ul>
+						</div>
 
-                </article>
-                {% endfor %}
-                
-            </div>
-            </div>
+						<div class="pagesection block block-ultrawide products">
+						<div class="modalwrapper js_modalclose hidden" data-hideclass="hidden" id="large_image">
+								<img class="image" src="" alt=""/>
+						</div>
+						<h2>Extra's bij je ticket</h2>
 
-            <div class="pagesection block block-narrow">
-                <h2>Tokens voor consumpties</h2>
-                <p>Je betaalt € 1.50 per token. De meeste drankjes of een snack kosten één token, duurdere drankjes kosten meer. Tijdens het kamp kan je natuurlijk ook tokens kopen, maar door ze hier mee te bestellen, liggen ze voor je klaar wanneer je toekomt.</p>
-                <div class="fieldwrapper">
-                    <label for="token">Aantal tokens</label>
-                    <select id="token" name="token" class="field field-select">
+						<div class="cols cols-small">
+
+								{% for sp in products.simple %}
+								<article class="product">
+										<figure class="product--image">
+												<img src="/static/img/{{ sp.images | first }}">
+										</figure>
+										<div class="product--variants">
+												<label for="{{ sp.name }}" class="product--ttl">{{ sp.label }} - € {{ sp.price }}</label>
+												<p><a href="#desc_{{ sp.name }}" class="js_desclink">Beschrijving</a></p>
+												<div class="modalwrapper visuallyhidden js_modalclose" data-hideclass="visuallyhidden" id="desc_{{ sp.name }}">
+														<div class="modalcontent">
+																<h3>{{ sp.label }} - € {{ sp.price }}</h3>
+																{{ sp.description|safe }}
+														</div>
+												</div>
+												<select id="{{ sp.name }}" name="{{ sp.name }}" class="field">
+														{% if sp.max_n %}
+														{% set max_n = sp.max_n %}
+														{% else %}
+														{% set max_n = 10 %}
+														{% endif %}
+														{% for n in range(0,max_n+1) %}
+														<option value="{{ n }}">{{ n }}</option>
+														{% endfor %}
+												</select>
+										</div>
+										
+								</article>
+								{% endfor %}
+
+
+								{% for c in products.clothing %}
+								<article class="product">
+										<figure class="product--image">
+												<img src="/static/img/{{ c.images | first }}">
+										</figure>
+										<h3 class="product--ttl">{{ c.label }} - € {{ c.price }}</h3>
+									 
+										<p><a href="#desc_{{ c.name }}" class="js_desclink">Beschrijving & maten</a></p>
+										<div class="modalwrapper visuallyhidden js_modalclose" data-hideclass="visuallyhidden" id="desc_{{ c.name }}">
+												<div class="modalcontent">
+														<h3>{{ c.label }} - € {{ c.price }}</h3>
+														{% if c.size_table %}
+														{% include "size_table.html" %}
+														{% endif %}
+														{{ c.description|safe }}
+												</div>
+										</div>
+										<ul class="product--variants">
+												{% for s in c.sizes %}
+												<li>
+														<label for="{{ c.name }}_{{ s[0] }}">{{ s[1] }}</label>
+														<select id="{{ c.name }}_{{ s[0] }}" name="{{ c.name }}_{{ s[0] }}" class="field field-select">
+																{% if c.max_n %}
+																{% set max_n = c.max_n %}
+																{% else %}
+																{% set max_n = 10 %}
+																{% endif %}
+																{% for n in range(0,max_n+1) %}
+																<option value="{{ n }}">{{ n }}</option>
+																{% endfor %}
+														</select>
+												</li>
+												{% endfor %}
+										</ul>
+
+								</article>
+								{% endfor %}
+								
+						</div>
+						</div>
+
+						<div class="pagesection block block-narrow">
+								<h2>Tokens voor consumpties</h2>
+								<p>Je betaalt € 1.50 per token. De meeste drankjes of een snack kosten één token, duurdere drankjes kosten meer. Tijdens het kamp kan je natuurlijk ook tokens kopen, maar door ze hier mee te bestellen, liggen ze voor je klaar wanneer je toekomt.</p>
+								<div class="fieldwrapper">
+										<label for="token">Aantal tokens</label>
+										<select id="token" name="token" class="field field-select">
 						<option value="0" selected>0</option>
 						<option value="10">10 – € 15</option>
 						<option value="20">20 – € 30</option>
@@ -205,14 +240,14 @@
 						<option value="50">50 – € 75</option>
 						<option value="100">100 – € 150</option>
 					</select>
-                </div>
-            </div>
-            <div class="pagesection block block-narrow">
-                <h2>Donatie - € 10</h2>
-                <p>Niet iedereen heeft de mogelijkheid een ticket aan te kopen. Je kan een donatie doen om deze mensen te helpen mee naar het kamp te komen.</p>
-                <div class="fieldwrapper">
-                    <label for="donation">Donatie</label>
-                    <select id="donation" name="donation" class="field field-select">
+								</div>
+						</div>
+						<div class="pagesection block block-narrow">
+								<h2>Donatie - € 10</h2>
+								<p>Niet iedereen heeft de mogelijkheid een ticket aan te kopen. Je kan een donatie doen om deze mensen te helpen mee naar het kamp te komen.</p>
+								<div class="fieldwrapper">
+										<label for="donation">Donatie</label>
+										<select id="donation" name="donation" class="field field-select">
 						<option value="0" selected>—</option>
 						<option value="1">€ 10</option>
 						<option value="2">€ 20</option>
@@ -225,71 +260,71 @@
 						<option value="9">€ 90</option>
 						<option value="10">€ 100</option>
 					</select>
-                </div>
-            </div>
-            <div class="pagesection block block-narrow">
-                <h2>Voucher</h2>
-                <div class="notice">
-                    <p>Vouchers kunnen recht geven op korting. Eventuele vouchers heb je normaal per mail ontvangen.</p>
-                </div>
-                <div class="fieldwrapper fieldwrapper-checkbox">
-                    <input type="checkbox" id="have_voucher" name="have_voucher" class="field field-checkbox">
-                    <label for="have_voucher" class="label-checkbox">Ik heb één of meerdere vouchers.</label>
-                </div>
-                <div class="fieldwrapper">
-                    <label for="voucher_code_0">Voucher</label>
-                    <input class="field" id="voucher_code_0" name="voucher_code_0" type="text">
-                </div>
-            </div>
+								</div>
+						</div>
+						<div class="pagesection block block-narrow">
+								<h2>Voucher</h2>
+								<div class="notice">
+										<p>Vouchers kunnen recht geven op korting. Eventuele vouchers heb je normaal per mail ontvangen.</p>
+								</div>
+								<div class="fieldwrapper fieldwrapper-checkbox">
+										<input type="checkbox" id="have_voucher" name="have_voucher" class="field field-checkbox">
+										<label for="have_voucher" class="label-checkbox">Ik heb één of meerdere vouchers.</label>
+								</div>
+								<div class="fieldwrapper">
+										<label for="voucher_code_0">Voucher</label>
+										<input class="field" id="voucher_code_0" name="voucher_code_0" type="text">
+								</div>
+						</div>
 
-            <div class="pagesection block block-narrow">
-                <h2>Laatste check</h2>
-                <div class="fieldwrapper fieldwrapper-checkbox">
-                    <input type="checkbox" id="terms_payment" name="terms_payment" class="field field-checkbox">
-                    <label for="terms_payment" class="label-checkbox">Ik stem er mee in het totale bedrag binnen 14 dagen via bankoverschrijving te betalen (details op volgende pagina). Als mijn betaling niet binnen de termijn ontvangen is, worden mijn bestelde tickets en extra's terug te koop aangeboden.</label>
-                </div>
-                <div class="fieldwrapper fieldwrapper-checkbox">
-                    <input type="checkbox" id="terms_supervision" name="terms_supervision" class="field field-checkbox">
-                    <label for="terms_supervision" class="label-checkbox">Ik bevestig dat personen jonger dan 16 vergezeld worden door een verantwoordelijke meerderjarige.</label>
-                </div>
-                <div class="fieldwrapper fieldwrapper-checkbox">
-                    <input type="checkbox" id="terms_excellent" name="terms_excellent" class="field field-checkbox">
-                    <label for="terms_excellent" class="label-checkbox">Ik sta achter het motto "<a href="https://www.fri3d.be/deelnemen/excellent/" target="_blank"> Be excellent to each other</a>" en beloof me zo te gedragen.</label>
-                </div>
-            </div>
+						<div class="pagesection block block-narrow">
+								<h2>Laatste check</h2>
+								<div class="fieldwrapper fieldwrapper-checkbox">
+										<input type="checkbox" id="terms_payment" name="terms_payment" class="field field-checkbox">
+										<label for="terms_payment" class="label-checkbox">Ik stem er mee in het totale bedrag binnen 14 dagen via bankoverschrijving te betalen (details op volgende pagina). Als mijn betaling niet binnen de termijn ontvangen is, worden mijn bestelde tickets en extra's terug te koop aangeboden.</label>
+								</div>
+								<div class="fieldwrapper fieldwrapper-checkbox">
+										<input type="checkbox" id="terms_supervision" name="terms_supervision" class="field field-checkbox">
+										<label for="terms_supervision" class="label-checkbox">Ik bevestig dat personen jonger dan 16 vergezeld worden door een verantwoordelijke meerderjarige.</label>
+								</div>
+								<div class="fieldwrapper fieldwrapper-checkbox">
+										<input type="checkbox" id="terms_excellent" name="terms_excellent" class="field field-checkbox">
+										<label for="terms_excellent" class="label-checkbox">Ik sta achter het motto "<a href="https://www.fri3d.be/deelnemen/excellent/" target="_blank"> Be excellent to each other</a>" en beloof me zo te gedragen.</label>
+								</div>
+						</div>
 
-            <div class="pagesection block block-narrow block-padded hilite cols cols-big">
-                <div class="col"><strong>Totaal: </strong><span id="price_total">no js :/</span></div>
-                <div class="col"><button type="submit" class="btn btn-submit btn-block" id="check_button">Bestelling controleren</button></div>
-            </div>
-        </div>
+						<div class="pagesection block block-narrow block-padded hilite cols cols-big">
+								<div class="col"><strong>Totaal: </strong><span id="price_total">no js :/</span></div>
+								<div class="col"><button type="submit" class="btn btn-submit btn-block" id="check_button">Bestelling controleren</button></div>
+						</div>
+				</div>
 
 	<!-- ORDER OVERVIEW MODAL -->
-    <div class="modalwrapper hidden dialog" data-hideclass="hidden" tabindex="-1" role="dialog" id="order_overview">
-        <div class="modalcontent">
-            <h2 class="modal-title" id="overview_modal_label">Kijk je bestelling na</h2>
-            <div id="overview_content">
-            </div>
-            <div class="dialog--footer">
-                <button type="button" class="btn btn-default js_modalclose" id="overview_cancel" data-dismiss="modal">Aanpassen</button>
-                <button type="button" class="btn btn-default" id="overview_order">Bestellen!</button>
-            </div>
-        </div>
-    </div>
+		<div class="modalwrapper hidden dialog" data-hideclass="hidden" tabindex="-1" role="dialog" id="order_overview">
+				<div class="modalcontent">
+						<h2 class="modal-title" id="overview_modal_label">Kijk je bestelling na</h2>
+						<div id="overview_content">
+						</div>
+						<div class="dialog--footer">
+								<button type="button" class="btn btn-default js_modalclose" id="overview_cancel" data-dismiss="modal">Aanpassen</button>
+								<button type="button" class="btn btn-default" id="overview_order">Bestellen!</button>
+						</div>
+				</div>
+		</div>
 	<!-- END ORDER OVERVIEW MODAL -->
 
 
 	<!-- REGISTRATION OUTCOME MODAL -->
-    <div class="modalwrapper js_modalclose hidden dialog" data-hideclass="hidden" tabindex="-1" role="dialog" id="order_overview">
-        <div class="modalcontent">
-            <h2 class="modal-title" id="overview_modal_label">Woops</h2>
-            <div id="outcome_content">
-            </div>
-            <div class="dialog--footer">
-                <button type="button" class="btn btn-default js_modalclose" data-dismiss="modal">Sluiten</button>
-            </div>
-        </div>
-    </div>
+		<div class="modalwrapper js_modalclose hidden dialog" data-hideclass="hidden" tabindex="-1" role="dialog" id="order_overview">
+				<div class="modalcontent">
+						<h2 class="modal-title" id="overview_modal_label">Woops</h2>
+						<div id="outcome_content">
+						</div>
+						<div class="dialog--footer">
+								<button type="button" class="btn btn-default js_modalclose" data-dismiss="modal">Sluiten</button>
+						</div>
+				</div>
+		</div>
 	<!-- END REGISTRATION OUTCOME MODAL -->
 
 <!-- vim: set sw=2 ts=2: -->
@@ -306,6 +341,5 @@
 		{% if page_opts and page_opts['shift'] %}
 		<script src="/static/js/fr1ckets_shifts.js"></script>
 		{% endif %}
-		<script src="/static/js/fr1ckets.js"></script>
 	</body>
 </html>

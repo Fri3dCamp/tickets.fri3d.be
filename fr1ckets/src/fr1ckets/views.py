@@ -8,7 +8,7 @@ from wtforms.fields.html5 import EmailField, DateTimeField
 from fr1ckets import app
 from fr1ckets.texts import texts
 import fr1ckets.products as products
-from fr1ckets.model import model
+from fr1ckets.model import model, setup
 from fr1ckets.mail import mail
 from functools import wraps
 import time
@@ -66,24 +66,46 @@ def load_products():
 		output['clothing'].append(parsed_p)
 	return output
 
-
-def generate_garment_names():
+cache_product_names = None
+def get_product_names(genus=None, species=None):
 	out = []
-	for tshirt in [ 'adult_f' ]:
-		for size in [ 's', 'm', 'l', 'xl', 'xxl' ]:
-			out.append("tshirt_{0}_{1}".format(tshirt, size))
-		for size in [ 's', 'm', 'l', 'xl' ]:
-			out.append("hoodie_{0}_{1}".format(tshirt, size))
-	for tshirt in [ 'adult_m' ]:
-		for size in [ 's', 'm', 'l', 'xl', 'xxl', '3xl', '4xl' ]:
-			out.append("tshirt_{0}_{1}".format(tshirt, size))
-			out.append("hoodie_{0}_{1}".format(tshirt, size))
-	for tshirt in [ 'kid' ]:
-		for size in [ 'xs', 's', 'm', 'l', 'xl' ]:
-			out.append("tshirt_{0}_{1}".format(tshirt, size))
-			out.append("hoodie_{0}_{1}".format(tshirt, size))
-
+	global cache_product_names
+	if not cache_product_names:
+		cache_product_names = {}
+		with app.app_context():
+			setup.setup_db()
+			p_all = model.products_get(g.db_cursor)
+		for p in p_all:
+			genus, species, name = p['genus'], p['species'], p['name']
+			if genus not in cache_product_names:
+				cache_product_names[genus] = {}
+			if species not in cache_product_names:
+				cache_product_names[genus][species] = []
+			cache_product_names[genus][species].append(name)
+	if not genus:
+		for k, v in cache_product_names.iteritems():
+			for species, names in v:
+				out += names
+	elif not species:
+		P(cache_product_names)
+		P(genus)
+		P(cache_product_names[genus])
+		for species, names in cache_product_names[genus].iteritems():
+			out += names
+	else:
+		out = cache_product_names[genus][species]
 	return out
+
+cache_product_ids = None
+def get_product_id(name):
+	if not cache_product_ids:
+		cache_product_ids = {}
+		with app.app_context():
+			setup.setup_db()
+			p_all = model.products_get(g.db_cursor)
+		for p in p_all:
+			cache_product_ids[p['name']] = p['id']
+	return cache_product_ids[name]
 
 def prettify_purchase_code(code):
 	return "+++{0}/{1}/{2}+++".format(code[:3], code[3:7], code[7:])
@@ -121,34 +143,25 @@ class TicketForm(Form):
 		validators.NumberRange(min=0, max=20),
 		])
 
-	token = IntegerField('token', validators=[
-		validators.NumberRange(min=0, max=100),
-		])
+	for a in get_product_names('badge', 'accessory'):
+		vars()[a] = IntegerField(a, validators=[
+			validators.NumberRange(min=0, max=20) ])
 
-	badge_accessory_a = IntegerField('badge_accessory_a', validators=[
-		validators.NumberRange(min=0, max=20),
-		])
+	for a in get_product_names('infrastructure', 'spot'):
+		vars()[a] = IntegerField(a, validators=[
+			validators.NumberRange(min=0, max=20) ])
 
-	badge_accessory_b = IntegerField('badge_accessory_b', validators=[
-		validators.NumberRange(min=0, max=20),
-		])
+	for a in get_product_names('simple'):
+		vars()[a] = IntegerField(a, validators=[
+			validators.NumberRange(min=0, max=100) ])
 
-	camper_spot = IntegerField('camper_spot', validators=[
-		validators.NumberRange(min=0, max=20),
-		])
+	for a in get_product_names('garment'):
+		vars()[a] = IntegerField(a, validators=[
+			validators.NumberRange(min=0, max=10) ])
 
-	mug = IntegerField('mug', validators=[
-		validators.NumberRange(min=0, max=20),
-		])
-
-	donation = IntegerField('donation', validators=[
-		validators.NumberRange(min=0, max=20),
-		])
-
-	for garment in generate_garment_names():
-		vars()[garment] = IntegerField(garment, validators=[
-			validators.NumberRange(min=0, max=10),
-			])
+	for a in get_product_names('donation'):
+		vars()[a] = IntegerField(a, validators=[
+			validators.NumberRange(min=0, max=10) ])
 
 	special_accomodation_needs = BooleanField('special_accomodation_needs', default=False)
 
@@ -227,14 +240,12 @@ def extract_general_ticket_info(form_tickets):
 def extract_products(cursor, form_general, form_tickets):
 
 	p = map(dict, model.products_get(cursor))
-	known_tickets = sorted([ t for t in p if 'ticket' in t['name'] ], key=lambda t: t['max_dob'], reverse=True)
-	known_tshirts = [ t for t in p if 'tshirt' in t['name'] ]
-	known_tshirts.extend([ t for t in p if 'hoodie' in t['name'] ])
-	known_tokens = [ t for t in p if 'token' in t['name'] ]
-	known_mugs = [ t for t in p if 'mug' in t['name'] ]
-	known_donations = [ t for t in p if 'donation' in t['name'] ]
-	known_badge_parts = [ t for t in p if 'badge' in t['name'] ]
-	known_camper_spots = [ t for t in p if 'camper_spot' in t['name'] ]
+	known_tickets = sorted([ t for t in p if (t['genus'] == 'ticket' and t['species'] == 'normal') ], key=lambda t: t['max_dob'], reverse=True)
+	known_garments = [ t for t in p if t['genus'] == 'garment' ]
+	known_simples = [ t for t in p if t['genus'] == 'simple' ]
+	known_donations = [ t for t in p if t['genus'] == 'donation' ]
+	known_badge_parts = [ t for t in p if t['genus'] == 'badge' ]
+	known_spots = [ t for t in p if t['genus'] == 'infrastructure' ]
 	seen_business_tickets = False
 	out = []
 
@@ -265,11 +276,10 @@ def extract_products(cursor, form_general, form_tickets):
 			})
 		return out
 
-	out.extend(find_knowns(known_tshirts, form_general))
-	out.extend(find_knowns(known_tokens, form_general))
+	out.extend(find_knowns(known_garments, form_general))
+	out.extend(find_knowns(known_simples, form_general))
 	out.extend(find_knowns(known_badge_parts, form_general))
-	out.extend(find_knowns(known_camper_spots, form_general))
-	out.extend(find_knowns(known_mugs, form_general))
+	out.extend(find_knowns(known_spots, form_general))
 	out.extend(find_knowns(known_donations, form_general))
 
 	for i in range(n_tickets):

@@ -43,15 +43,16 @@
 												<label for="email">E-mailadres</label>
 												<input type="email" name="email" id="email" class="field" />
 										</div>
+										<div id="reservation_result">
+										</div>
 										<template id="reservation_result_too_soon" class="needsToon">
 											<div class="notice notice-warning">
 												Met dit email-adres kan je pas vanaf <b id="from_when"></b> bestellen (je kan het tot 12h op voorhand invullen).
 											</div>
 										</template>
 										<template id="reservation_result_ok_special" class="needsToon">
-											<div style="background: green;">
+											<div class="notice notice-OK">
 												Reservatie gevonden! Let op, deze is slechts goed voor één bestelling. Eens de publieke verkoop start kan je natuurlijk bijbestellen.
-												<input class="foobar" name="azdlmkd">foo</input>
 											</div>
 										</template>
 

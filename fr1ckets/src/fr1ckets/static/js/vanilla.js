@@ -111,10 +111,11 @@ document.addEventListener('DOMContentLoaded', event => {
 		window.fetch('/api/get_reservation/' + email_input.value)
 		.then(data => data.json())
 		.then(reservation => {
+			element_clear_children('#reservation_result');
 			if (Date.now() < (reservation.available_from*1000)) {
 				// this reservation is not yet available
 				let s = moment(reservation.available_from*1000).format('YYYY-MM-DD HH:mm:ss');
-				template_add('#reservation_result_too_soon', '#email_input', {
+				template_add('#reservation_result_too_soon', '#reservation_result', {
 					'#from_when' : { textContent : s },
 				});
 			} else if (!reservation.is_default) {

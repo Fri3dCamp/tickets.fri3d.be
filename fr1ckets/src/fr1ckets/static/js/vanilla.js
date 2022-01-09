@@ -1,5 +1,6 @@
 // this is correct, month is 0-indexed
 const volunteering_cutoff = new Date(2006, 7, 12).getTime();
+let available_product_descs = [];
 
 document.addEventListener('DOMContentLoaded', function(event) {
 	var sitebody = document.querySelector("#js_container");
@@ -80,7 +81,8 @@ function template_add(template_id, dest_parent_id, switcheroo, new_id)
 		Object.keys(switcheroo).forEach(s => {
 			instance.querySelectorAll(s).forEach(e => {
 				Object.keys(switcheroo[s]).forEach(k => {
-					e.setAttribute(k, switcheroo[s][k]);
+					//e.setAttribute(k, switcheroo[s][k]);
+					e[k] = switcheroo[s][k];
 				});
 			});
 		});
@@ -101,7 +103,29 @@ function element_clear_children(selector) {
 	}
 }
 
+function ticket_find_for_dob(dob, billable) {
+
+	const ticket_descs = available_product_descs.filter(p => {
+		return p.genus == 'ticket' && p.species == 'normal' && p.billable == billable;
+	}).sort((left, right) => {
+		return right.max_dob - left.max_dob;
+	}).filter(t => dob >= t.max_dob);
+
+	return ticket_descs.length ? ticket_descs[0] : undefined;
+
+}
+
 document.addEventListener('DOMContentLoaded', event => {
+	
+	// pull in all products
+	window.fetch('/api/get_products')
+	.then(data => data.json())
+	.then(products => {
+		products.forEach(p => {
+			p.max_dob *= 1000;
+		});
+		available_product_descs = products;
+	});
 	
 	// check reservations
 	let email_input = document.querySelector('#email');
@@ -136,7 +160,7 @@ document.addEventListener('DOMContentLoaded', event => {
 		// and billability)
 		let update_cb = function(ticket) {
 			return function(event) {
-				let h = 'ticket_' + ticket;
+				let h = 'tickets_' + ticket;
 				let billable = document.querySelector('#' + h + '_billable').checked;
 				let dob_year = document.querySelector('#' + h + '_dob_year').value;
 				let dob_month = document.querySelector('#' + h + '_dob_month').value;
@@ -145,18 +169,78 @@ document.addEventListener('DOMContentLoaded', event => {
 
 				let can_volunteer = dob < volunteering_cutoff;
 
+				// find the relevant ticket for the input entered so far
+				let ticket_desc = ticket_find_for_dob(dob, billable);
+
 				element_clear_children('#' + h + '_meta');
 
-				if (!dob_year.length || !dob_month.length || !dob_day.length) {
+				// if the date's empty, we're not happy
+				if (!dob_year.length && !dob_month.length && !dob_day.length) {
 					template_add('#template_participant_meta_is_not_human', '#' + h + '_meta');
 					return;
 				}
 
-				if (can_volunteer) {
-					template_add('#template_participant_meta_is_volunteerable', '#' + h + '_meta');
-				}
-				if (billable) {
-					template_add('#template_participant_meta_is_billable', '#' + h + '_meta');
+				// if we actually found a ticket based on date/billability, show the available
+				// options
+				if (ticket_desc) {
+					// add a pricing display block
+					template_add('#template_participant_meta_pricing', '#' + h + '_meta', {
+						'#tickets_CNT_display_name' : {
+							textContent : ticket_desc.display,
+							id : h + '_display_name',
+						},
+						'#tickets_CNT_display_price' : {
+							textContent : ticket_desc.price,
+							id : h + '_display_price',
+						},
+					});
+					// and a food questions block
+					template_add('#template_participant_meta_food', '#' + h + '_meta', {
+						'#tickets_CNT_options_vegitarian' : {
+							id : h + '_options_vegitarian',
+							name : h + '_options_vegitarian',
+						}
+					});
+					// if this person's old enough to volunteer, show the volunteering block
+					if (can_volunteer) {
+						template_add('#template_participant_meta_is_volunteerable', '#' + h + '_meta', {
+							'#tickets_CNT_options_volunteers_before' : {
+								id : h + '_options_volunteers_before',
+								name : h + '_options_volunteers_before',
+							},
+							'#tickets_CNT_options_volunteers_after' : {
+								id : h + '_options_volunteers_after',
+								name : h + '_options_volunteers_after',
+							},
+							'#tickets_CNT_options_not_volunteering_during' : {
+								id : h + '_options_not_volunteering_during',
+								name : h + '_options_not_volunteering_during',
+							},
+						});
+
+						// another closure which updates this ticket's price to premium/normal,
+						// depending on whether they want to help during camp
+						let update_pricing_cb = function(ticket, ticket_desc) {
+							return function(event) {
+								let h = 'tickets_' + ticket;
+								let el_premium = document.querySelector('#' + h + '_options_not_volunteering_during');
+								let el_ticket_price = document.querySelector('#' + h + '_display_price');
+								let el_ticket_name = document.querySelector('#' + h + '_display_name');
+								let premium = el_premium.checked;
+
+								if (premium) {
+									el_ticket_price.textContent = ticket_desc.price;
+									el_ticket_name.textContent = ticket_desc.display + ' (premium)';
+								} else {
+									el_ticket_price.textContent = ticket_desc.volunteering_price;
+									el_ticket_name.textContent = ticket_desc.display;
+								}
+							};
+						};
+
+						// wire in that last one, now that we have the checkbox in DOM
+						document.querySelector('#' + h + '_options_not_volunteering_during').addEventListener('change', update_pricing_cb(ticket, ticket_desc));
+					}
 				}
 
 			};
@@ -164,22 +248,22 @@ document.addEventListener('DOMContentLoaded', event => {
 
 
 		for (let i = 0; i < n; i++) {
-			let new_id = 'ticket_' + i;
+			let new_id = 'tickets_' + i;
 			let cb = update_cb(i);
 
 			// throw up a form for this ticket
 			template_add('#template_participant', '#template_dest_participants', {
-				'[for=ticket_CNT_name]' : { for : new_id + '_name' },
-				'[for=ticket_CNT_dob_year]' : { for : new_id + '_dob_year' },
-				'[for=ticket_CNT_dob_month]' : { for : new_id + '_dob_month' },
-				'[for=ticket_CNT_dob_day]' : { for : new_id + '_dob_day' },
-				'[for=ticket_CNT_billable]' : { for : new_id + '_billable' },
-				'#ticket_CNT_name' : { id : new_id + '_name', name : new_id + '_name' },
-				'#ticket_CNT_dob_year' : { id : new_id + '_dob_year', name : new_id + '_dob_year' },
-				'#ticket_CNT_dob_month' : { id : new_id + '_dob_month', name : new_id + '_dob_month' },
-				'#ticket_CNT_dob_day' : { id : new_id + '_dob_day', name : new_id + '_dob_day' },
-				'#ticket_CNT_billable' : { id : new_id + '_billable', name : new_id + '_billable' },
-				'#ticket_CNT_meta' : { id : new_id + '_meta' },
+				'[for=tickets_CNT_name]' : { for : new_id + '_name' },
+				'[for=tickets_CNT_dob_year]' : { for : new_id + '_dob_year' },
+				'[for=tickets_CNT_dob_month]' : { for : new_id + '_dob_month' },
+				'[for=tickets_CNT_dob_day]' : { for : new_id + '_dob_day' },
+				'[for=tickets_CNT_billable]' : { for : new_id + '_billable' },
+				'#tickets_CNT_name' : { id : new_id + '_name', name : new_id + '_name' },
+				'#tickets_CNT_dob_year' : { id : new_id + '_dob_year', name : new_id + '_dob_year' },
+				'#tickets_CNT_dob_month' : { id : new_id + '_dob_month', name : new_id + '_dob_month' },
+				'#tickets_CNT_dob_day' : { id : new_id + '_dob_day', name : new_id + '_dob_day' },
+				'#tickets_CNT_billable' : { id : new_id + '_billable', name : new_id + '_billable' },
+				'#tickets_CNT_meta' : { id : new_id + '_meta' },
 			}, new_id);
 
 			// hook in the update_cb to respond to any changes

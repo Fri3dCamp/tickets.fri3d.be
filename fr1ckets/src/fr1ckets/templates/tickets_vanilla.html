@@ -113,42 +113,76 @@
 						<template id="template_participant">
 							<article class="participant">
 								<div class="fieldwrapper">
-									<label for="ticket_CNT_name">Naam</label>
-									<input class="field" id="ticket_CNT_name" name="ticket_CNT_name" type="text" required>
+									<label for="tickets_CNT_name">Naam</label>
+									<input class="field" id="tickets_CNT_name" name="tickets_CNT_name" type="text" required>
 								</div>
 								<div class="fieldwrapper fieldwrapper-date">
                                     <h4>Geboortedatum</h4>
                                     <div class="subfields">
                                         <div class="subfieldwrapper">
-                                            <label for="ticket_CNT_dob_year">Jaar</label>
-                                            <input class="field" id="ticket_CNT_dob_year" name="ticket_CNT_dob_year" type="text"  maxlength="4" pattern="(19|20|21)[0-9]{2}" placeholder="YYYY" required>
+                                            <label for="tickets_CNT_dob_year">Jaar</label>
+                                            <input class="field" id="tickets_CNT_dob_year" name="tickets_CNT_dob_year" type="text"  maxlength="4" pattern="(19|20|21)[0-9]{2}" placeholder="YYYY" required>
                                         </div>
                                         <div class="subfieldwrapper">
-                                            <label for="ticket_CNT_dob_month">Maand</label>
-                                            <input class="field" id="ticket_CNT_dob_month" name="ticket_CNT_dob_month" type="text"  maxlength="2" pattern="^(1[0-2]|0?[1-9])$" placeholder="MM" required>
+                                            <label for="tickets_CNT_dob_month">Maand</label>
+                                            <input class="field" id="tickets_CNT_dob_month" name="tickets_CNT_dob_month" type="text"  maxlength="2" pattern="^(1[0-2]|0?[1-9])$" placeholder="MM" required>
                                         </div>
                                         <div class="subfieldwrapper">
-                                            <label for="ticket_CNT_dob_day">Dag</label>
-                                            <input class="field" id="ticket_CNT_dob_day" name="ticket_CNT_dob_day" type="text"  maxlength="2" pattern="^(3[01]|[12][0-9]|0?[1-9])$" placeholder="DD" required>
+                                            <label for="tickets_CNT_dob_day">Dag</label>
+                                            <input class="field" id="tickets_CNT_dob_day" name="tickets_CNT_dob_day" type="text"  maxlength="2" pattern="^(3[01]|[12][0-9]|0?[1-9])$" placeholder="DD" required>
                                         </div>
                                     </div>
 								</div>
 								<div class="fieldwrapper fieldwrapper-checkbox">
-										<input type="checkbox" id="ticket_CNT_billable" name="ticket_CNT_billable" class="field field-checkbox">
-										<label for="ticket_CNT_billable">Ticket met factuur (altijd €334 inclusief BTW)</label>
+										<input type="checkbox" id="tickets_CNT_billable" name="tickets_CNT_billable" class="field field-checkbox">
+										<label for="tickets_CNT_billable">Ticket met factuur (altijd €334 inclusief BTW)</label>
 								</div>
-								<div id="ticket_CNT_meta">
+								<div id="tickets_CNT_meta">
 								</div>
 							</article>
 						</template>
 						<template id="template_participant_meta_is_not_human">
 							<div class="notice notice-error">Ongeldige datum!</div>
 						</template>
+						<template id="template_participant_meta_food">
+							<div class="fieldwrapper fieldwrapper-checkbox">
+								<label>
+									<input type="checkbox" id="tickets_CNT_options_vegitarian" name="tickets_CNT_options_vegitarian" class="field field-checkbox">
+									Vegetarisch.
+								</label>
+							</div>
+						</template>
 						<template id="template_participant_meta_is_volunteerable">
+							<div class="fieldwrapper fieldwrapper-checkbox">
+								<label>
+									<input type="checkbox" id="tickets_CNT_options_volunteers_before" name="tickets_CNT_options_volunteers_before" class="field field-checkbox">
+									Helpt mee opbouwen voor het kamp.
+								</label>
+							</div>
+							<div class="fieldwrapper fieldwrapper-checkbox">
+								<label>
+									<input type="checkbox" id="tickets_CNT_options_not_volunteering_during" name="tickets_CNT_options_not_volunteering_during" class="field field-checkbox">
+									Kan niet meehelpen op het kamp (<i>premium</i>).
+								</label>
+							</div>
+							<div class="fieldwrapper fieldwrapper-checkbox">
+								<label>
+									<input type="checkbox" id="tickets_CNT_options_volunteers_after" name="tickets_CNT_options_volunteers_after" class="field field-checkbox">
+									Helpt mee afbreken na het kamp.
+								</label>
+							</div>
+
 							<div class="notice notice-OK">Volunteering options voor deze mens!</div>
 						</template>
 						<template id="template_participant_meta_is_billable">
 							<div class="notice">Billing info voor deze mens!</div>
+						</template>
+						<template id="template_participant_meta_pricing">
+							<div class="notice">
+								Prijs:
+								<span id="tickets_CNT_display_name">NAAM</span> -
+								€<span id="tickets_CNT_display_price">PRIJS</span>
+							</div>
 						</template>
 
 

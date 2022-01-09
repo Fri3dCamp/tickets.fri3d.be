@@ -180,9 +180,16 @@ h1, h2 {
   background-color: #3ce8b3;
   margin-top: 10px;
   margin-bottom: 10px;
+  background-color: #ffe3ca;
 }
 .notice-warning {
   background-color: #ffff66;
+}
+.notice-OK {
+  background-color: #97f3d7;
+}
+.notice-error {
+  background-color: #ffa4a4;
 }
 
 /** END notices **/
@@ -323,7 +330,7 @@ p {
   max-height: 100%;
   padding: 10px;
   background-color: white;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 /** END layout **/
@@ -343,6 +350,14 @@ p {
   flex-grow: 100%;
   margin-bottom: 0;
   margin-top: 2px;
+}
+@media screen and (min-width: 600px) {
+  .fieldwrapper-date .subfields {
+    display: flex;
+  }
+  .fieldwrapper-date .subfields .subfieldwrapper {
+    margin-right: 10px;
+  }
 }
 
 .btn {
@@ -407,6 +422,12 @@ p {
 
 option {
   font-family: "Open Sans", "sans-serif";
+}
+
+.participant {
+  margin-bottom: 4rem;
+  border-left: 4px solid #3ce8b3;
+  padding-left: 2rem;
 }
 
 /** END form **/

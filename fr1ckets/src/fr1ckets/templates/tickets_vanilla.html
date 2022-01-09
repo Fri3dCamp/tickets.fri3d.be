@@ -44,7 +44,7 @@
 												<input type="email" name="email" id="email" class="field" />
 										</div>
 										<template id="reservation_result_too_soon" class="needsToon">
-											<div style="background: red;">
+											<div class="notice notice-warning">
 												Met dit email-adres kan je pas vanaf <b id="from_when"></b> bestellen (je kan het tot 12h op voorhand invullen).
 											</div>
 										</template>
@@ -111,37 +111,43 @@
 						</div>
 						<template id="template_participant">
 							<article class="participant">
-								<h3>Deelnemer <span class="count"></span></h3>
 								<div class="fieldwrapper">
-									<label>Naam
-										<input class="field" id="ticket_CNT_name" name="ticket_CNT_name" type="text" required>
-									</label>
+									<label for="ticket_CNT_name">Naam</label>
+									<input class="field" id="ticket_CNT_name" name="ticket_CNT_name" type="text" required>
 								</div>
-								<div class="fieldwrapper">
-									<label>Geboortedatum
-										<input class="field" id="ticket_CNT_dob_year" name="ticket_CNT_dob_year" type="tel"  maxlength="4" pattern="(19|20|21)[0-9]{2}" placeholder="YYYY" required>
-										<input class="field" id="ticket_CNT_dob_month" name="ticket_CNT_dob_month" type="tel"  maxlength="2" pattern="^(1[0-2]|0?[1-9])$" placeholder="MM" required>
-										<input class="field" id="ticket_CNT_dob_day" name="ticket_CNT_dob_day" type="tel"  maxlength="2" pattern="^(3[01]|[12][0-9]|0?[1-9])$" placeholder="DD" required>
-									</label>
+								<div class="fieldwrapper fieldwrapper-date">
+                                    <h4>Geboortedatum</h4>
+                                    <div class="subfields">
+                                        <div class="subfieldwrapper">
+                                            <label for="ticket_CNT_dob_year">Jaar</label>
+                                            <input class="field" id="ticket_CNT_dob_year" name="ticket_CNT_dob_year" type="text"  maxlength="4" pattern="(19|20|21)[0-9]{2}" placeholder="YYYY" required>
+                                        </div>
+                                        <div class="subfieldwrapper">
+                                            <label for="ticket_CNT_dob_month">Maand</label>
+                                            <input class="field" id="ticket_CNT_dob_month" name="ticket_CNT_dob_month" type="text"  maxlength="2" pattern="^(1[0-2]|0?[1-9])$" placeholder="MM" required>
+                                        </div>
+                                        <div class="subfieldwrapper">
+                                            <label for="ticket_CNT_dob_day">Dag</label>
+                                            <input class="field" id="ticket_CNT_dob_day" name="ticket_CNT_dob_day" type="text"  maxlength="2" pattern="^(3[01]|[12][0-9]|0?[1-9])$" placeholder="DD" required>
+                                        </div>
+                                    </div>
 								</div>
 								<div class="fieldwrapper fieldwrapper-checkbox">
-									<label>
 										<input type="checkbox" id="ticket_CNT_billable" name="ticket_CNT_billable" class="field field-checkbox">
-										Ticket met factuur (altijd €334 inclusief BTW)
-									</label>
+										<label for="ticket_CNT_billable">Ticket met factuur (altijd €334 inclusief BTW)</label>
 								</div>
 								<div id="ticket_CNT_meta">
 								</div>
 							</article>
 						</template>
 						<template id="template_participant_meta_is_not_human">
-							<div style="background: red;" class="needsToon">Ongeldige datum!</div>
+							<div class="notice notice-error">Ongeldige datum!</div>
 						</template>
 						<template id="template_participant_meta_is_volunteerable">
-							<div style="background: green;" class="needsToon">Volunteering options voor deze mens!</div>
+							<div class="notice notice-OK">Volunteering options voor deze mens!</div>
 						</template>
 						<template id="template_participant_meta_is_billable">
-							<div style="background: blue;" class="needsToon">Billing info voor deze mens!</div>
+							<div class="notice">Billing info voor deze mens!</div>
 						</template>
 
 

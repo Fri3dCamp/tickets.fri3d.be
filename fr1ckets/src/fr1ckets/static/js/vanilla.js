@@ -27,11 +27,12 @@ document.addEventListener('DOMContentLoaded', function(event) {
 			let myalt = event.target.alt;
 
 			let modal = document.querySelector("#large_image");
+			hideclass = modal.getAttribute("data-hideclass");
 
 			modal.querySelector(".image").src = mysrc;
 			modal.querySelector(".image").alt = myalt;
 
-			modal.classList.remove("visuallyhidden");
+			modal.classList.remove(hideclass);
 			document.querySelector("body").classList.add("noscroll");
 		})
 	});
@@ -40,7 +41,6 @@ document.addEventListener('DOMContentLoaded', function(event) {
 	document.querySelectorAll('.js_modalclose').forEach(item => {
 		item.addEventListener('click', event => { 
 			 document.querySelectorAll('.modalwrapper').forEach(wrapper => {
-				console.log(wrapper);
 				hideclass = wrapper.getAttribute("data-hideclass");
 				wrapper.classList.add(hideclass);
 			});
@@ -80,7 +80,7 @@ function template_add(template_id, dest_parent_id, switcheroo, new_id)
 		Object.keys(switcheroo).forEach(s => {
 			instance.querySelectorAll(s).forEach(e => {
 				Object.keys(switcheroo[s]).forEach(k => {
-					e[k] = switcheroo[s][k];
+					e.setAttribute(k, switcheroo[s][k]);
 				});
 			});
 		});
@@ -168,7 +168,11 @@ document.addEventListener('DOMContentLoaded', event => {
 
 			// throw up a form for this ticket
 			template_add('#template_participant', '#template_dest_participants', {
-				'.count' : { textContent : i+1 },
+				'[for=ticket_CNT_name]' : { for : new_id + '_name' },
+				'[for=ticket_CNT_dob_year]' : { for : new_id + '_dob_year' },
+				'[for=ticket_CNT_dob_month]' : { for : new_id + '_dob_month' },
+				'[for=ticket_CNT_dob_day]' : { for : new_id + '_dob_day' },
+				'[for=ticket_CNT_billable]' : { for : new_id + '_billable' },
 				'#ticket_CNT_name' : { id : new_id + '_name', name : new_id + '_name' },
 				'#ticket_CNT_dob_year' : { id : new_id + '_dob_year', name : new_id + '_dob_year' },
 				'#ticket_CNT_dob_month' : { id : new_id + '_dob_month', name : new_id + '_dob_month' },

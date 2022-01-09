@@ -95,8 +95,15 @@ h1,h2 {
     background-color: $clr_C;
     margin-top: $spacer;
     margin-bottom: $spacer;
+    background-color: lighten($clr_B,20%);
     &-warning {
         background-color: lighten(yellow,20%);
+    }
+    &-OK {
+        background-color: lighten($clr_C,20%);
+    }
+    &-error {
+        background-color: lighten($clr_red,20%);
     }
 }
 
@@ -226,7 +233,7 @@ p {
     max-height: 100%;
     padding:$spacer;
     background-color: white;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 /** END layout **/
@@ -246,6 +253,13 @@ p {
             flex-grow: 100%;
             margin-bottom: 0;
             margin-top: 2px;
+        }
+    }
+    &-date .subfields {
+        @media screen and (min-width:$width0) {
+            display: flex;
+            .subfieldwrapper {
+            margin-right: $spacer; }
         }
     }
 }
@@ -332,6 +346,12 @@ p {
 
 option {
     font-family: "Open Sans","sans-serif";
+}
+
+.participant {
+    margin-bottom: 4rem;
+    border-left: 4px solid $clr_C;
+    padding-left: 2rem;
 }
 
 /** END form **/

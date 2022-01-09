@@ -508,6 +508,8 @@ def products_get(cursor):
 	q = """
 		select
 			id,
+			genus,
+			species,
 			name,
 			display,
 			price,

@@ -111,7 +111,7 @@
 						<div id="template_dest_participants">
 						</div>
 						<template id="template_participant">
-							<article class="participant">
+							<article class="participant template_top">
 								<div class="fieldwrapper">
 									<label for="tickets_CNT_name">Naam</label>
 									<input class="field" id="tickets_CNT_name" name="tickets_CNT_name" type="text" required>
@@ -171,8 +171,6 @@
 									Helpt mee afbreken na het kamp.
 								</label>
 							</div>
-
-							<div class="notice notice-OK">Volunteering options voor deze mens!</div>
 						</template>
 						<template id="template_participant_meta_is_billable">
 							<div class="notice">Billing info voor deze mens!</div>
@@ -312,10 +310,28 @@
 										<input type="checkbox" id="have_voucher" name="have_voucher" class="field field-checkbox">
 										<label for="have_voucher" class="label-checkbox">Ik heb één of meerdere vouchers.</label>
 								</div>
-								<div class="fieldwrapper">
-										<label for="voucher_code_0">Voucher</label>
-										<input class="field" id="voucher_code_0" name="voucher_code_0" type="text">
+								<div id="voucher_entries">
 								</div>
+								<template id="voucher_entry">
+									<div class="fieldwrapper template_top">
+											<label>Voucher
+												<input class="field" id="voucher_code_CNT" name="voucher_code_CNT" type="text">
+											</label>
+										<div id="voucher_entry_CNT_result">
+										</div>
+									</div>
+								</template>
+								<template id="voucher_result_fail">
+									<div class="notice notice-warning">
+											Deze voucher is niet (meer) geldig.
+									</div>
+								</template>
+								<template id="voucher_result_ok">
+									<div class="notice notice-OK">
+											Met deze voucher krijg je éénmalig €<span class="display_amount">amount</span> korting, met reden "<span class="display_reason">reason</span>".
+									</div>
+								</template>
+
 						</div>
 
 						<div class="pagesection block block-narrow">

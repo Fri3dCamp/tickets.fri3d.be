@@ -1,6 +1,8 @@
 // this is correct, month is 0-indexed
 const volunteering_cutoff = new Date(2006, 7, 12).getTime();
+const voucher_cap = 10;
 let available_product_descs = [];
+let vouchers_current = [];
 
 document.addEventListener('DOMContentLoaded', function(event) {
 	var sitebody = document.querySelector("#js_container");
@@ -69,7 +71,8 @@ document.addEventListener('DOMContentLoaded', function(event) {
 // }
 // we'll look for elements with selector within the template,
 // and set any prop_name to prop_value
-// if new_id is set, this'll be the templated instance's new id
+// if new_id is set, we'll set this as id of any element of
+// class "template_top"
 function template_add(template_id, dest_parent_id, switcheroo, new_id)
 {
 
@@ -88,8 +91,12 @@ function template_add(template_id, dest_parent_id, switcheroo, new_id)
 		});
 	}
 
-	if (new_id)
-		instance.id = new_id;
+	if (new_id) {
+		// just setting instance.id doesn't seem to survive the
+		// appending, also as appended dest.lastChild, so this
+		// ugly hack exists
+		instance.querySelector('.template_top').id = new_id;
+	}
 
 	dest.appendChild(instance);
 
@@ -103,6 +110,8 @@ function element_clear_children(selector) {
 	}
 }
 
+// look for the lowest (in age bracket) ticket for this dob
+// and billability in the available_product_descs
 function ticket_find_for_dob(dob, billable) {
 
 	const ticket_descs = available_product_descs.filter(p => {
@@ -273,6 +282,95 @@ document.addEventListener('DOMContentLoaded', event => {
 			document.querySelector('#' + new_id + '_billable').addEventListener('change', cb);
 		}
 
+	});
+
+});
+
+document.addEventListener('DOMContentLoaded', event => {
+
+	document.querySelector('#have_voucher').addEventListener('change', function(event) {
+		let checked = document.querySelector('#have_voucher').checked;
+
+		if (!checked) {
+			// disabled, clear everything
+			element_clear_children('#voucher_entries');
+			vouchers_current = [];
+			return;
+		}
+
+		// enabled
+
+		// update voucher entry visibility, we show one empty entry after the last
+		// filled-in one, up to voucher_cap
+		let voucher_peekaboo = function() {
+
+			let last = 0;
+
+			for (last = vouchers_current.length; last > 0; last--)
+				if (vouchers_current[last - 1] != '')
+					break;
+
+			for (var i = 0; i < voucher_cap; i++) {
+				document.querySelector('#voucher_entry_'+i).hidden = (i < (last + 1)) ? false : true;
+			}
+		};
+
+		// a voucher had an update, save it for later and check if it's valid, show
+		// the relevant outcome too
+		let voucher_updates = function(voucher) {
+			return function(event) {
+				let h = '#voucher_code_' + voucher;
+				let v = document.querySelector(h).value;
+
+				vouchers_current[voucher] = v;
+
+				voucher_peekaboo();
+
+				if (v != '') {
+					window.fetch('/api/get_voucher/' + v)
+					.then(data => data.json())
+					.then(result => {
+						// make sure no old messages linger
+						element_clear_children('#voucher_entry_' + voucher + '_result');
+
+						if (result.code == 'none') {
+							// if it's 'none', server doesn't know it (any more)
+							template_add('#voucher_result_fail', '#voucher_entry_' + voucher + '_result');
+						} else if (result.discount > 0) {
+							// this one it knows
+							template_add('#voucher_result_ok', '#voucher_entry_' + voucher + '_result', {
+								'.display_reason' : { textContent : result.reason },
+								'.display_amount' : { textContent : result.discount },
+							});
+						}
+					});
+				}
+			};
+		};
+
+		// load up voucher entries
+		for (var i = 0; i < voucher_cap; i++) {
+			// save an empty string for now
+			vouchers_current.push('');
+
+			template_add('#voucher_entry', '#voucher_entries', {
+				'#voucher_code_CNT' : { 
+					id : 'voucher_code_' + i,
+					name : 'voucher_code_' + i,
+				},
+				'#voucher_entry_CNT_result' : {
+					id : 'voucher_entry_' + i + '_result',
+				},
+			}, 'voucher_entry_' + i);
+
+			// wire in for pasting too
+			document.querySelector('#voucher_code_' + i).addEventListener('change', voucher_updates(i));
+			document.querySelector('#voucher_code_' + i).addEventListener('keyup', voucher_updates(i));
+			document.querySelector('#voucher_code_' + i).addEventListener('paste', voucher_updates(i));
+		}
+
+		// update the visibility
+		voucher_peekaboo();
 	});
 
 });

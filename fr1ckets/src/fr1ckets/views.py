@@ -12,6 +12,7 @@ from fr1ckets.model import model, setup
 from fr1ckets.mail import mail
 from functools import wraps
 import time
+import copy
 import json
 import datetime
 import unicodedata
@@ -53,17 +54,20 @@ def load_products():
 	output['simple'] = products.products['simple']
 	output['clothing'] = []
 	for p in products.products['clothing']:
+		P(p)
 		size_ref = p["sizes"]
-		parsed_p = p
+		parsed_p = copy.deepcopy(p)
 		try:
 			parsed_p["size_table"] = products.size_tables[p["size_table_ref"]]
 		except:
 			parsed_p["size_table"] = False
 		try:
 			parsed_p["sizes"] = products.clothing_sizes[size_ref]
-		except:
+		except Exception as e:
+			P(e)
 			parsed_p["sizes"] = products.clothing_sizes["default"]
 		output['clothing'].append(parsed_p)
+	P(output['clothing'])
 	return output
 
 cache_product_names = None

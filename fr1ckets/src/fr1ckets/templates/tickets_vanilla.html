@@ -84,7 +84,7 @@
 										</div>
 										<div class="fieldwrapper">
 												<label for="camper_spot">Camper of caravan plaats - €25</label>
-												<select id="camper_spot" name="camper_spot" class="field field-select">
+												<select id="camper_spot" name="camper_spot" class="field field-select fri3d-product">
 														<option value="0" selected="">0</option>
 														<option value="1">1</option>
 														<option value="2">2</option>
@@ -182,6 +182,26 @@
 								€<span id="tickets_CNT_display_price">PRIJS</span>
 							</div>
 						</template>
+						<div id="template_dest_business">
+						</div>
+						<template id="template_business">
+							<div class="template_top">
+								<h2>Jouw zakelijke info</h2>
+								<div class="fieldwrapper">
+									<label for="business_name">Naam</label>
+									<input class="field" id="business_name" name="business_name" type="text" required>
+								</div>
+								<div class="fieldwrapper">
+									<label for="business_address">Adres</label>
+									<textarea class="field" id="business_address" name="business_address" type="text" rows="3" required></textarea>
+								</div>
+								<div class="fieldwrapper">
+									<label for="business_vat">BTW</label>
+									<input class="field" id="business_vat" name="business_vat" type="text" required placeholder="BE 4444.333.333">
+								</div>
+							</div>
+						</template>
+
 
 
 						</div>
@@ -208,7 +228,7 @@
 																{{ sp.description|safe }}
 														</div>
 												</div>
-												<select id="{{ sp.name }}" name="{{ sp.name }}" class="field">
+												<select id="{{ sp.name }}" name="{{ sp.name }}" class="field fri3d-product">
 														{% if sp.max_n %}
 														{% set max_n = sp.max_n %}
 														{% else %}
@@ -244,8 +264,8 @@
 										<ul class="product--variants">
 												{% for s in c.sizes %}
 												<li>
-														<label for="{{ c.name }}_{{ s[0] }}">{{ s[1] }}</label>
-														<select id="{{ c.name }}_{{ s[0] }}" name="{{ c.name }}_{{ s[0] }}" class="field field-select">
+														<label for="{{ c.name }}__{{ s[0] }}">{{ s[1] }}</label>
+														<select id="{{ c.name }}__{{ s[0] }}" name="{{ c.name }}__{{ s[0] }}" class="field field-select fri3d-product">
 																{% if c.max_n %}
 																{% set max_n = c.max_n %}
 																{% else %}
@@ -267,17 +287,17 @@
 
 						<div class="pagesection block block-narrow">
 								<h2>Tokens voor consumpties</h2>
-								<p>Je betaalt € 1.50 per token. De meeste drankjes of een snack kosten één token, duurdere drankjes kosten meer. Tijdens het kamp kan je natuurlijk ook tokens kopen, maar door ze hier mee te bestellen, liggen ze voor je klaar wanneer je toekomt.</p>
+								<p>Je betaalt € 1.80 per token. De meeste drankjes of een snack kosten één token, duurdere drankjes kosten meer. Tijdens het kamp kan je natuurlijk ook tokens kopen, maar door ze hier mee te bestellen, liggen ze voor je klaar wanneer je toekomt.</p>
 								<div class="fieldwrapper">
 										<label for="token">Aantal tokens</label>
-										<select id="token" name="token" class="field field-select">
+										<select id="token" name="token" class="field field-select fri3d-product">
 						<option value="0" selected>0</option>
-						<option value="10">10 – € 15</option>
-						<option value="20">20 – € 30</option>
-						<option value="30">30 – € 45</option>
-						<option value="40">40 – € 60</option>
-						<option value="50">50 – € 75</option>
-						<option value="100">100 – € 150</option>
+						<option value="10">10 – € 18</option>
+						<option value="20">20 – € 36</option>
+						<option value="30">30 – € 54</option>
+						<option value="40">40 – € 72</option>
+						<option value="50">50 – € 90</option>
+						<option value="100">100 – € 180</option>
 					</select>
 								</div>
 						</div>
@@ -286,7 +306,7 @@
 								<p>Niet iedereen heeft de mogelijkheid een ticket aan te kopen. Je kan een donatie doen om deze mensen te helpen mee naar het kamp te komen.</p>
 								<div class="fieldwrapper">
 										<label for="donation">Donatie</label>
-										<select id="donation" name="donation" class="field field-select">
+										<select id="donation" name="donation" class="field field-select fri3d-product">
 						<option value="0" selected>—</option>
 						<option value="1">€ 10</option>
 						<option value="2">€ 20</option>
@@ -351,7 +371,7 @@
 						</div>
 
 						<div class="pagesection block block-narrow block-padded hilite cols cols-big">
-								<div class="col"><strong>Totaal: </strong><span id="price_total">no js :/</span></div>
+								<div class="col"><strong>Totaal: </strong>€<span id="price_total">no js :/</span></div>
 								<div class="col"><button type="submit" class="btn btn-submit btn-block" id="check_button">Bestelling controleren</button></div>
 						</div>
 				</div>

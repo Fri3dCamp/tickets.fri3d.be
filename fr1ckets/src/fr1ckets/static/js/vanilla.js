@@ -3,6 +3,7 @@ const volunteering_cutoff = new Date(2006, 7, 12).getTime();
 const voucher_cap = 10;
 let available_product_descs = [];
 let vouchers_current = [];
+let n_business_tickets = 0;
 
 document.addEventListener('DOMContentLoaded', function(event) {
 	var sitebody = document.querySelector("#js_container");
@@ -134,6 +135,14 @@ document.addEventListener('DOMContentLoaded', event => {
 			p.max_dob *= 1000;
 		});
 		available_product_descs = products;
+
+		// wire in a total recalculator for every relevant input
+		document.querySelectorAll('.fri3d-product').forEach(e => {
+			e.addEventListener('change', recalc);
+		});
+
+		// and run it once to get a starting total
+		recalc();
 	});
 	
 	// check reservations
@@ -280,6 +289,22 @@ document.addEventListener('DOMContentLoaded', event => {
 			document.querySelector('#' + new_id + '_dob_month').addEventListener('change', cb);
 			document.querySelector('#' + new_id + '_dob_day').addEventListener('change', cb);
 			document.querySelector('#' + new_id + '_billable').addEventListener('change', cb);
+			document.querySelector('#' + new_id + '_billable').addEventListener('change', (event) => {
+				let state = document.querySelector('#' + new_id + '_billable').checked;
+
+				if (state) {
+					n_business_tickets++;
+					if (n_business_tickets == 1) {
+						// first one, show the business entry
+						template_add('#template_business', '#template_dest_business');
+					}
+				} else {
+					n_business_tickets--;
+					if (n_business_tickets == 0) {
+						element_clear_children('#template_dest_business');
+					}
+				}
+			});
 		}
 
 	});
@@ -374,3 +399,27 @@ document.addEventListener('DOMContentLoaded', event => {
 	});
 
 });
+
+function recalc() {
+
+	let total = 0;
+
+	available_product_descs.forEach(prod => {
+		if (prod.genus == 'ticket') {
+			return;
+		}
+		let n = 0;
+		try {
+			n = document.querySelector('#' + prod.name).value;
+		} catch (error) {
+			console.log("not finding "+prod.name);
+		}
+		if (n > 0)
+			console.log(prod.name + ': '+n);
+		total += prod.price * n;
+	});
+
+	console.log("total="+total);
+	document.querySelector('#price_total').textContent = total;
+
+}

@@ -2,11 +2,11 @@
 
 clothing_sizes = {
 	"kids" : [
-		["3_4","3-4j"],
-		["5_6","5-6j"],
-		["7_8","7-8j"],
-		["9_11","9-11j"],
-		["12_14","12-14j"]
+		["xs","3-4j"],
+		["s","5-6j"],
+		["m","7-8j"],
+		["l","9-11j"],
+		["xl","12-14j"]
 	],
 	"default" : [
 		["xs","XS"],
@@ -27,7 +27,7 @@ clothing_sizes = {
 		["4xl","4XL"],
 		["5xl","5XL"]
 	],
-	"sweater" : [
+	"sweater_uni" : [
 		["xxs","XXS"],
 		["xs","XS"],
 		["s","S"],
@@ -75,8 +75,8 @@ size_tables = {
 			}
 		]
 	},
-	"tee_kids" : {
-		"image" : "size_tee_kids.png",
+	"tshirt_kids" : {
+		"image" : "size_tshirt_kids.png",
 		"sizes" : [
 			{
 				"label" : "3-4",
@@ -110,8 +110,8 @@ size_tables = {
 			}
 		]
 	},
-	"tee_m" : {
-		"image" : "size_tee_m.png",
+	"tshirt_m" : {
+		"image" : "size_tshirt_m.png",
 		"sizes" : [
 			{
 				"label" : "XXS",
@@ -293,8 +293,8 @@ size_tables = {
 			}
 		]
 	},
-	"tee_f" : {
-		"image" : "size_tee_f.png",
+	"tshirt_f" : {
+		"image" : "size_tshirt_f.png",
 		"sizes" : [
 			{
 				"label" : "XS",
@@ -354,59 +354,59 @@ products = {
 	],
 	"clothing" : [
 		{
-			"name": "hoodie_kids_teal",
+			"name": "hoodie_kids",
 			"label" : "Hoodie kinderen (vos)",
 			"price" : 40,
 			"images" : [
-				"hoodie_kids_teal.jpg"
+				"hoodie_kids.jpg"
 			],
 			"description" : "<p>Deze topkwaliteit hoodie is van het Belgische Stanley & Stella, een merk met veel aandacht voor duurzaamheid en een transparant productieproces. Je Fri3d Camp hoodie is geen promo-wear, maar gemaakt om lang van te genieten en &eacute;cht te gebruiken.</p><p>Shell: Geborstelde molton, 85&#37; Gesponnen en gekamd biologisch katoen, 15&#37; Gerecycled polyester, Gewassen stof, Zachte stof, 300 g/m&sup2; </p>",
 			"sizes" : "kids",
 			"size_table_ref" : "hoodie_kids"
 		},
 		{
-			"name": "tee_kids_teal",
+			"name": "tshirt_kids_teal",
 			"label" : "T-shirt kinderen (vos)",
 			"price" : 20,
 			"images" : [
-				"tee_kids_teal.jpg"
+				"tshirt_kids_teal.jpg"
 			],
 			"description" : "<p>Dit topkwaliteit T-shirt is van het Belgische Stanley & Stella, een merk met veel aandacht voor duurzaamheid en een transparant productieproces. Je Fri3d Camp hoodie is geen promo-wear, maar gemaakt om lang van te genieten en &eacute;cht te gebruiken.</p><p>Shell: Enkelvoudige jersey, 100&#37; Gesponnen en gekamd biologisch katoen, Gewassen stof, 155 g/&sup2; </p>",
 			"sizes" : "kids",
-			"size_table_ref" : "tee_kids"
+			"size_table_ref" : "tshirt_kids"
 		},
 		{
-			"name": "tee_kids_zwart",
+			"name": "tshirt_kids_black",
 			"label" : "T-shirt kinderen (zwart)",
 			"price" : 20,
 			"images" : [
-				"tee_kids_zwart.jpg"
+				"tshirt_kids_black.jpg"
 			],
 			"description" : "<p>Dit topkwaliteit T-shirt is van het Belgische Stanley & Stella, een merk met veel aandacht voor duurzaamheid en een transparant productieproces. Je Fri3d Camp T-shirt is geen promo-wear, maar gemaakt om lang van te genieten en &eacute;cht te gebruiken.</p><p>Shell: Enkelvoudige jersey, 100&#37; Gesponnen en gekamd biologisch katoen, Gewassen stof, 155 g/m&sup2; </p>",
 			"sizes" : "kids",
-			"size_table_ref" : "tee_kids"
+			"size_table_ref" : "tshirt_kids"
 		},
 		{
-			"name": "tee_f",
+			"name": "tshirt_f",
 			"label" : "T-shirt vrouwenmodel",
 			"price" : 20,
 			"images" : [
-				"tee_f.jpg"
+				"tshirt_f.jpg"
 			],
 			"description" : "<p>Dit topkwaliteit T-shirt is van het Belgische Stanley & Stella, een merk met veel aandacht voor duurzaamheid en een transparant productieproces. Je Fri3d Camp T-shirt is geen promo-wear, maar gemaakt om lang van te genieten en &eacute;cht te gebruiken.</p><p>Shell: Gevlamde, enkelvoudige jersey, 100&#37; Gesponnen en gekamd biologisch katoen, Gewassen panelen, 130 g/m&sup2; </p>",
 			"sizes" : "default",
-			"size_table_ref" : "tee_f"
+			"size_table_ref" : "tshirt_f"
 		},
 		{
-			"name": "tee_m",
+			"name": "tshirt_m",
 			"label" : "T-shirt",
 			"price" : 20,
 			"images" : [
-				"tee_m.jpg"
+				"tshirt_m.jpg"
 			],
 			"description" : "<p>Dit topkwaliteit T-shirt is van het Belgische Stanley & Stella, een merk met veel aandacht voor duurzaamheid en een transparant productieproces. Je Fri3d Camp T-shirt is geen promo-wear, maar gemaakt om lang van te genieten en &eacute;cht te gebruiken.</p><p>Shell: Enkelvoudige jersey, 100&#37; Gesponnen en gekamd biologisch katoen, Gewassen stof, 180 g/m&sup2; </p>",
 			"sizes" : "full_m",
-			"size_table_ref" : "tee_m"
+			"size_table_ref" : "tshirt_m"
 		},
 		{
 			"name": "hoodie_uni",

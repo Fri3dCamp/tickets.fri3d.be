@@ -54,7 +54,6 @@ def load_products():
 	output['simple'] = products.products['simple']
 	output['clothing'] = []
 	for p in products.products['clothing']:
-		P(p)
 		size_ref = p["sizes"]
 		parsed_p = copy.deepcopy(p)
 		try:
@@ -67,7 +66,6 @@ def load_products():
 			P(e)
 			parsed_p["sizes"] = products.clothing_sizes["default"]
 		output['clothing'].append(parsed_p)
-	P(output['clothing'])
 	return output
 
 cache_product_names = None
@@ -238,7 +236,6 @@ def extract_general_ticket_info(form_tickets):
 
 	field = getattr(form_tickets, 'special_accomodation_needs', None)
 	out['special_accomodation_needs'] = field.data if field else False
-	P(form_tickets)
 	return out
 
 def extract_products(cursor, form_general, form_tickets):
@@ -409,7 +406,6 @@ def ticket_register():
 	# the dynamic part of the form validated as well, get out all the data
 	# and write to database
 	products, contains_billables  = extract_products(g.db_cursor, form, individual_form)
-	P(products)
 	business_form = None
 	if contains_billables:
 		# one or more of the products are billable, validate business info

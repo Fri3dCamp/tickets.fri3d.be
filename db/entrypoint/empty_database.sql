@@ -77,8 +77,6 @@ insert into product (genus, species, name, display, price, volunteering_price, p
 	( 'garment', 'sweater_uni', 'sweater_uni__xl',  'Volwassenen unisex sweater XL',       45, 45, 37.19, 37.19, 45, 45, 0, 0, 0, '1900-01-01 00:00:00', 0),
 	( 'garment', 'sweater_uni', 'sweater_uni__xxl',  'Volwassenen unisex sweater XXL',     45, 45, 37.19, 37.19, 45, 45, 0, 0, 0, '1900-01-01 00:00:00', 0),
 	( 'garment', 'sweater_uni', 'sweater_uni__3xl',  'Volwassenen unisex sweater 3XL',     45, 45, 37.19, 37.19, 45, 45, 0, 0, 0, '1900-01-01 00:00:00', 0),
-	( 'garment', 'sweater_uni', 'sweater_uni__4xl',  'Volwassenen unisex sweater 4XL',     45, 45, 37.19, 37.19, 45, 45, 0, 0, 0, '1900-01-01 00:00:00', 0),
-	( 'garment', 'sweater_uni', 'sweater_uni__5xl',  'Volwassenen unisex sweater 5XL',     45, 45, 37.19, 37.19, 45, 45, 0, 0, 0, '1900-01-01 00:00:00', 0),
 	( 'simple', 'token', 'token', 'dranktoken',                    1.8, 1.8, 1.49, 1.49, 1.8, 1.8, 0, 0, 0, '1900-01-01 00:00:00', 0),
 	( 'simple', 'mug', 'mug', 'drankbeker',                    8, 8, 6.61, 6.61, 8, 8, 0, 0, 0, '1900-01-01 00:00:00', 0),
 	( 'donation', 'monetary', 'donation', 'donatie',                    10, 10, 10, 10, 0, 0, 0, 0, 10, '1900-01-01 00:00:00', 0),

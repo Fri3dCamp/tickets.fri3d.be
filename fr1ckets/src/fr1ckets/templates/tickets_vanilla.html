@@ -381,6 +381,8 @@
 				<div class="modalcontent">
 						<h2 class="modal-title" id="overview_modal_label">Kijk je bestelling na</h2>
 						<div id="overview_content">
+							<div id="template_dest_overview">
+							</div>
 						</div>
 						<div class="dialog--footer">
 								<button type="button" class="btn btn-default js_modalclose" id="overview_cancel" data-dismiss="modal">Aanpassen</button>
@@ -388,6 +390,19 @@
 						</div>
 				</div>
 		</div>
+		<template id="template_overview_item">
+			<div class="template_top needsToon">
+				<span class="item_display"></span>
+				€<span class="item_price"></span>
+				x<span class="item_n"></span>
+				=€<span class="item_total"></span>
+			</div>
+		</template>
+		<template id="template_overview_total">
+			<div class="template_top needsToon">
+				Groots eindtotaal: €<span class="item_total"></span>.
+			</div>
+		</template>
 	<!-- END ORDER OVERVIEW MODAL -->
 
 

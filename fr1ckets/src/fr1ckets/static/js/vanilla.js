@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 		// business info, if present
 		if (n_business_tickets > 0) {
 			[ 'name', 'address', 'vat' ].forEach(k => {
-				form_data.append('business_' + k, document.querySelector('#business_' + k));
+				form_data.append('business_' + k, document.querySelector('#business_' + k).value);
 			});
 		}
 

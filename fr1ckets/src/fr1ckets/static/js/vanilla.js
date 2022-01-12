@@ -63,6 +63,34 @@ document.addEventListener('DOMContentLoaded', function(event) {
 	// Bestelling nakijken
 	document.querySelector("#check_button").addEventListener('click', event => {
 		event.preventDefault();
+
+		let validation_errors = [];
+
+		// validation
+		if (!document.querySelector('#email').checkValidity())
+			validation_errors.push('Het email adres is niet correct ingevuld.');
+		if (!document.querySelector('#terms_excellent').checkValidity() ||
+			!document.querySelector('#terms_payment').checkValidity() ||
+			!document.querySelector('#terms_supervision').checkValidity())
+			validation_errors.push('Je bent nog niet akkoord met alle termen.');
+		for (let i = 0; i < document.querySelector('#n_tickets').value; i++) {
+			let t = resolve_ticket(i);
+			if (!t.ok) {
+				validation_errors('De ticketgegevens zijn nog niet compleet.');
+				break;
+			}
+		}
+		if (validation_errors.length > 0) {
+			element_clear_children('#template_dest_baddata');
+			validation_errors.forEach((err) => {
+				template_add('#template_baddata_item', '#template_dest_baddata', {
+					'.error_string' : { textContent : err },
+				});
+			});
+			document.querySelector("#order_baddata").classList.remove("hidden");
+			return;
+		}
+
 		element_clear_children('#template_dest_overview');
 		let items = itemize();
 		let total = totalize(items);
@@ -80,6 +108,69 @@ document.addEventListener('DOMContentLoaded', function(event) {
 		document.querySelector("#order_overview").classList.remove("hidden");
 	});
 
+	document.querySelector("#overview_order").addEventListener('click', event => {
+		event.preventDefault();
+
+
+		// let's submit this thing. first we serialize the existing form with FormData(),
+		// which will fail to notice templated-in inputs, so we add those below
+		let form_data = new FormData(document.querySelector('#fr1ckets_form'));
+
+		// loop over tickets, pull in needed bits
+		let n_tickets = document.querySelector('#n_tickets').value;
+		for (let i = 0; i < n_tickets; i++) {
+			let h = 'tickets_' + i;
+			[ 'name', 'dob_year', 'dob_month', 'dob_day' ].forEach(k => {
+				form_data.append(h + '_' + k, document.querySelector('#' + h + '_' + k).value);
+			});
+			[ 'billable', 'options_vegitarian', 'options_volunteers_before', 'options_volunteers_after', 'options_not_volunteering_during' ].forEach(k => {
+				if (document.querySelector('#' + h + '_' + k).checked)
+					form_data.append(h + '_' + k, 'on');
+			});
+		}
+
+		// business info, if present
+		if (n_business_tickets > 0) {
+			[ 'name', 'address', 'vat' ].forEach(k => {
+				form_data.append('business_' + k, document.querySelector('#business_' + k));
+			});
+		}
+
+		// and all the vouchers
+		for (let i = 0; i < vouchers_current.length; i++) {
+			form_data.append('voucher_code_' + i, vouchers_current[i].code);
+		}
+
+		for (var value of form_data.keys())
+			console.log(value);
+
+		window.fetch('/api/tickets_register', {
+			method : 'POST',
+			body : form_data,
+		})
+		.then(data => data.json())
+		.then(res => {
+			if (res.status == 'SUCCESS') {
+				if (res.redirect) {
+					window.location.href = res.redirect;
+				}
+			} else if (resp.status == 'FAIL') {
+				element_clear_children('#template_dest_baddata');
+				template_add('#template_baddata_item', '#template_dest_baddata', {
+					'.error_string' : { textContent : resp.message },
+				});
+				document.querySelector("#order_baddata").classList.remove("hidden");
+			}
+		})
+		.catch(e => {
+			let msg = 'Er is een fout opgetreden, waarschijnlijk overbelasting, probeer nog eens.';
+			element_clear_children('#template_dest_baddata');
+			template_add('#template_baddata_item', '#template_dest_baddata', {
+				'.error_string' : { textContent : msg },
+			});
+			document.querySelector("#order_baddata").classList.remove("hidden");
+		});
+	});
 
 });
 
@@ -243,6 +334,11 @@ document.addEventListener('DOMContentLoaded', event => {
 	email_input.addEventListener('input', event => {
 		// fixme; debounce
 		let val = email_input.value;
+
+		if (!val.length) {
+			return;
+		}
+
 		window.fetch('/api/get_reservation/' + email_input.value)
 		.then(data => data.json())
 		.then(reservation => {
@@ -511,6 +607,54 @@ document.addEventListener('DOMContentLoaded', event => {
 
 });
 
+function orderize() {
+
+	let items = [];
+
+	// products
+	available_product_descs.filter(p => p.genus != 'ticket').forEach(prod => {
+		let n = 0;
+		try {
+			n = document.querySelector('#' + prod.name).value;
+		} catch (error) {
+		}
+		if (n > 0) {
+			items.push({
+				'value' : n,
+				'total' : prod.price * n,
+			});
+		}
+	});
+
+	// tickets
+	let n_tickets = document.querySelector('#n_tickets').value;
+	for (let i = 0; i < n_tickets; i++) {
+		let ticket = resolve_ticket(i);
+		items.push({
+			'display' : ticket.display,
+			'price' : ticket.price,
+			'n' : 1,
+			'total' : ticket.price,
+		});
+	}
+
+	// vouchers
+	for (let i = 0; i < vouchers_current.length; i++) {
+		let v = vouchers_current[i];
+
+		if (!v.code.length)
+			continue;
+		items.push({
+			'display' : 'Voucher ' + v.code,
+			'price' : v.discount * -1,
+			'n' : 1,
+			'total' : v.discount * -1,
+		});
+	}
+
+	return items;
+
+}
 function itemize() {
 
 	let items = [];

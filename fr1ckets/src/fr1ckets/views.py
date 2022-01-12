@@ -63,7 +63,6 @@ def load_products():
 		try:
 			parsed_p["sizes"] = products.clothing_sizes[size_ref]
 		except Exception as e:
-			P(e)
 			parsed_p["sizes"] = products.clothing_sizes["default"]
 		output['clothing'].append(parsed_p)
 	return output
@@ -81,7 +80,7 @@ def get_product_names(genus=None, species=None):
 			genus, species, name = p['genus'], p['species'], p['name']
 			if genus not in cache_product_names:
 				cache_product_names[genus] = {}
-			if species not in cache_product_names:
+			if species not in cache_product_names[genus]:
 				cache_product_names[genus][species] = []
 			cache_product_names[genus][species].append(name)
 	if not genus:
@@ -89,9 +88,6 @@ def get_product_names(genus=None, species=None):
 			for species, names in v:
 				out += names
 	elif not species:
-		P(cache_product_names)
-		P(genus)
-		P(cache_product_names[genus])
 		for species, names in cache_product_names[genus].iteritems():
 			out += names
 	else:

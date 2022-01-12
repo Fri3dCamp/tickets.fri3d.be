@@ -37,11 +37,12 @@
 								<div class="notice"><p>Alle beschikbare tickets zijn weg! Je kan zeker nog een bestelling plaatsen, deze komt in de wachtrij en we laten je iets weten als er terug plaats is.</p></div>
 						</header>
 
-						<div class="pagesection block block-wide cols cols-small">
+						<form id="fr1ckets_form" class="pagesection block block-wide cols cols-small">
+							{{ form.csrf_token }}
 								<div class="col">
 										<div class="fieldwrapper" id="email_input">
 												<label for="email">E-mailadres</label>
-												<input type="email" name="email" id="email" class="field" />
+												<input type="email" name="email" id="email" class="field" required/>
 										</div>
 										<div id="reservation_result">
 										</div>
@@ -94,6 +95,31 @@
 												</select>
 												<p class="fieldlegend">We voorzien een plaatsje voor je camper of caravan op de daarvoor voorziene parking op het grote event-plein. Stroom en wifi inbegrepen.</p>
 										</div>
+										<div class="fieldwrapper">
+												<label for="hotel_spot">Hostelkamer - €25</label>
+												<select id="hotel_spot" name="hotel_spot" class="field field-select fri3d-product">
+														<option value="0" selected="">0</option>
+														<option value="1">1</option>
+														<option value="2">2</option>
+														<option value="3">3</option>
+														<option value="4">4</option>
+														<option value="5">5</option>
+												</select>
+												<p class="fieldlegend">We hebben enkele kamers in het hostel beschikbaar. We kunnen niet garanderen dat iedereen een plekje kan krijgen; desgevallend betalen we dit terug.</p>
+										</div>
+										<div class="fieldwrapper">
+												<label for="room_spot">Bed in gedeelde kamer - €25</label>
+												<select id="room_spot" name="room_spot" class="field field-select fri3d-product">
+														<option value="0" selected="">0</option>
+														<option value="1">1</option>
+														<option value="2">2</option>
+														<option value="3">3</option>
+														<option value="4">4</option>
+														<option value="5">5</option>
+												</select>
+												<p class="fieldlegend">We hebben enkele bedden in gedeelde kamers beschikbaar. We kunnen niet garanderen dat iedereen een plekje kan krijgen; desgevallend betalen we dit terug.</p>
+										</div>
+
 								</div>
 								<div class="col">
 										<ul>
@@ -357,15 +383,15 @@
 						<div class="pagesection block block-narrow">
 								<h2>Laatste check</h2>
 								<div class="fieldwrapper fieldwrapper-checkbox">
-										<input type="checkbox" id="terms_payment" name="terms_payment" class="field field-checkbox">
+										<input type="checkbox" id="terms_payment" name="terms_payment" class="field field-checkbox" required>
 										<label for="terms_payment" class="label-checkbox">Ik stem er mee in het totale bedrag binnen 14 dagen via bankoverschrijving te betalen (details op volgende pagina). Als mijn betaling niet binnen de termijn ontvangen is, worden mijn bestelde tickets en extra's terug te koop aangeboden.</label>
 								</div>
 								<div class="fieldwrapper fieldwrapper-checkbox">
-										<input type="checkbox" id="terms_supervision" name="terms_supervision" class="field field-checkbox">
+										<input type="checkbox" id="terms_supervision" name="terms_supervision" class="field field-checkbox" required>
 										<label for="terms_supervision" class="label-checkbox">Ik bevestig dat personen jonger dan 16 vergezeld worden door een verantwoordelijke meerderjarige.</label>
 								</div>
 								<div class="fieldwrapper fieldwrapper-checkbox">
-										<input type="checkbox" id="terms_excellent" name="terms_excellent" class="field field-checkbox">
+										<input type="checkbox" id="terms_excellent" name="terms_excellent" class="field field-checkbox" required>
 										<label for="terms_excellent" class="label-checkbox">Ik sta achter het motto "<a href="https://www.fri3d.be/deelnemen/excellent/" target="_blank"> Be excellent to each other</a>" en beloof me zo te gedragen.</label>
 								</div>
 						</div>
@@ -374,7 +400,7 @@
 								<div class="col"><strong>Totaal: </strong>€<span id="price_total">no js :/</span></div>
 								<div class="col"><button type="submit" class="btn btn-submit btn-block" id="check_button">Bestelling controleren</button></div>
 						</div>
-				</div>
+				</form>
 
 	<!-- ORDER OVERVIEW MODAL -->
 		<div class="modalwrapper hidden dialog" data-hideclass="hidden" tabindex="-1" role="dialog" id="order_overview">
@@ -384,6 +410,7 @@
 							<div id="template_dest_overview">
 							</div>
 						</div>
+						<h3>Bestelde tickets en goederen worden niet teruggenomen!</h3>
 						<div class="dialog--footer">
 								<button type="button" class="btn btn-default js_modalclose" id="overview_cancel" data-dismiss="modal">Aanpassen</button>
 								<button type="button" class="btn btn-default" id="overview_order">Bestellen!</button>
@@ -404,6 +431,26 @@
 			</div>
 		</template>
 	<!-- END ORDER OVERVIEW MODAL -->
+
+	<!-- ORDER BAD DATA MODAL -->
+		<div class="modalwrapper hidden dialog" data-hideclass="hidden" tabindex="-1" role="dialog" id="order_baddata">
+				<div class="modalcontent">
+						<h2 class="modal-title" id="baddata_modal_label">Er missen nog enkele dingen.</h2>
+						<div id="baddata_content">
+							<div id="template_dest_baddata">
+							</div>
+						</div>
+						<div class="dialog--footer">
+								<button type="button" class="btn btn-default js_modalclose" id="baddata_cancel" data-dismiss="modal">Ik los het op</button>
+						</div>
+				</div>
+		</div>
+		<template id="template_baddata_item">
+			<div class="template_top needsToon">
+				<span class="error_string"></span>
+			</div>
+		</template>
+	<!-- END ORDER BAD DATA MODAL -->
 
 
 	<!-- REGISTRATION OUTCOME MODAL -->

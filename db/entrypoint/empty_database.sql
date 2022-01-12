@@ -24,11 +24,11 @@ create table product (
 
 insert into product (genus, species, name, display, price, volunteering_price, price_net, volunteering_price_net, part_vat_21, volunteering_part_vat_21, part_vat_12, part_vat_6, part_vat_0, max_dob, billable) values
 	( 'ticket', 'normal', 'ticket_3bit',     'Ticket 0-3 jaar',                  12,   12,  11.32,  11.32,   0,   0,  0, 12, 0, '2019-08-14 02:00:00', 0),
-	( 'ticket', 'normal', 'ticket_4bit',     'Ticket 3-6 jaar',                  21,   21,  19.29,  19.29,   1,   1,  8, 12, 0, '2016-08-14 02:00:00', 0),
-	( 'ticket', 'normal', 'ticket_5bit',     'Ticket 6-12 jaar',                 40,   40,  35.52,  35.52,  12,  12, 16, 12, 0, '2010-08-14 02:00:00', 0),
-	( 'ticket', 'normal', 'ticket_6bit',     'Ticket 12-24 jaar',                78,   78,  69.16,  69.16,  24,  24, 32, 22, 0, '1998-08-14 02:00:00', 0),
-	( 'ticket', 'normal', 'ticket_7bit',     'Ticket +24 jaar',                  167, 145, 145.05, 126.87,  93,  71, 32, 42, 0, '1900-01-01 00:00:00', 0),
-	( 'ticket', 'normal', 'ticket_8bit',     'Ticket zakelijk',                  334, 334, 283.07, 283.07, 260, 260, 32, 42, 0, '1900-01-01 00:00:00', 1),
+	( 'ticket', 'normal', 'ticket_4bit',     'Ticket 3-6 jaar',                  22,   22,  20.25,  20.25,   0,   0, 10, 12, 0, '2016-08-14 02:00:00', 0),
+	( 'ticket', 'normal', 'ticket_5bit',     'Ticket 6-12 jaar',                 40,   40,  35.79,  35.79,   8,   8, 20, 12, 0, '2010-08-14 02:00:00', 0),
+	( 'ticket', 'normal', 'ticket_6bit',     'Ticket 12-24 jaar',                82,   82,  73.11,  73.11,  19,  19, 40, 23, 0, '1998-08-14 02:00:00', 0),
+	( 'ticket', 'normal', 'ticket_7bit',     'Ticket +24 jaar',                  174, 149, 155.23, 134.57,  59,  34, 40, 75, 0, '1900-01-01 00:00:00', 0),
+	( 'ticket', 'normal', 'ticket_8bit',     'Ticket zakelijk',                  348, 348, 299.03, 299.03, 233, 233, 40, 75, 0, '1900-01-01 00:00:00', 1),
 	( 'garment', 'tshirt_m', 'tshirt_m__xxs',  'Volwassenen mannen t-shirt XXS',       20, 20, 16.53, 16.53, 20, 20, 0, 0, 0, '1900-01-01 00:00:00', 0),
 	( 'garment', 'tshirt_m', 'tshirt_m__xs',  'Volwassenen mannen t-shirt XS',         20, 20, 16.53, 16.53, 20, 20, 0, 0, 0, '1900-01-01 00:00:00', 0),
 	( 'garment', 'tshirt_m', 'tshirt_m__s',  'Volwassenen mannen t-shirt S',           20, 20, 16.53, 16.53, 20, 20, 0, 0, 0, '1900-01-01 00:00:00', 0),
@@ -86,10 +86,10 @@ insert into product (genus, species, name, display, price, volunteering_price, p
 	( 'ticket', 'vip_sunday', 'ticket_vip_sunday', 'VIP ticket voor zondag', 0, 0, 0, 0, 0, 0, 0, 0, 0, '1900-01-01 00:00:00', 0),
 	( 'ticket', 'vip_monday', 'ticket_vip_monday', 'VIP ticket voor maandag', 0, 0, 0, 0, 0, 0, 0, 0, 0, '1900-01-01 00:00:00', 0),
 	( 'badge', 'accessory', 'badge_accessory_a', 'Time Blaster', 20, 20, 16.53, 16.53, 20, 20, 0, 0, 0, '1900-01-01 00:00:00', 0),
-	( 'badge', 'accessory', 'badge_accessory_b', 'GameOn', 10, 10, 8.26, 8.26, 10, 10, 0, 0, 0, '1900-01-01 00:00:00', 0),
+	( 'badge', 'accessory', 'badge_accessory_b', 'GameOn', 12, 12, 9.92, 9.92, 10, 10, 0, 0, 0, '1900-01-01 00:00:00', 0),
 	( 'infrastructure', 'spot', 'camper_spot', 'Camper/caravan plaatsje', 25, 25, 23.58, 23.58, 0, 0, 0, 25, 0, '1900-01-01 00:00:00', 0),
-	( 'infrastructure', 'spot', 'hotel_spot', 'Hotel-kamer', 25, 25, 23.58, 23.58, 0, 0, 0, 25, 0, '1900-01-01 00:00:00', 0),
-	( 'infrastructure', 'spot', 'room_spot', 'Bed in gedeelde kamer', 25, 25, 23.58, 23.58, 0, 0, 0, 25, 0, '1900-01-01 00:00:00', 0);
+	( 'infrastructure', 'spot', 'hotel_spot', 'Hotel-kamer', 160, 160, 150.94, 150.94, 0, 0, 0, 160, 0, '1900-01-01 00:00:00', 0),
+	( 'infrastructure', 'spot', 'room_spot', 'Bed in gedeelde kamer', 30, 30, 28.30, 28.30, 0, 0, 0, 30, 0, '1900-01-01 00:00:00', 0);
 
 drop table if exists reservation;
 create table reservation (

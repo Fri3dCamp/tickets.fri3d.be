@@ -27,7 +27,7 @@ $fontsize_main: 1.6rem;
 $fontsize_small: 1.2rem;
 $spacer: 10px;
 
-.hidden {
+.hidden, .block.hidden {
     display: none;
 }
 
@@ -73,6 +73,13 @@ body {
     box-sizing: border-box;
     padding:20px;
   }
+}
+
+h1 {
+    font-size: 4rem;
+}
+h2 {
+    font-size: 3rem;
 }
 
 h1,h2 {
@@ -123,8 +130,8 @@ p {
 }
 
 .sitebody {
-    margin-left: $spacer*3;
-    margin-right:$spacer*3;
+    // margin-left: $spacer*3;
+    // margin-right:$spacer*3;
 }
 
 .pagesection {
@@ -137,6 +144,8 @@ p {
     // margin-right: $spacer*3;
     &-narrow {
         max-width: $width1;
+        margin-left: 2rem;
+        margin-right: 2rem;
         @media screen and (min-width:($width1+6*$spacer)) {
             margin-left: auto;
             margin-right: auto;
@@ -144,6 +153,8 @@ p {
     }
     &-wide {
         max-width: $width3;
+        margin-left: 2rem;
+        margin-right: 2rem;
         @media screen and (min-width:($width3+6*$spacer)) {
             margin-left: auto;
             margin-right: auto;
@@ -151,6 +162,8 @@ p {
     }
     &-ultrawide {
         max-width: $width5;
+        margin-left: 2rem;
+        margin-right: 2rem;
         @media screen and (min-width:($width5+6*$spacer)) {
             margin-left: auto;
             margin-right: auto;
@@ -352,6 +365,21 @@ option {
     margin-bottom: 4rem;
     border-left: 4px solid $clr_C;
     padding-left: 2rem;
+}
+
+.order_overview {
+    border-collapse: collapse;
+}
+
+.order_overview_row td {
+    border-top:1px solid rgb(220,220,220);
+    .item_display {
+        padding-right: $spacer;
+    }
+}
+
+.order_summary_row {
+    font-weight: bold;
 }
 
 /** END form **/

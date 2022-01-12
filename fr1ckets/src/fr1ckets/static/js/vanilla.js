@@ -195,8 +195,12 @@ function template_add(template_id, dest_parent_id, switcheroo, new_id)
 		Object.keys(switcheroo).forEach(s => {
 			instance.querySelectorAll(s).forEach(e => {
 				Object.keys(switcheroo[s]).forEach(k => {
-					//e.setAttribute(k, switcheroo[s][k]);
-					e[k] = switcheroo[s][k];
+                    if ( 'textContent' == k ) {
+					    e[k] = switcheroo[s][k];
+                    } else {
+					    e.setAttribute(k, switcheroo[s][k]);
+                    }
+					//e[k] = switcheroo[s][k];
 				});
 			});
 		});
@@ -358,6 +362,14 @@ document.addEventListener('DOMContentLoaded', event => {
 	ticket_chooser.addEventListener('click', event => {
 		let n = parseInt(ticket_chooser.value);
 
+        console.log(n);
+
+        if ( 0==1 ) {
+            document.querySelector('#js_participants').classList.add('hidden');
+        } else {
+            document.querySelector('#js_participants').classList.remove('hidden');
+        }
+
 		element_clear_children('#template_dest_participants');
 
 		buying_tickets = Array.apply(null, Array(n)).map(() => '');
@@ -395,6 +407,7 @@ document.addEventListener('DOMContentLoaded', event => {
 					});
 					// and a food questions block
 					template_add('#template_participant_meta_food', '#' + h + '_meta', {
+                        '[for=tickets_CNT_options_vegitarian]' : { for : h + '_options_vegitarian' },
 						'#tickets_CNT_options_vegitarian' : {
 							id : h + '_options_vegitarian',
 							name : h + '_options_vegitarian',
@@ -403,14 +416,17 @@ document.addEventListener('DOMContentLoaded', event => {
 					// if this person's old enough to volunteer, show the volunteering block
 					if (ticket_details.can_volunteer) {
 						template_add('#template_participant_meta_is_volunteerable', '#' + h + '_meta', {
+                            '[for=tickets_CNT_options_volunteers_before]' : { for : h + '_options_volunteers_before' },
 							'#tickets_CNT_options_volunteers_before' : {
 								id : h + '_options_volunteers_before',
 								name : h + '_options_volunteers_before',
 							},
+                            '[for=tickets_CNT_options_volunteers_after]' : { for : h + '_options_volunteers_after' },
 							'#tickets_CNT_options_volunteers_after' : {
 								id : h + '_options_volunteers_after',
 								name : h + '_options_volunteers_after',
 							},
+                            '[for=tickets_CNT_options_not_volunteering_during]' : { for : h + '_options_not_volunteering_during' },
 							'#tickets_CNT_options_not_volunteering_during' : {
 								id : h + '_options_not_volunteering_during',
 								name : h + '_options_not_volunteering_during',

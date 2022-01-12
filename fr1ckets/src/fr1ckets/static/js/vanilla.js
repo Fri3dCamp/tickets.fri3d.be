@@ -141,9 +141,6 @@ document.addEventListener('DOMContentLoaded', function(event) {
 			form_data.append('voucher_code_' + i, vouchers_current[i].code);
 		}
 
-		for (var value of form_data.keys())
-			console.log(value);
-
 		window.fetch('/api/tickets_register', {
 			method : 'POST',
 			body : form_data,
@@ -154,10 +151,10 @@ document.addEventListener('DOMContentLoaded', function(event) {
 				if (res.redirect) {
 					window.location.href = res.redirect;
 				}
-			} else if (resp.status == 'FAIL') {
+			} else if (res.status == 'FAIL') {
 				element_clear_children('#template_dest_baddata');
 				template_add('#template_baddata_item', '#template_dest_baddata', {
-					'.error_string' : { textContent : resp.message },
+					'.error_string' : { textContent : res.message },
 				});
 				document.querySelector("#order_baddata").classList.remove("hidden");
 			}

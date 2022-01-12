@@ -263,7 +263,10 @@
                     {% for sp in products.simple %}
                     <article class="product">
                         <figure class="product--image">
-                            <img src="/static/img/{{ sp.images | first }}">
+                            <a href ="/static/img/{{ sp.images | first }}" class="js_magnify_image">
+                                <img src="/static/img/{{ sp.images | first }}" class="mainimg" alt="">
+                                <img src="/static/img/icon_magnify.svg" class="icon_magnify" alt="afbeelding bekijken">
+                            </a>
                         </figure>
                         <div class="product--variants">
                             <label for="{{ sp.name }}" class="product--ttl">{{ sp.label }} - € {{ sp.price }}</label>
@@ -294,7 +297,10 @@
                     {% for c in products.clothing %}
                     <article class="product">
                         <figure class="product--image">
-                            <img src="/static/img/{{ c.images | first }}">
+                            <a href ="/static/img/{{ c.images | first }}" class="js_magnify_image">
+                                <img src="/static/img/{{ c.images | first }}" class="mainimg" alt="">
+                                <img src="/static/img/icon_magnify.svg" class="icon_magnify" alt="afbeelding bekijken">
+                            </a>
                         </figure>
                         <h3 class="product--ttl">{{ c.label }} - € {{ c.price }}</h3>
 

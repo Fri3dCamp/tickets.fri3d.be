@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 	});
 
 	// Open images in modal
-	document.querySelectorAll('.product--image').forEach(item => {
+	document.querySelectorAll('.js_magnify_image').forEach(item => {
 		item.addEventListener('click', event => {
 			event.preventDefault();
 

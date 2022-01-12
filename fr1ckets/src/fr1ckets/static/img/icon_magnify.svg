@@ -1,0 +1,6 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="254" height="254" viewBox="0 0 254 254">
+  <circle cx="127" cy="127" r="120"/>
+  <path d="M127,30a97,97,0,1,1-97,97,97.1,97.1,0,0,1,97-97m0-30A127,127,0,1,0,254,127,127,127,0,0,0,127,0Z" style="fill: #fff"/>
+  <rect x="112" y="62.5" width="30" height="129" style="fill: #fff"/>
+  <rect x="112" y="62.5" width="30" height="129" transform="translate(254 0) rotate(90)" style="fill: #fff"/>
+</svg>

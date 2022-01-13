@@ -4,6 +4,9 @@ const voucher_cap = 10;
 let available_product_descs = [];
 let vouchers_current = [];
 let n_business_tickets = 0;
+const camp_year = 2022;
+const camp_month = 8;
+const camp_day = 12;
 
 /*
                               _          __  __
@@ -273,6 +276,17 @@ function resolve_ticket(i) {
 
 	// find the relevant ticket for the input entered so far
 	let dob = new Date(dob_year, dob_month - 1, dob_day).getTime();
+	let dob_max = new Date(camp_year, camp_month - 1, camp_day).getTime();
+	if (dob >= dob_max) {
+		return {
+			'ok' : false,
+			'display' : 'succes met de zwangerschap',
+			'price' : null,
+			'can_volunteer' : false,
+			'wants_premium' : false,
+		};
+	}
+
 	let ticket_desc = ticket_find_for_dob(dob, billable);
 	if (!ticket_desc) {
 		return {

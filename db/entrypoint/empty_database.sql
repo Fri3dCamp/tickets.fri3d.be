@@ -78,7 +78,7 @@ insert into product (genus, species, name, display, price, volunteering_price, p
 	( 'garment', 'sweater_uni', 'sweater_uni__xxl',  'Volwassenen unisex sweater XXL',     45, 45, 37.19, 37.19, 45, 45, 0, 0, 0, '1900-01-01 00:00:00', 0),
 	( 'garment', 'sweater_uni', 'sweater_uni__3xl',  'Volwassenen unisex sweater 3XL',     45, 45, 37.19, 37.19, 45, 45, 0, 0, 0, '1900-01-01 00:00:00', 0),
 	( 'simple', 'token', 'token', 'dranktoken',                    1.8, 1.8, 1.49, 1.49, 1.8, 1.8, 0, 0, 0, '1900-01-01 00:00:00', 0),
-	( 'simple', 'mug', 'mug', 'Emaille mok',                    10, 10, 8.26, 8.26, 10, 0, 0, 0, '1900-01-01 00:00:00', 0),
+	( 'simple', 'mug', 'mug', 'Emaille mok',                    10, 10, 8.26, 8.26, 10, 10, 0, 0, 0, '1900-01-01 00:00:00', 0),
 	( 'donation', 'monetary', 'donation', 'donatie',                    10, 10, 10, 10, 0, 0, 0, 0, 10, '1900-01-01 00:00:00', 0),
 	( 'ticket', 'vip_all', 'ticket_vip_all', 'VIP ticket voor alle dagen', 0, 0, 0, 0, 0, 0, 0, 0, 0, '1900-01-01 00:00:00', 0),
 	( 'ticket', 'vip_friday', 'ticket_vip_friday', 'VIP ticket voor vrijdag', 0, 0, 0, 0, 0, 0, 0, 0, 0, '1900-01-01 00:00:00', 0),
@@ -86,7 +86,7 @@ insert into product (genus, species, name, display, price, volunteering_price, p
 	( 'ticket', 'vip_sunday', 'ticket_vip_sunday', 'VIP ticket voor zondag', 0, 0, 0, 0, 0, 0, 0, 0, 0, '1900-01-01 00:00:00', 0),
 	( 'ticket', 'vip_monday', 'ticket_vip_monday', 'VIP ticket voor maandag', 0, 0, 0, 0, 0, 0, 0, 0, 0, '1900-01-01 00:00:00', 0),
 	( 'badge', 'accessory', 'badge_accessory_a', 'Time Blaster', 20, 20, 16.53, 16.53, 20, 20, 0, 0, 0, '1900-01-01 00:00:00', 0),
-	( 'badge', 'accessory', 'badge_accessory_b', 'GameOn', 12, 12, 9.92, 9.92, 10, 10, 0, 0, 0, '1900-01-01 00:00:00', 0),
+	( 'badge', 'accessory', 'badge_accessory_b', 'GameOn', 12, 12, 9.92, 9.92, 12, 12, 0, 0, 0, '1900-01-01 00:00:00', 0),
 	( 'infrastructure', 'spot', 'camper_spot', 'Camper/caravan plaatsje', 25, 25, 23.58, 23.58, 0, 0, 0, 25, 0, '1900-01-01 00:00:00', 0),
 	( 'infrastructure', 'spot', 'hotel_spot', 'Hotel-kamer', 160, 160, 150.94, 150.94, 0, 0, 0, 160, 0, '1900-01-01 00:00:00', 0),
 	( 'infrastructure', 'spot', 'room_spot', 'Bed in gedeelde kamer', 30, 30, 28.30, 28.30, 0, 0, 0, 30, 0, '1900-01-01 00:00:00', 0);

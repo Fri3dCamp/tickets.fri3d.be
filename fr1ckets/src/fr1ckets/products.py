@@ -419,7 +419,7 @@ products = {
 		},
 		{
 			"name": "hoodie_uni",
-			"label" : "Hoodie",
+			"label" : "Unisex hoodie",
 			"price" : 45,
 			"images" : [
 				"hoodie_uni.jpg"
@@ -430,7 +430,7 @@ products = {
 		},
 		{
 			"name": "sweater_uni",
-			"label" : "Sweater",
+			"label" : "Unisex sweater",
 			"price" : 45,
 			"images" : [
 				"sweater_uni.jpg"

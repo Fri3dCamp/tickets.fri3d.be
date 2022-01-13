@@ -339,7 +339,7 @@ products = {
 			"images" : [
 				"badge_accessory_a.png"
 			],
-			"description" : "<p>Altijd al jouw eigen lasertag willen maken? Het kan nu op fri3d camp! Als uitbreiding op de badge, maar ook als standalone, heeft het badge team een blaster ontwikkeld als soldeerkit. Deze volledige Arduino compatibele kit is opgebouwd uit makkelijk te solderen componenten. Voor de durvers zijn er uitbreidingen met RGB LEDs en een USB interface voorzien in de kit waar toch enige vorm van geduld en een vast hand vereist zijn.</p>"
+			"description" : "<p>Altijd al jouw eigen lasertag willen maken? Het kan nu op Fri3d camp! Als uitbreiding op de badge, maar ook als standalone, heeft het badge team een blaster ontwikkeld als soldeerkit. Deze volledige Arduino compatibele kit is opgebouwd uit makkelijk zelf te solderen componenten. Voor de durvers zijn er uitbreidingen met RGB LEDs en een USB interface voorzien in de kit waar toch enige vorm van geduld en een vast hand vereist zijn.</p>"
 		},
 		{
 			"name" : "badge_accessory_b",
@@ -348,7 +348,7 @@ products = {
 			"images" : [
 				"badge_accessory_b.jpg"
 			],
-			"description" : "<p>Get your game on met deze gaming add-on voor de badge. Door zijn iconische layout met een joystick en 4 druktoesten kan je heel makkelijk games ontwikkelen en spelen op de Fri3d badge! Tevens voorzien we deze add-on van Micro-SD kaart slot zodat er plaats genoeg is om alle games op te slaan. Some assembly required, maar anders zou het niet plezant zijn h&eacute;!</p>"
+			"description" : "<p>Get your game on met deze gaming add-on voor de badge. Door zijn iconische layout met een joystick en 4 druktoesten kan je heel makkelijk games ontwikkelen en spelen op de Fri3d badge! Tevens voorzien we deze add-on van Micro-SD kaart slot zodat er plaats genoeg is om alle games op te slaan. Zelf te solderen, maar anders zou het niet plezant zijn h&eacute;!</p>"
 		},
 		{
 			"name" : "mug",

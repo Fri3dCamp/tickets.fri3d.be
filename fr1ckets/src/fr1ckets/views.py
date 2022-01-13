@@ -321,10 +321,6 @@ def price_distribution_strategy(cursor, nonce):
 	price_unbillable = price_total - price_billable
 	price_discount = model.get_purchase_discount(g.db_cursor, nonce)
 
-	print "price_total={0!r}".format(price_total)
-	print "price_billable={0!r}".format(price_billable)
-	print "price_unbillable={0!r}".format(price_unbillable)
-	print "price_discount={0!r}".format(price_discount)
 	if price_discount > price_total:
 		# all expenses covered by discount
 		return 0, 0

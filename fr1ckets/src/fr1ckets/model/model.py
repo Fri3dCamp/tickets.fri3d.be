@@ -415,41 +415,41 @@ def purchase_items_get(cursor, id):
 			pr.display as product,
 			pr.billable as billable,
 			pui.n as n,
-			case
+			round(case
 				when
 					pui.person_volunteers_during
 				then
 					pr.volunteering_price
 				else
 					pr.price
-			end as price_single,
-			pui.n * (case
+			end, 2) as price_single,
+			round(pui.n * (case
 				when
 					pui.person_volunteers_during
 				then
 					pr.volunteering_price
 				else
 					pr.price
-			end) as price_total,
-			pui.n * (case
+			end), 2) as price_total,
+			round(pui.n * (case
 				when
 					pui.person_volunteers_during
 				then
 					pr.volunteering_price_net
 				else
 					pr.price_net
-			end) as price_net_total,
-			pui.n * (case
+			end), 2) as price_net_total,
+			round(pui.n * (case
 				when
 					pui.person_volunteers_during
 				then
 					pr.volunteering_part_vat_21
 				else
 					pr.part_vat_21
-			end) as part_vat_21_total,
-			pui.n * pr.part_vat_12 as part_vat_12_total,
-			pui.n * pr.part_vat_6 as part_vat_6_total,
-			pui.n * pr.part_vat_0 as part_vat_0_total,
+			end), 2) as part_vat_21_total,
+			round(pui.n * pr.part_vat_12, 2) as part_vat_12_total,
+			round(pui.n * pr.part_vat_6, 2) as part_vat_6_total,
+			round(pui.n * pr.part_vat_0, 2) as part_vat_0_total,
 			pui.person_volunteers_before as volunteers_before,
 			pui.person_volunteers_during as volunteers_during,
 			pui.person_volunteers_after as volunteers_after,
@@ -557,7 +557,7 @@ def get_purchase_total(cursor, nonce, only_billable=False):
 
 	q = """
 		select
-			truncate(sum(purchase_items.n * (case
+			round(sum(purchase_items.n * (case
 				when
 					purchase_items.person_volunteers_during
 				then
@@ -675,83 +675,83 @@ def get_purchases(cursor, strip_removed=False):
 			pu.billed as billed,
 			pu.dequeued_at as dequeued_at,
 			pu.billed_at as billed_at,
-			sum(pui.n * (
+			round(sum(pui.n * (
 				case
 				when (pui.person_volunteers_during)
 				then pr.volunteering_price
 				else pr.price
 				end)
-			) - ifnull(v.total_discount, 0) as total_price,
-			sum(
+			), 2) - ifnull(v.total_discount, 0) as total_price,
+			round(sum(
 				case
 				when pr.name like 'ticket%'
 				then pui.n
 				else 0
 				end
-			) as n_tickets,
-			sum(
+			), 2) as n_tickets,
+			round(sum(
 				case
 				when pr.name like 'token%'
 				then pui.n
 				else 0
 				end
-			) as n_tokens,
-			sum(
+			), 2) as n_tokens,
+			round(sum(
 				case
 				when pr.name like 'badge_accessory_a%'
 				then pui.n
 				else 0
 				end
-			) as n_badge_accessory_a,
-			sum(
+			), 2) as n_badge_accessory_a,
+			round(sum(
 				case
 				when pr.name like 'badge_accessory_b%'
 				then pui.n
 				else 0
 				end
-			) as n_badge_accessory_b,
-			sum(
+			), 2) as n_badge_accessory_b,
+			round(sum(
 				case
 				when pr.name like 'tshirt%'
 				then pui.n
 				else 0
 				end
-			) as n_tshirts,
-			sum(
+			), 2) as n_tshirts,
+			round(sum(
 				case
 				when pr.name like 'hoodie%'
 				then pui.n
 				else 0
 				end
-			) as n_hoodies,
-			sum(
+			), 2) as n_hoodies,
+			round(sum(
 				case
 				when pr.name like 'mug%'
 				then pui.n
 				else 0
 				end
-			) as n_mugs,
-			sum(
+			), 2) as n_mugs,
+			round(sum(
 				case
 				when pr.name like 'donation%'
 				then pui.n
 				else 0
 				end
-			) as n_donations,
-			sum(
+			), 2) as n_donations,
+			round(sum(
 				case
 				when pr.name like 'camper_spot%'
 				then pui.n
 				else 0
 				end
-			) as n_camper_spots,
-			sum(
+			), 2) as n_camper_spots,
+			round(sum(
 				case
 				when pr.billable
 				then 1
 				else 0
 				end
-			) as n_billable
+			), 2) as n_billable
 		from
 			purchase_items pui
 			inner join purchase pu on pui.purchase_id = pu.id

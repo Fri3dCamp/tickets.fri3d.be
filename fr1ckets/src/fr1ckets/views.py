@@ -77,12 +77,12 @@ def get_product_names(genus=None, species=None):
 			setup.setup_db()
 			p_all = model.products_get(g.db_cursor)
 		for p in p_all:
-			genus, species, name = p['genus'], p['species'], p['name']
-			if genus not in cache_product_names:
-				cache_product_names[genus] = {}
-			if species not in cache_product_names[genus]:
-				cache_product_names[genus][species] = []
-			cache_product_names[genus][species].append(name)
+			n_genus, n_species, n_name = p['genus'], p['species'], p['name']
+			if n_genus not in cache_product_names:
+				cache_product_names[n_genus] = {}
+			if n_species not in cache_product_names[n_genus]:
+				cache_product_names[n_genus][n_species] = []
+			cache_product_names[n_genus][n_species].append(n_name)
 	if not genus:
 		for k, v in cache_product_names.iteritems():
 			for species, names in v:

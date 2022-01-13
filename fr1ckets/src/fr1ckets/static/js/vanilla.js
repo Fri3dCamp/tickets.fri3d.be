@@ -338,6 +338,8 @@ function resolve_ticket(i) {
 | |_| | (__|   <  __/ |_\__ \
  \__|_|\___|_|\_\___|\__|___/
 */
+debounce_email_input = null;
+
 document.addEventListener('DOMContentLoaded', event => {
 
 	document.querySelector('#n_tickets').value = 0;
@@ -363,10 +365,8 @@ document.addEventListener('DOMContentLoaded', event => {
 	
 	// check reservations
 	let email_input = document.querySelector('#email');
-	email_input.addEventListener('input', event => {
-		// fixme; debounce
-		let val = email_input.value;
-
+	let email_fn = function(event) {
+		let val = event.target.value;
 		if (!val.length) {
 			return;
 		}
@@ -386,6 +386,17 @@ document.addEventListener('DOMContentLoaded', event => {
 				template_add('#reservation_result_ok_special', '#email_input');
 			}
 		});
+
+		debounce_email_input = null;
+	}
+
+	email_input.addEventListener('input', event => {
+
+		if (debounce_email_input != null) {
+			clearTimeout(debounce_email_input);
+		}
+		debounce_email_input = setTimeout(email_fn, 700, event);
+
 	});
 
 	// show ticket entry upon number choice

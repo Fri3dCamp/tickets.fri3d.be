@@ -1,804 +1,732 @@
-var products = [];
-var vouchers = {}
-const VOUCHERS_MAX = 10;
-const VOUCHER_LEN = 10;
+// this is correct, month is 0-indexed
+const volunteering_cutoff = new Date(2006, 7, 12).getTime();
+const voucher_cap = 10;
+let available_product_descs = [];
+let vouchers_current = [];
+let n_business_tickets = 0;
+const camp_year = 2022;
+const camp_month = 8;
+const camp_day = 12;
 
-$('.no_js_warning').hide();
+/*
+                              _          __  __
+ _ __   __ _  __ _  ___   ___| |_ _   _ / _|/ _|
+| '_ \ / _` |/ _` |/ _ \ / __| __| | | | |_| |_
+| |_) | (_| | (_| |  __/ \__ \ |_| |_| |  _|  _|
+| .__/ \__,_|\__, |\___| |___/\__|\__,_|_| |_|
+|_|          |___/
+*/
+document.addEventListener('DOMContentLoaded', function(event) {
+	var sitebody = document.querySelector("#js_container");
+	var warning = document.querySelector("#js_warning");
+	sitebody.classList.remove("hidden");
+	warning.classList.add("hidden");
 
-function vouchers_add(voucher)
-{
-
-	vouchers[voucher.code] = voucher;
-
-}
-
-function vouchers_reset()
-{
-
-	vouchers = {}
-
-}
-
-function vouchers_discount()
-{
-
-	var discount = 0;
-
-	for (var code in vouchers) {
-		discount += vouchers[code].discount;
-	}
-
-	return discount;
-
-}
-
-function vouchers_present()
-{
-
-	return Object.keys(vouchers).length > 0;
-
-}
-
-$('#overview_order').on('click', function() {
-	var root = location.protocol + '//' + location.hostname;
-	if (location.port) {
-		root += ':' + location.port;
-	}
-
-	function order_inflight(b) {
-		$('#overview_order').prop('disabled', b);
-		$('#overview_cancel').prop('disabled', b);
-		if (b) {
-			$('#overview_spinner').removeClass('hidden');
-		} else {
-			$('#overview_spinner').addClass('hidden');
-		}
-	}
-
-	order_inflight(true);
-
-	$.ajax({
-		url : root + '/api/tickets_register',
-		type : 'post',
-		dataType : 'json',
-		data : $('form#ticket_form').serialize(),
-		success : function(resp) {
-			if (resp.status == 'SUCCESS') {
-				if (resp.redirect) {
-					window.location.href = resp.redirect;
-				}
-			} else if (resp.status == 'FAIL') {
-				if (resp.message) {
-					$('#outcome_content').text(resp.message);
-					$('#outcome_modal').modal('show');
-				}
-			}
-			order_inflight(false);
-		},
-		error : function(resp) {
-			order_inflight(false);
-			$('#outcome_content').text("Er is een fout opgetreden, waarschijnlijk overbelasting. Probeer het nog eens.");
-			$('#outcome_modal').modal('show');
-		},
-		statusCode : {
-			502 : function() {
-				order_inflight(false);
-				$('#outcome_content').text("Er is een fout opgetreden, waarschijnlijk overbelasting. Probeer het nog eens.");
-				$('#outcome_modal').modal('show');
-			},
-		},
+	// Open descriptions in modal
+	document.querySelectorAll('.js_desclink').forEach(item => {
+		item.addEventListener('click', event => {
+			event.preventDefault();
+			let myhref = event.target.href.split("#");
+			let toshow = document.querySelector("#"+myhref[1])
+			toshow.classList.remove("visuallyhidden");
+			document.querySelector("body").classList.add("noscroll");
+		})
 	});
-});
 
-function is_safari() {
-	return navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1;
-}
-$('#ticket_form').submit(function(e) {
-	e.preventDefault();
+	// Open images in modal
+	document.querySelectorAll('.js_magnify_image').forEach(item => {
+		item.addEventListener('click', event => {
+			event.preventDefault();
 
-	errors = validate_choices();
-	if (errors.length > 0) {
-		var f = '<p>Er zijn nog enkele onvolledigheden in de ingave, gelieve deze te corrigeren:</p>';
-		f += '<ul>';
-		for (var e in errors) {
-			f += '<li>'+errors[e]+'</li>';
+			let mysrc = item.href;
+			let myalt = "";
+
+			let modal = document.querySelector("#large_image");
+			hideclass = modal.getAttribute("data-hideclass");
+
+			modal.querySelector(".image").src = mysrc;
+			modal.querySelector(".image").alt = myalt;
+
+			modal.classList.remove(hideclass);
+			document.querySelector("body").classList.add("noscroll");
+		})
+	});
+
+	// Close modal and re-enable scrolling
+	document.querySelectorAll('.js_modalclose').forEach(item => {
+		item.addEventListener('click', event => { 
+			 document.querySelectorAll('.modalwrapper').forEach(wrapper => {
+				hideclass = wrapper.getAttribute("data-hideclass");
+				wrapper.classList.add(hideclass);
+			});
+			document.querySelector("body").classList.remove("noscroll");
+		});
+	});
+
+	// Bestelling nakijken
+	document.querySelector("#check_button").addEventListener('click', event => {
+		event.preventDefault();
+
+		let validation_errors = [];
+
+		// validation
+		if (!document.querySelector('#email').checkValidity())
+			validation_errors.push('Het email adres is niet correct ingevuld.');
+		if (!document.querySelector('#terms_excellent').checkValidity() ||
+			!document.querySelector('#terms_payment').checkValidity() ||
+			!document.querySelector('#terms_supervision').checkValidity())
+			validation_errors.push('Je bent nog niet akkoord met alle termen.');
+		for (let i = 0; i < document.querySelector('#n_tickets').value; i++) {
+			let t = resolve_ticket(i);
+			if (!t.ok) {
+				validation_errorsi.push('De ticketgegevens zijn nog niet compleet.');
+				break;
+			}
 		}
-		f += '</ul>'
-		$('#validation_content').html(f);
-		$('#validation_modal').modal('show');
-		return;
-	}
-
-	$('#overview_content').html(update_overview());
-	$('#overview_modal').modal('show');
-});
-$('#show_tshirt_sizes_k').on('click', function(e) {
-	e.preventDefault();
-	$('#tshirt_sizes').attr('src', '/static/img/tshirt_k_maattabel.png');
-	$('#sizes_modal').modal('show');
-});
-$('#show_tshirt_sizes_f').on('click', function(e) {
-	e.preventDefault();
-	$('#tshirt_sizes').attr('src', '/static/img/tshirt_f_maattabel.png');
-	$('#sizes_modal').modal('show');
-});
-$('#show_tshirt_sizes_m').on('click', function(e) {
-	e.preventDefault();
-	$('#tshirt_sizes').attr('src', '/static/img/tshirt_m_maattabel.png');
-	$('#sizes_modal').modal('show');
-});
-$('#show_hoodie_sizes_k').on('click', function(e) {
-	e.preventDefault();
-	$('#tshirt_sizes').attr('src', '/static/img/hoodie_k_maattabel.png');
-	$('#sizes_modal').modal('show');
-});
-$('#show_hoodie_sizes_f').on('click', function(e) {
-	e.preventDefault();
-	$('#tshirt_sizes').attr('src', '/static/img/hoodie_f_maattabel.png');
-	$('#sizes_modal').modal('show');
-});
-$('#show_hoodie_sizes_m').on('click', function(e) {
-	e.preventDefault();
-	$('#tshirt_sizes').attr('src', '/static/img/hoodie_m_maattabel.png');
-	$('#sizes_modal').modal('show');
-});
-function update_overview() {
-
-	var choices = enumerate_choices();
-	var f = '';
-
-	f += '<table class="table">';
-	f += '  <thead>';
-	f += '    <tr>';
-	f += '      <th>Wat</th>';
-	f += '      <th>Eenheidsprijs</th>';
-	f += '      <th>Hoeveel</th>';
-	f += '      <th>Totale prijs</th>';
-	f += '    </tr>';
-	f += '  </thead>';
-	f += '  <tbody>';
-	for (var i = 0; i < choices.length; i++) {
-		f += '    <tr>';
-		f += '      <td>'+choices[i].name+'</td>';
-		f += '      <td>€'+choices[i].price+'</td>';
-		f += '      <td>'+choices[i].n+'</td>';
-		f += '      <td>€'+(choices[i].price*choices[i].n)+'</td>';
-		f += '    </tr>';
-	}
-	//if (vouchers_present()) {
-	for (var code in vouchers) {
-		var v = vouchers[code];
-		f += '    <tr class="success">';
-		f += '      <td>Voucher '+v.reason+'</td>';
-		f += '      <td>-€'+v.discount+'</td>';
-		f += '      <td></td>';
-		f += '      <td>-€'+v.discount+'</td>';
-		f += '    </tr>';
-	}
-	f += '    <tr>';
-	f += '      <td><strong>Totaal</strong></td>';
-	f += '      <td></td>';
-	f += '      <td></td>';
-	f += '      <td><strong>€'+calculate_total()+'</strong></td>';
-	f += '    </tr>';
-	f += '  </tbody>';
-	f += '</table>';
-	if (get_n_tickets() == 0) {
-		f += '<div class="alert alert-warning" role="alert">';
-		f += '  <p>';
-		f += '    Je hebt geen tickets besteld, als je in een andere order nog tickets bestelt leggen we alles klaar voor je op het kamp, anders kan je deze bestelling afhalen op de Open Garage te Schilde.</p>';
-		f += '  </p>';
-		f += '</div>';
-	}
-	f += '<div class="alert alert-info" role="alert">';
-	f += '  <p>Bestelde tickets en goederen worden niet teruggenomen!</p>';
-	f += '</div>';
-
-	return f;
-
-}
-
-function handle_voucher(i, data) {
-
-	console.dir("handle_voucher(i="+i+" data="+data+")");
-
-	var voucher = JSON.parse(data);
-	var f = '';
-
-	if (voucher.code == 'none') {
-		$('.form-group-voucher_code_'+i).addClass("badvoucher");
-		f += '  <div class="voucher-alert alert alert-danger text-center" role="alert">';
-		f += '    <p>Deze voucher is niet (meer) geldig.</p>';
-		f += '  </div>';
-		f += '</div>';
-	} else if (voucher.discount > 0) {
-		$('.form-group-voucher_code_'+i).addClass("goodvoucher");
-		f += '<div class="row">';
-		f += '  <div class="voucher-alert alert alert-success text-center" role="alert">';
-		if (voucher.reason.length > 0) {
-			f += '    <p>Met deze voucher krijg je éénmalig €'+voucher.discount+' korting! Reden: "'+voucher.reason+'"</p>';
-		} else {
-			f += '    <p>Met deze voucher krijg je éénmalig €'+voucher.discount+' korting!</p>';
+		if (n_business_tickets > 0) {
+			if (!document.querySelector('#business_name').checkValidity() ||
+				!document.querySelector('#business_address').checkValidity() ||
+				!document.querySelector('#business_vat').checkValidity()) {
+					validation_errors.push('We hebben nog factuurgegevens nodig.');
+			}
 		}
-		f += '  </div>';
-	} else if (available) {
-		$('.form-group-voucher_code_'+i).removeClass("badvoucher");
-		$('.form-group-voucher_code_'+i).removeClass("goodvoucher");
-		f = '';
+		if (validation_errors.length > 0) {
+			element_clear_children('#template_dest_baddata');
+			validation_errors.forEach((err) => {
+				template_add('#template_baddata_item', '#template_dest_baddata', {
+					'.error_string' : { textContent : err },
+				});
+			});
+			document.querySelector("#order_baddata").classList.remove("hidden");
+			return;
+		}
+
+		element_clear_children('#template_dest_overview');
+		let items = itemize();
+		let total = totalize(items);
+		items.forEach(item => {
+			template_add('#template_overview_item', '#template_dest_overview', {
+				'.item_display' : { textContent : item.display },
+				'.item_price' : { textContent : item.price },
+				'.item_n' : { textContent : item.n },
+				'.item_total' : { textContent : item.total },
+			});
+		});
+		template_add('#template_overview_total', '#template_dest_overview', {
+			'.item_total' : { textContent : total },
+		});
+		document.querySelector("#order_overview").classList.remove("hidden");
+	});
+
+	document.querySelector("#overview_order").addEventListener('click', event => {
+		event.preventDefault();
+
+
+		// let's submit this thing. first we serialize the existing form with FormData(),
+		// which will fail to notice templated-in inputs, so we add those below
+		let form_data = new FormData(document.querySelector('#fr1ckets_form'));
+
+		// loop over tickets, pull in needed bits
+		let n_tickets = parseInt(document.querySelector('#n_tickets').value);
+		for (let i = 0; i < n_tickets; i++) {
+			let h = 'tickets_' + i;
+			// we expect these to exist for every ticket
+			[ 'name', 'dob_year', 'dob_month', 'dob_day' ].forEach(k => {
+				form_data.append(h + '_' + k, document.querySelector('#' + h + '_' + k).value);
+			});
+			// these may not be available for every ticket (esp volunteering)
+			[ 'billable', 'options_vegitarian', 'options_volunteers_before', 'options_volunteers_after', 'options_not_volunteering_during' ].forEach(k => {
+				try {
+					if (document.querySelector('#' + h + '_' + k).checked)
+						form_data.append(h + '_' + k, 'on');
+				} catch (e) {
+					;
+				}
+			});
+		}
+
+		// business info, if present
+		if (n_business_tickets > 0) {
+			[ 'name', 'address', 'vat' ].forEach(k => {
+				form_data.append('business_' + k, document.querySelector('#business_' + k).value);
+			});
+		}
+
+		// and all the vouchers
+		for (let i = 0; i < vouchers_current.length; i++) {
+			form_data.append('voucher_code_' + i, vouchers_current[i].code);
+		}
+
+		window.fetch('/api/tickets_register', {
+			method : 'POST',
+			body : form_data,
+		})
+		.then(data => data.json())
+		.then(res => {
+			if (res.status == 'SUCCESS') {
+				if (res.redirect) {
+					window.location.href = res.redirect;
+				}
+			} else if (res.status == 'FAIL') {
+				element_clear_children('#template_dest_baddata');
+				template_add('#template_baddata_item', '#template_dest_baddata', {
+					'.error_string' : { textContent : res.message },
+				});
+				document.querySelector("#order_baddata").classList.remove("hidden");
+			}
+		})
+		.catch(e => {
+			let msg = 'Er is een fout opgetreden, waarschijnlijk overbelasting, probeer nog eens.';
+			element_clear_children('#template_dest_baddata');
+			template_add('#template_baddata_item', '#template_dest_baddata', {
+				'.error_string' : { textContent : msg },
+			});
+			document.querySelector("#order_baddata").classList.remove("hidden");
+		});
+	});
+
+});
+
+
+// spin up template #template_id and add it to #dest_parent_id,
+// switcheroo is a dict {
+//   selector : {
+//     prop_name : prop_value,
+//     ...
+//   },
+//   ...
+// }
+// we'll look for elements with selector within the template,
+// and set any prop_name to prop_value
+// if new_id is set, we'll set this as id of any element of
+// class "template_top"
+function template_add(template_id, dest_parent_id, switcheroo, new_id)
+{
+
+	let template = document.querySelector(template_id);
+	let dest = document.querySelector(dest_parent_id);
+	let instance = template.content.cloneNode(true);
+
+	if (switcheroo) {
+		Object.keys(switcheroo).forEach(s => {
+			instance.querySelectorAll(s).forEach(e => {
+				Object.keys(switcheroo[s]).forEach(k => {
+                    if ( 'textContent' == k ) {
+					    e[k] = switcheroo[s][k];
+                    } else {
+					    e.setAttribute(k, switcheroo[s][k]);
+                    }
+					//e[k] = switcheroo[s][k];
+				});
+			});
+		});
 	}
 
-	if (voucher.code != 'none') {
-		vouchers_add(voucher);
-		update_price_total_display();
+	if (new_id) {
+		// just setting instance.id doesn't seem to survive the
+		// appending, also as appended dest.lastChild, so this
+		// ugly hack exists
+		instance.querySelector('.template_top').id = new_id;
 	}
 
-	$("#voucher_"+i+"_message_collapse").html(f);
+	dest.appendChild(instance);
 
 }
 
-function handle_reservation(data) {
-
-	var reservation = JSON.parse(data);
-	var available = Date.now() >= (reservation.available_from*1000);
-	var f = '';
-
-	if (!available) {
-		var s = moment(reservation.available_from*1000).format('YYYY-MM-DD HH:mm:ss');
-		f += '<div class="row">';
-		f += '  <div class="alert alert-danger text-center" role="alert">';
-		f += '    <p>Met dit email-adres kan je pas vanaf '+s+' bestellen! Je kan het formulier tot 24 uur op voorhand invullen. Als je vermoedt dat je een reservatie op een ander email-adres hebt, gelieve ons te <a href="mailto:tickets@fri3d.be">mailen</a>.</p>';
-		f += '  </div>';
-		f += '</div>';
-	} else if (!reservation.is_default) {
-		f += '<div class="row">';
-		f += '  <div class="alert alert-success text-center" role="alert">';
-		f += '    <p>Reservatie gevonden! Let op, deze reservatie is slechts goed voor één bestelling. Eens de publieke verkoop start kan je natuurlijk bijbestellen.</p>';
-		f += '  </div>';
-		f += '</div>';
+// remove all of an element's children
+function element_clear_children(selector) {
+	let parent = document.querySelector(selector);
+	while (parent.firstChild) {
+		parent.lastChild.remove();
 	}
+}
 
-	$("#reservation_message_collapse").html(f);
+// look for the lowest (in age bracket) ticket for this dob
+// and billability in the available_product_descs
+function ticket_find_for_dob(dob, billable) {
+
+	const ticket_descs = available_product_descs.filter(p => {
+		return p.genus == 'ticket' && p.species == 'normal' && p.billable == billable;
+	}).sort((left, right) => {
+		return right.max_dob - left.max_dob;
+	}).filter(t => dob >= t.max_dob);
+
+	return ticket_descs.length ? ticket_descs[0] : null;
 
 }
-function find_ticket_by_dob(dob, billable) {
 
-	var ticket = undefined;
-	for (var t in products) {
-		if (products[t].name.indexOf('ticket') == -1) {
+/* parse the details for the i'th ticket ([0:n_tickets[) and return the
+ * cheapest ticket's name and price.
+ * assumes there's enough inputs present to get started (name/billable/dob),
+ * will calculate premium if that exists too
+ * returns {
+ * 	'ok' : bool,	// parsed correctly
+ * 	'price' : price,
+ * 	'display' : prettystring,
+ * } */
+function resolve_ticket(i) {
+
+	let h = 'tickets_' + i;
+	let name = document.querySelector('#' + h + '_name').value;
+	let billable = document.querySelector('#' + h + '_billable').checked;
+	let dob_year = document.querySelector('#' + h + '_dob_year').value;
+	let dob_month = document.querySelector('#' + h + '_dob_month').value;
+	let dob_day = document.querySelector('#' + h + '_dob_day').value;
+
+	if (!name.length || !dob_year.length || !dob_month.length || !dob_day.length) {
+		return {
+			'ok' : false,
+			'display' : 'onvolledige ingave',
+			'price' : null,
+			'can_volunteer' : false,
+			'wants_premium' : false,
+		};
+	}
+
+	dob_year = parseInt(dob_year);
+	dob_month = parseInt(dob_month);
+	dob_day = parseInt(dob_day);
+
+	// find the relevant ticket for the input entered so far
+	let dob = new Date(dob_year, dob_month - 1, dob_day).getTime();
+	let dob_max = new Date(camp_year, camp_month - 1, camp_day).getTime();
+	if (dob >= dob_max) {
+		return {
+			'ok' : false,
+			'display' : 'succes met de zwangerschap',
+			'price' : null,
+			'can_volunteer' : false,
+			'wants_premium' : false,
+		};
+	}
+
+	let ticket_desc = ticket_find_for_dob(dob, billable);
+	if (!ticket_desc) {
+		return {
+			'ok' : false,
+			'display' : 'onvolledige ingave',
+			'price' : null,
+			'can_volunteer' : false,
+			'wants_premium' : false,
+		};
+	}
+
+	// only old enough people can want premium
+	let can_volunteer = dob < volunteering_cutoff;
+	let wants_premium = false;
+	try {
+		// input doesn't necessarily exist at this point
+		wants_premium = can_volunteer && document.querySelector('#' + h + '_options_not_volunteering_during').checked;
+	} catch (e) {
+		;
+	}
+
+	return {
+		'ok' : true,
+		'display' : wants_premium ? ticket_desc.display + ' (premium)' : ticket_desc.display,
+		'price' : wants_premium ? ticket_desc.price : ticket_desc.volunteering_price,
+		'can_volunteer' : can_volunteer,
+		'wants_premium' : wants_premium,
+	};
+
+}
+
+/*
+ _   _      _        _       
+| |_(_) ___| | _____| |_ ___ 
+| __| |/ __| |/ / _ \ __/ __|
+| |_| | (__|   <  __/ |_\__ \
+ \__|_|\___|_|\_\___|\__|___/
+*/
+debounce_email_input = null;
+
+document.addEventListener('DOMContentLoaded', event => {
+
+	document.querySelector('#n_tickets').value = 0;
+
+	// pull in all products
+	window.fetch('/api/get_products')
+	.then(data => data.json())
+	.then(products => {
+		products.forEach(p => {
+			p.max_dob *= 1000;
+		});
+		available_product_descs = products;
+
+		// wire in a total recalculator for every relevant input
+		document.querySelectorAll('.fri3d-product').forEach(e => {
+			e.value = 0;
+			e.addEventListener('change', recalc);
+		});
+
+		// and run it once to get a starting total
+		recalc();
+	});
+	
+	// check reservations
+	let email_input = document.querySelector('#email');
+	let email_fn = function(event) {
+		let val = event.target.value;
+		if (!val.length) {
+			return;
+		}
+
+		window.fetch('/api/get_reservation/' + email_input.value)
+		.then(data => data.json())
+		.then(reservation => {
+			element_clear_children('#reservation_result');
+			if (Date.now() < (reservation.available_from*1000)) {
+				// this reservation is not yet available
+				let s = moment(reservation.available_from*1000).format('YYYY-MM-DD HH:mm:ss');
+				template_add('#reservation_result_too_soon', '#reservation_result', {
+					'#from_when' : { textContent : s },
+				});
+			} else if (!reservation.is_default) {
+				// it's not the default one, meaning we should inform user of their Special Status
+				template_add('#reservation_result_ok_special', '#email_input');
+			}
+		});
+
+		debounce_email_input = null;
+	}
+
+	email_input.addEventListener('input', event => {
+
+		if (debounce_email_input != null) {
+			clearTimeout(debounce_email_input);
+		}
+		debounce_email_input = setTimeout(email_fn, 700, event);
+
+	});
+
+	// show ticket entry upon number choice
+	let ticket_chooser = document.querySelector('#n_tickets');
+	ticket_chooser.addEventListener('change', event => {
+		let n = parseInt(event.target.value);
+
+        console.log(n);
+
+        if (n==0) {
+            document.querySelector('#js_participants').classList.add('hidden');
+        } else {
+            document.querySelector('#js_participants').classList.remove('hidden');
+        }
+
+		element_clear_children('#template_dest_participants');
+
+		// a closure which updates meta for this ticket (options depending on date
+		// and billability)
+		let update_cb = function(ticket) {
+			return function(event) {
+				let h = 'tickets_' + ticket;
+				let ticket_details = resolve_ticket(ticket);
+
+				element_clear_children('#' + h + '_meta');
+
+				// if the date's empty, we're not happy
+				if (!ticket_details.ok) {
+
+					template_add('#template_participant_meta_is_not_human', '#' + h + '_meta');
+					return;
+
+				} else {
+
+					// if we actually found a ticket based on date/billability, show the available
+					// options
+
+					// add a pricing display block
+					template_add('#template_participant_meta_pricing', '#' + h + '_meta', {
+						'#tickets_CNT_display_name' : {
+							textContent : ticket_details.display,
+							id : h + '_display_name',
+						},
+						'#tickets_CNT_display_price' : {
+							textContent : ticket_details.price,
+							id : h + '_display_price',
+						},
+					});
+					// and a food questions block
+					template_add('#template_participant_meta_food', '#' + h + '_meta', {
+                        '[for=tickets_CNT_options_vegitarian]' : { for : h + '_options_vegitarian' },
+						'#tickets_CNT_options_vegitarian' : {
+							id : h + '_options_vegitarian',
+							name : h + '_options_vegitarian',
+						}
+					});
+					// if this person's old enough to volunteer, show the volunteering block
+					if (ticket_details.can_volunteer) {
+						template_add('#template_participant_meta_is_volunteerable', '#' + h + '_meta', {
+                            '[for=tickets_CNT_options_volunteers_before]' : { for : h + '_options_volunteers_before' },
+							'#tickets_CNT_options_volunteers_before' : {
+								id : h + '_options_volunteers_before',
+								name : h + '_options_volunteers_before',
+							},
+                            '[for=tickets_CNT_options_volunteers_after]' : { for : h + '_options_volunteers_after' },
+							'#tickets_CNT_options_volunteers_after' : {
+								id : h + '_options_volunteers_after',
+								name : h + '_options_volunteers_after',
+							},
+                            '[for=tickets_CNT_options_not_volunteering_during]' : { for : h + '_options_not_volunteering_during' },
+							'#tickets_CNT_options_not_volunteering_during' : {
+								id : h + '_options_not_volunteering_during',
+								name : h + '_options_not_volunteering_during',
+							},
+						});
+
+						// another closure which updates this ticket's price to premium/normal,
+						// depending on whether they want to help during camp
+						let update_pricing_cb = function(ticket) {
+							return function(event) {
+								let h = 'tickets_' + ticket;
+								let el_ticket_price = document.querySelector('#' + h + '_display_price');
+								let el_ticket_name = document.querySelector('#' + h + '_display_name');
+
+								// see what this means for pricing, the found details
+								// will have premium considered in
+								let ticket_details = resolve_ticket(ticket);
+
+								el_ticket_price.textContent = ticket_details.price;
+								el_ticket_name.textContent = ticket_details.display;
+
+								recalc();
+							};
+						};
+
+						// wire in that last one, now that we have the checkbox in DOM
+						document.querySelector('#' + h + '_options_not_volunteering_during').addEventListener('change', update_pricing_cb(ticket));
+					}
+
+				}
+
+				recalc();
+
+			};
+		};
+
+
+		for (let i = 0; i < n; i++) {
+			let new_id = 'tickets_' + i;
+			let cb = update_cb(i);
+
+			// throw up a form for this ticket
+			template_add('#template_participant', '#template_dest_participants', {
+				'[for=tickets_CNT_name]' : { for : new_id + '_name' },
+				'[for=tickets_CNT_dob_year]' : { for : new_id + '_dob_year' },
+				'[for=tickets_CNT_dob_month]' : { for : new_id + '_dob_month' },
+				'[for=tickets_CNT_dob_day]' : { for : new_id + '_dob_day' },
+				'[for=tickets_CNT_billable]' : { for : new_id + '_billable' },
+				'#tickets_CNT_name' : { id : new_id + '_name', name : new_id + '_name' },
+				'#tickets_CNT_dob_year' : { id : new_id + '_dob_year', name : new_id + '_dob_year' },
+				'#tickets_CNT_dob_month' : { id : new_id + '_dob_month', name : new_id + '_dob_month' },
+				'#tickets_CNT_dob_day' : { id : new_id + '_dob_day', name : new_id + '_dob_day' },
+				'#tickets_CNT_billable' : { id : new_id + '_billable', name : new_id + '_billable' },
+				'#tickets_CNT_meta' : { id : new_id + '_meta' },
+			}, new_id);
+
+			// hook in the update_cb to respond to any changes
+			document.querySelector('#' + new_id + '_dob_year').addEventListener('change', cb);
+			document.querySelector('#' + new_id + '_dob_month').addEventListener('change', cb);
+			document.querySelector('#' + new_id + '_dob_day').addEventListener('change', cb);
+			document.querySelector('#' + new_id + '_billable').addEventListener('change', cb);
+			document.querySelector('#' + new_id + '_billable').addEventListener('change', (event) => {
+				let state = event.target.checked;
+
+				if (state) {
+					n_business_tickets++;
+					if (n_business_tickets == 1) {
+						// first one, show the business entry
+						template_add('#template_business', '#template_dest_business');
+					}
+				} else {
+					n_business_tickets--;
+					if (n_business_tickets == 0) {
+						element_clear_children('#template_dest_business');
+					}
+				}
+			});
+		}
+
+	});
+
+});
+
+/*
+                       _                   
+__   _____  _   _  ___| |__   ___ _ __ ___ 
+\ \ / / _ \| | | |/ __| '_ \ / _ \ '__/ __|
+ \ V / (_) | |_| | (__| | | |  __/ |  \__ \
+  \_/ \___/ \__,_|\___|_| |_|\___|_|  |___/
+*/
+document.addEventListener('DOMContentLoaded', event => {
+
+	document.querySelector('#have_voucher').checked = false;
+
+	document.querySelector('#have_voucher').addEventListener('change', function(event) {
+		let checked = event.target.checked;
+
+		if (!checked) {
+			// disabled, clear everything
+			element_clear_children('#voucher_entries');
+			vouchers_current = [];
+			recalc();
+			return;
+		}
+
+		// enabled
+
+		// update voucher entry visibility, we show one empty entry after the last
+		// filled-in one, up to voucher_cap
+		let voucher_peekaboo = function() {
+
+			let last = 0;
+
+			for (last = vouchers_current.length; last > 0; last--)
+				if (vouchers_current[last - 1].code != '')
+					break;
+
+			for (var i = 0; i < voucher_cap; i++) {
+				document.querySelector('#voucher_entry_'+i).hidden = (i < (last + 1)) ? false : true;
+			}
+		};
+
+		// a voucher had an update, save it for later and check if it's valid, show
+		// the relevant outcome too
+		let voucher_updates = function(voucher) {
+			return function(event) {
+				let h = '#voucher_code_' + voucher;
+				let v = document.querySelector(h).value;
+
+				vouchers_current[voucher].code = v;
+
+				voucher_peekaboo();
+
+				if (v != '') {
+					window.fetch('/api/get_voucher/' + v)
+					.then(data => data.json())
+					.then(result => {
+						// make sure no old messages linger
+						element_clear_children('#voucher_entry_' + voucher + '_result');
+
+						if (result.code == 'none') {
+							// if it's 'none', server doesn't know it (any more)
+							vouchers_current[voucher].reason = 'not found';
+							vouchers_current[voucher].discount = 0;
+
+							template_add('#voucher_result_fail', '#voucher_entry_' + voucher + '_result');
+						} else if (result.discount > 0) {
+							// this one it knows, remember it, show it
+							vouchers_current[voucher].reason = result.reason;
+							vouchers_current[voucher].discount = result.discount;
+
+							template_add('#voucher_result_ok', '#voucher_entry_' + voucher + '_result', {
+								'.display_reason' : { textContent : result.reason },
+								'.display_amount' : { textContent : result.discount },
+							});
+						}
+
+						recalc();
+					});
+				}
+			};
+		};
+
+		// load up voucher entries
+		for (var i = 0; i < voucher_cap; i++) {
+			// save an empty string for now
+			vouchers_current.push({
+				'code' : '',
+				'reason' : '',
+				'discount' : 0,
+			});
+
+			template_add('#voucher_entry', '#voucher_entries', {
+				'#voucher_code_CNT' : { 
+					id : 'voucher_code_' + i,
+					name : 'voucher_code_' + i,
+				},
+				'#voucher_entry_CNT_result' : {
+					id : 'voucher_entry_' + i + '_result',
+				},
+			}, 'voucher_entry_' + i);
+
+			// wire in for pasting too
+			document.querySelector('#voucher_code_' + i).addEventListener('change', voucher_updates(i));
+			document.querySelector('#voucher_code_' + i).addEventListener('keyup', voucher_updates(i));
+			document.querySelector('#voucher_code_' + i).addEventListener('paste', voucher_updates(i));
+		}
+
+		// update the visibility
+		voucher_peekaboo();
+	});
+
+});
+
+function itemize() {
+
+	let items = [];
+
+	// tickets
+	let n_tickets = document.querySelector('#n_tickets').value;
+	for (let i = 0; i < n_tickets; i++) {
+		let ticket = resolve_ticket(i);
+		items.push({
+			'display' : ticket.display,
+			'price' : ticket.price,
+			'n' : 1,
+			'total' : ticket.price,
+		});
+	}
+
+	// products
+	available_product_descs.filter(p => p.genus != 'ticket').forEach(prod => {
+		let n = 0;
+		try {
+			n = document.querySelector('#' + prod.name).value;
+		} catch (error) {
+		}
+		if (n > 0) {
+			items.push({
+				'display' : prod.display,
+				'price' : prod.price,
+				'n' : n,
+				'total' : prod.price * n,
+			});
+		}
+	});
+
+	// vouchers
+	for (let i = 0; i < vouchers_current.length; i++) {
+		let v = vouchers_current[i];
+
+		if (!v.code.length)
 			continue;
-		}
-		if (products[t].billable != billable) {
-			continue;
-		}
-		if (dob >= products[t].max_dob) {
-			ticket = products[t];
-			break;
-		}
+		items.push({
+			'display' : 'Voucher ' + v.code,
+			'price' : v.discount * -1,
+			'n' : 1,
+			'total' : v.discount * -1,
+		});
 	}
-	return ticket;
+
+	return items;
 
 }
 
-function get_n_tickets() {
-	return parseInt($('#n_tickets').val());
-}
+function totalize(items) {
 
-function validate_choices() {
-	var errors = []
-
-	// alert("validity="+$('#ticket_form')[0].checkValidity());
-	var n_tickets = parseInt($('#n_tickets').val());
-	var need_business_info = false;
-
-	if ($('#email').val().length == 0) {
-		errors.push("Email-adres");
-	}
-	for (var i = 0; i < n_tickets; i++) {
-		var src = 'tickets_'+i;
-		var year_src = src + '_dob_year';
-		var month_src = src + '_dob_month';
-		var day_src = src + '_dob_day';
-		var name_src = src + '_name';
-		var billable_src = src + "_billable";
-		var now = new Date();
-
-		var dob_year = parseInt($('#'+year_src).val());
-		var dob_month = parseInt($('#'+month_src).val());
-		var dob_day = parseInt($('#'+day_src).val());
-		var name = $('#' + name_src).val();
-		var billable = Boolean($('#'+billable_src).prop('checked'));
-
-		if (!dob_year || ((dob_year < 1900) || (dob_year > now.getFullYear()))) {
-			errors.push("Geboortejaar ticket "+(i+1));
-		}
-		if (!dob_month || (dob_month < 1) || (dob_month > 12)) {
-			errors.push("Geboortemaand ticket "+(i+1));
-		}
-		if (!dob_day || (dob_day < 1) || (dob_day > 31)) {
-			errors.push("Geboortedag ticket "+(i+1));
-		}
-		if (name.length == 0) {
-			errors.push("Naam ticket "+(i+1));
-		}
-		if (billable) {
-			need_business_info = true;
-		}
-	}
-	if (need_business_info) {
-		var business_name = $('#business_name').val();
-		var business_address = $('#business_address').val();
-		var business_vat = $('#business_address').val();
-
-		if ((business_name.length == 0) || (business_address.length == 0) || (business_vat.length == 0)) {
-			errors.push("Bedrijfs-informatie");
-		}
-	}
-
-	if (!$('#terms_payment').prop('checked') || !$('#terms_supervision').prop('checked') || !$('#terms_excellent').prop('checked')) {
-		errors.push("Termen en condities");
-	}
-	return errors
-
-}
-
-function enumerate_choices() {
-	var choices = [];
-
-	for (var i in products) {
-		if (products[i].name.indexOf('ticket') != -1) {
-			// skip tickets
-			continue;
-		}
-		var n = parseInt($('#'+products[i].name).val() || 0);
-		if (n == 0) {
-			continue;
-		}
-		var c = {
-			n : n,
-			price : products[i].price,
-			name : products[i].display,
-		}
-		choices.push(c);
-	}
-
-	var n_tickets = parseInt($('#n_tickets').val());
-
-	for (var i = 0; i < n_tickets; i++) {
-		var src = 'tickets_'+i;
-		var year_src = src + '_dob_year';
-		var month_src = src + '_dob_month';
-		var day_src = src + '_dob_day';
-		var name_src = src + '_name';
-		var not_volunteering_src = src + "_options_not_volunteering_during";
-		var cleanup_src = src + "_options_volunteers_after";
-		var billable_src = src + "_billable";
-
-		var dob = new Date($('#'+year_src).val(), $('#'+month_src).val()-1, $('#'+day_src).val()).getTime();
-		var billable = Boolean($('#'+billable_src).prop('checked'));
-		var ticket = find_ticket_by_dob(dob, billable);
-		if (!ticket)
-			continue;
-		var name = $('#' + name_src).val();
-		var volunteering_during = !Boolean($('#'+not_volunteering_src).prop('checked'))
-		var volunteering_after = Boolean($('#'+cleanup_src).prop('checked'));
-		var ticket_price = ticket.volunteering_price;
-		var ticket_name = ticket.display + " voor " + name;
-		var can_volunteer = Boolean(dob < ticket_volunteering_cutoff);
-		if (can_volunteer && !billable && !volunteering_during) {
-			ticket_price = ticket.price;
-			ticket_name = ticket_name + " (premium)";
-		}
-		var c = {
-			n : 1,
-			price : ticket_price,
-			name : ticket_name,
-		}
-		choices.push(c);
-	}
-
-	return choices;
-
-}
-
-function calculate_total() {
-
-	var choices = enumerate_choices();
-	var total = 0;
-
-	for (var i = 0; i < choices.length; i++) {
-		console.dir(choices[i]);
-		total += choices[i].n * choices[i].price;
-	}
-
-	total = Math.max(0, total - vouchers_discount());
+	let total = items.reduce((total, item) => total + item.total, 0);
+	// oh no you don't
+	total = total < 0 ? 0 : total;
 
 	return total;
 
 }
 
-function update_price_total_display() {
+function recalc() {
 
-	$("#price_total").html('€'+calculate_total());
+	let items = itemize();
+	let total = totalize(items);
 
-}
-
-function showhide_vouchers() {
-	for (var i = 0; i < VOUCHERS_MAX; i++) {
-		nextfield = i+1;
-		console.log("voucher "+i+": contents="+$('#voucher_code_'+i).val());
-		if ( !$('#voucher_code_'+i).val() ) {
-			console.log('hide next empty field');
-			if (!$('.form-group-voucher_code_'+nextfield+' input.form-control').val()) {
-				$('.form-group-voucher_code_'+nextfield).removeClass("showfield");
-			}
-		} else {
-			console.log('show next empty field');
-			$('.form-group-voucher_code_'+nextfield).addClass("showfield");
-		}
-	}
-}
-
-function update_voucher(i) {
-	var code = $('#voucher_code_'+i).val() ? $('#voucher_code_'+i).val() : 'unknown';
-	$.ajax({
-		url : 'api/get_voucher/' + code,
-		success: function(data) {
-			handle_voucher(i, data);
-		},
-		error: function(data) {
-			handle_voucher(i, data);
-		},
-	});
+	document.querySelector('#price_total').textContent = total;
 
 }
-
-$(document).ready(function() {
-	$.ajax({
-		url : '/api/get_products',
-		success: function(data) {
-			products = JSON.parse(data);
-			for (var i in products) {
-				if (products[i].max_dob) {
-					products[i].max_dob *= 1000;
-				}
-				$('#'+products[i].name).on('change', update_price_total_display);
-			}
-		},
-	});
-	$('#email').on('change', function() {
-		var email = $('#email').val();
-		if (email.length > 0) {
-			$.ajax({
-				url : 'api/get_reservation/'+email,
-				success : function(data) {
-					handle_reservation(data);
-				},
-				error : function(data) {
-					handle_reservation(data);
-				},
-			});
-		} else {
-			handle_reservation('');
-		}
-	});
-	$('#have_voucher').on('change', function() {
-		var have = $('#have_voucher').prop('checked');
-		var f = '';
-		if (have) {
-			for (var i = 0; i < VOUCHERS_MAX; i++) {
-				f += '<div class="form-group form-group-voucher_code form-group-voucher_code_'+i+'"><div class="row">';
-				f += '  <label for="voucher_code_'+i+'" class="control-label col-sm-3 col-sm-offset-1">Voucher</label>';
-				f += '  <div class="col-sm-8">';
-				f += '    <input class="form-control" id="voucher_code_'+i+'" name="voucher_code_'+i+'" type=text>';
-				f += '  </div></div>';
-				f += '<div class="row"><div class="col-sm-offset-4 col-sm-8 collapsible" id="voucher_'+i+'_message_collapse">';
-				f += '  </div></div>';
-				f += '</div>';
-			}
-		} else {
-			vouchers_reset();
-		}
-		$('#voucher').html(f);
-
-		if (have) {
-			$("#voucher").collapse('show');
-		} else {
-			$("#voucher").collapse('hide');
-		}
-
-		for (var i = 0; i < VOUCHERS_MAX; i++) {
-			(function(i) {
-				$('#voucher_code_'+i).on('change keyup paste', function() {
-					showhide_vouchers();
-					if ($('#voucher_code_'+i).val().length == VOUCHER_LEN) {
-						update_voucher(i);
-					}
-				});
-				$('#voucher_code_'+i).on('focusout', function() {
-					if ($('#voucher_code_'+i).val().length) {
-						update_voucher(i);
-					}
-				});
-			})(i);
-		}
-	});
-
-	$('#n_tickets').on('change', update_price_total_display);
-	update_price_total_display();
-
-});
-
-// Every argument to Date() is 1-indexed. Except months.
-// People are now using this language to write async server code.
-// All things pass.
-var ticket_volunteering_cutoff = new Date(2004, 7, 14).getTime();
-
-var showing_business_info = false;
-function display_business_info() {
-
-	var n_tickets = parseInt($('#n_tickets').val());
-	var n_tickets_billable = 0;
-
-	for (var i = 0; i < n_tickets; i++) {
-		var fmt = "tickets_"+i;
-		var billable_id = fmt+"_billable";
-		var billable = Boolean($('#'+billable_id).prop('checked'));
-		if (billable) {
-			n_tickets_billable++;
-		}
-	}
-
-	if (!n_tickets_billable && showing_business_info) {
-		// hide
-		showing_business_info = false;
-		$('#business_info').html('');
-		$('#business_info').collapse('hide');
-	} else if (n_tickets_billable && !showing_business_info) {
-		// display
-		showing_business_info = true;
-		var f = '';
-		f += '<div class="row text-center">';
-		f += '  <p><h4>Factuurgegevens:</h4></p>';
-		f += '</div>';
-		f += '<hr/>';
-		f += '<div class="form-group">';
-		f += '  <label for="business_name" class="control-label col-sm-3 col-sm-offset-1">Bedrijf</label>';
-		f += '  <div class="col-sm-8">';
-		f += '    <input class="form-control" id="business_name" name="business_name" type=text required aria-required="true">';
-		f += '  </div>';
-		f += '</div>';
-		f += '<div class="form-group">';
-		f += '  <label for="business_address" class="control-label col-sm-3 col-sm-offset-1">Adres</label>';
-		f += '  <div class="col-sm-8">';
-		f += '    <textarea class="form-control" id="business_address" name="business_address" rows="3" required aria-required="true"></textarea>';
-		f += '  </div>';
-		f += '</div>';
-		f += '<div class="form-group">';
-		f += '  <label for="business_vat" class="control-label col-sm-3 col-sm-offset-1">BTW</label>';
-		f += '  <div class="col-sm-8">';
-		f += '    <input class="form-control" id="business_vat" name="business_vat" type=text required aria-required="true" placeholder="BE 4444.333.333">';
-		f += '  </div>';
-		f += '</div>';
-		f += '<hr/>';
-		$('#business_info').html(f);
-		$('#business_info').collapse('show');
-	}
-
-}
-
-function mk_cb_update_visitor_options(index) {
-	return function(e) {
-		var fmt = "tickets_"+index;
-		var name_id = fmt+"_name";
-		var dob_year_id = fmt+"_dob_year";
-		var dob_month_id = fmt+"_dob_month";
-		var dob_day_id = fmt+"_dob_day";
-		var billable_id = fmt+"_billable";
-		var options_id = fmt+"_options";
-
-		if ($('#'+dob_year_id).val() == '' &&
-			$('#'+dob_month_id).val() == '' &&
-			$('#'+dob_day_id).val() == '') {
-			return;
-		}
-		var dob = new Date($('#'+dob_year_id).val(), $('#'+dob_month_id).val()-1, $('#'+dob_day_id).val()).getTime();
-		console.dir(dob);
-		console.dir(ticket_volunteering_cutoff);
-		var billable = Boolean($('#'+billable_id).prop('checked'));
-		var can_volunteer = Boolean(dob < ticket_volunteering_cutoff);
-
-		var ticket = find_ticket_by_dob(dob, billable);
-
-		var ticket_name_id = fmt + "_options_ticket_name";
-		var ticket_price_id = fmt + "_options_ticket_price";
-		var vegitarian_id = fmt + "_options_vegitarian";
-
-		var f = '';
-		var ef = '';
-		// this part needs to be shown for every ticket
-		if (ticket) {
-			f += '<div class="row ticketinfo" >';
-			f += '  <div class="col-sm-6 col-sm-offset-4 ticketname">';
-			f += '    <p id="'+ticket_name_id+'"><i class="glyphicon glyphicon-ok"></i> '+ticket.display+'</p>';
-			f += '  </div>';
-			f += '  <div class="col-sm-2 text-right ticketprice">';
-			f += '    <p id="'+ticket_price_id+'">€'+ticket.volunteering_price+'</p>';
-			f += '  </div>';
-			f += '</div>';
-			f += '<div class="form-group">';
-			f += '  <div class="checkbox col-sm-offset-4 col-sm-4 col-xs-6">';
-			f += '    <label>';
-			f += '      <input type="checkbox" id="'+vegitarian_id+'" name="'+vegitarian_id+'">';
-			f += '      Vegetarisch';
-			f += '    </label>';
-			f += '  </div>';
-		} else {
-			f += '<div class="row">';
-			f += '  <div class="col-sm-8 col-sm-offset-4">';
-			f += '    <p>Ongeldige datum!</p>';
-			f += '  </div>';
-			f += '</div>';
-		}
-		if (ticket && can_volunteer) {
-			var volunteering_id = fmt + "_options_not_volunteering_during";
-			var cleanup_id = fmt + "_options_volunteers_after";
-			var buildup_id = fmt + "_options_volunteers_before";
-			f += '  <div class="checkbox col-sm-4 col-xs-6">';
-			f += '    <label>';
-			if (billable) {
-				ef = 'checked="checked"';
-			}
-			f += '      <input type="checkbox" id="'+volunteering_id+'" name="'+volunteering_id+'" '+ef+' data-toggle="popover" data-placement="top" data-trigger="focus" data-content="Om het kamp te doen lukken, vertrouwen we er op dat iedereen even mee wil helpen op het kamp zelf. Als dit niet voor je lukt, kan je dit hier aanvinken, je betaalt dan wel iets meer.">';
-			f += '      Kan niet meehelpen op het kamp (<i>premium</i>).';
-			f += '    </label>';
-			f += '  </div>';
-			f += '  <div class="checkbox col-sm-offset-4 col-sm-4 col-xs-6">';
-			f += '    <label>';
-			f += '      <input type="checkbox" id="'+buildup_id+'" name="'+buildup_id+'" data-toggle="popover" data-placement="top" data-trigger="focus" data-content="We zoeken altijd vrijwilligers om in de dagen voor het kamp mee te helpen opbouwen. We contacteren je hierover dan nog.">';
-			f += '      Helpt mee opbouwen voor het kamp.';
-			f += '    </label>';
-			f += '  </div>';
-			f += '  <div class="checkbox col-sm-4 col-xs-6">';
-			f += '    <label>';
-			f += '      <input type="checkbox" id="'+cleanup_id+'" name="'+cleanup_id+'" data-toggle="popover" data-placement="top" data-trigger="focus" data-content="We zoeken altijd vrijwilligers om in de dagen na het kamp mee te helpen afbreken. We contacteren je hierover dan nog.">';
-			f += '      Helpt afbreken na het kamp.';
-			f += '    </label>';
-			f += '  </div>';
-		}
-		f += '</div>';
-		// throw it into the DOM so we can add events to it
-		$('#'+options_id).html(f);
-		$('[data-toggle="popover"]').popover();
-		if (can_volunteer) {
-			if (!billable) {
-				var volunteering_id = fmt + "_options_not_volunteering_during";
-				var cleanup_id = fmt + "_options_volunteers_after";
-				$('#'+volunteering_id).on('change', function() {
-					var display_name = '';
-					var display_price = 0;
-					var is_not_volunteering = Boolean(this.checked);
-					if (is_not_volunteering) {
-						display_name = ticket.display + ' (premium)';
-						display_price = ticket.price;
-					} else {
-						display_name = ticket.display;
-						display_price = ticket.volunteering_price;
-					}
-					$('#'+ticket_name_id).text(display_name);
-					$('#'+ticket_price_id).text('€'+display_price);
-					update_price_total_display();
-				});
-			}
-		}
-
-		// and collapse it
-		$('#'+options_id).collapse('show');
-
-		// update main total
-		update_price_total_display();
-
-	}
-}
-
-$('#n_tickets').on('change', display_business_info);
-$('#n_tickets').on('change', function() {
-	var val = parseInt($("#n_tickets").val());
-	var f = "";
-
-	f += '<div class="row text-center">';
-	f += '  <p><h4>Jouw tickets:</h4></p>';
-	f += '</div>';
-
-	// for each ticket, add some form fields to the collapsible target
-	// each of those containing itself a collapsible part on their own,
-	// which gets collapsed by datepicking
-	for (var i = 0; i < val; i++) {
-		var fmt = 'tickets_'+i
-		var name_id = fmt+"_name";
-		var dob_year_id = fmt+"_dob_year";
-		var dob_month_id = fmt+"_dob_month";
-		var dob_day_id = fmt+"_dob_day";
-		var billable_id = fmt+"_billable";
-		var options_id = fmt+"_options";
-		f += '<hr/>';
-		// name box
-		f += '<div class="form-group">';
-		f += '  <label for="'+name_id+'" class="control-label col-sm-3 col-sm-offset-1">Naam</label>';
-		f += '  <div class="col-sm-8">';
-		f += '    <input class="form-control" id="'+name_id+'" name="'+name_id+'" type=text required aria-required="true">';
-		f += '  </div>';
-		f += '</div>';
-		// dob box
-		f += '<div class="form-group">';
-		f += '  <label class="control-label col-sm-3 col-sm-offset-1">Geboortedag</label>';
-		f += '  <div class="col-sm-4">';
-		f += '   <input id="'+dob_year_id+'" name="'+dob_year_id+'" class="form-control col-sm-2" type="tel" maxlength="4" pattern="(19|20|21)[0-9]{2}" required aria-required="true" placeholder="YYYY">';
-		f += '  </div>';
-		f += '  <div class="col-sm-2">';
-		f += '   <input id="'+dob_month_id+'" name="'+dob_month_id+'" class="form-control col-sm-1" type="tel" maxlength="2" pattern="^(1[0-2]|0?[1-9])$" required aria-required="true" placeholder="MM">';
-		f += '  </div>';
-		f += '  <div class="col-sm-2">';
-		f += '   <input id="'+dob_day_id+'" name="'+dob_day_id+'" class="form-control col-sm-1" type="tel" maxlength="2" pattern="^(3[01]|[12][0-9]|0?[1-9])$" required aria-required="true" placeholder="DD">';
-		f += '  </div>';
-		f += '</div>';
-		// bill box
-		f += '<div class="form-group">';
-		f += '  <div class="checkbox col-sm-8 col-sm-offset-4">';
-		f += '    <label><input type="checkbox" id="'+billable_id+'" name="'+billable_id+'" data-toggle="popover" data-placement="top" data-trigger="focus" data-content="Je kiest ervoor om dit ticket te laten factureren. We nemen hiervoor zo snel mogelijk contact op."> Ticket met factuur (altijd €334 inclusief BTW)</label>'
-		f += '  </div>';
-		f += '</div>';
-		// collapse for options depending on input above
-		f += '<div class="collapsible" id="'+options_id+'">';
-		f += '</div>';
-	}
-	f += '<hr/>';
-
-	f += '<div class="row text-center">';
-	f += '  <p><h4>Accomodatie:</h4></p>';
-	f += '</div>';
-	f += '<div class="form-group">';
-	f += '  <div class="col-xs-12 col-sm-11 col-sm-offset-1">';
-	f += '    <div class="checkbox">';
-	f += '      <label>';
-	f += '        <input type="checkbox" id="special_accomodation_needs" name="special_accomodation_needs">';
-	f += '          We beschikken over enkele hostel-kamers op het terrein (gedeelde kamers met een aantal bedden) welke we te huur aanbieden. Als je dit aanvinkt nemen we hierover contact met je op. First come first served!';
-	f += '      </label>';
-	f += '    </div>';
-	f += '  </div>';
-	f += '</div>';
-
-	f += '<hr/>';
-
-	// push it into the DOM so we can hook event listeners on it
-	$("#tickets").html(f);
-	$('[data-toggle="popover"]').popover();
-
-	// for each ticket, add relevant event handlers
-	for (var i = 0; i < val; i++) {
-		// changing the dob should result in a collapse of the
-		// per-ticket options, so wire in the callback giving
-		// it the needed parts to fill the per-ticket collapsable
-		var fmt = "tickets_"+i;
-		var name_id = fmt+"_name";
-		var dob_year_id = fmt+"_dob_year";
-		var dob_month_id = fmt+"_dob_month";
-		var dob_day_id = fmt+"_dob_day";
-		var billable_id = fmt+"_billable";
-		var options_id = fmt+"_options";
-		var cb = mk_cb_update_visitor_options(i);
-		$("#"+dob_year_id).on('change', cb);
-		$("#"+dob_month_id).on('change', cb);
-		$("#"+dob_day_id).on('change', cb);
-		$("#"+billable_id).on('change', display_business_info);
-		$("#"+billable_id).on('change', cb);
-	}
-
-	// and collapse the whole target if a nonzero number of tickets was selected
-	if (val) {
-		$("#tickets").collapse('show');
-	} else {
-		$("#tickets").collapse('hide');
-	}
-
-});
-

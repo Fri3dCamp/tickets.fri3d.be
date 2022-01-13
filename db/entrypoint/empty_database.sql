@@ -78,7 +78,7 @@ insert into product (genus, species, name, display, price, volunteering_price, p
 	( 'garment', 'sweater_uni', 'sweater_uni__xxl',  'Volwassenen unisex sweater XXL',     45, 45, 37.19, 37.19, 45, 45, 0, 0, 0, '1900-01-01 00:00:00', 0),
 	( 'garment', 'sweater_uni', 'sweater_uni__3xl',  'Volwassenen unisex sweater 3XL',     45, 45, 37.19, 37.19, 45, 45, 0, 0, 0, '1900-01-01 00:00:00', 0),
 	( 'simple', 'token', 'token', 'dranktoken',                    1.8, 1.8, 1.49, 1.49, 1.8, 1.8, 0, 0, 0, '1900-01-01 00:00:00', 0),
-	( 'simple', 'mug', 'mug', 'Emaille mok',                    15, 15, 12.40, 12.40, 15, 15, 0, 0, 0, '1900-01-01 00:00:00', 0),
+	( 'simple', 'mug', 'mug', 'Emaille mok',                    10, 10, 8.26, 8.26, 10, 0, 0, 0, '1900-01-01 00:00:00', 0),
 	( 'donation', 'monetary', 'donation', 'donatie',                    10, 10, 10, 10, 0, 0, 0, 0, 10, '1900-01-01 00:00:00', 0),
 	( 'ticket', 'vip_all', 'ticket_vip_all', 'VIP ticket voor alle dagen', 0, 0, 0, 0, 0, 0, 0, 0, 0, '1900-01-01 00:00:00', 0),
 	( 'ticket', 'vip_friday', 'ticket_vip_friday', 'VIP ticket voor vrijdag', 0, 0, 0, 0, 0, 0, 0, 0, 0, '1900-01-01 00:00:00', 0),

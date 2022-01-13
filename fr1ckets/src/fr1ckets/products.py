@@ -353,7 +353,7 @@ products = {
 		{
 			"name" : "mug",
 			"label" : "Emaille mok",
-			"price" : 15,
+			"price" : 10,
 			"max_n" : 5,
 			"images" : [
 				"mug.jpg"

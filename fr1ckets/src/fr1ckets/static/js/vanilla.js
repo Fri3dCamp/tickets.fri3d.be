@@ -268,7 +268,8 @@ function resolve_ticket(i) {
 	}
 
 	// find the relevant ticket for the input entered so far
-	let dob = new Date(dob_year, dob_month + 1, dob_day).getTime();
+	let dob = new Date(dob_year, dob_month - 1, dob_day).getTime();
+	console.log(dob);
 	let ticket_desc = ticket_find_for_dob(dob, billable);
 	if (!ticket_desc) {
 		return {

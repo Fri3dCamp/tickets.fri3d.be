@@ -337,7 +337,7 @@ products = {
 			"label" : "Time Blaster",
 			"price" : 20,
 			"images" : [
-				"badge_accessory_a.png"
+				"badge_accessory_a.jpg"
 			],
 			"description" : "<p>Altijd al jouw eigen lasertag willen maken? Het kan nu op Fri3d camp! Als uitbreiding op de badge, maar ook als standalone, heeft het badge team een blaster ontwikkeld als soldeerkit. Deze volledige Arduino compatibele kit is opgebouwd uit makkelijk zelf te solderen componenten. Voor de durvers zijn er uitbreidingen met RGB LEDs en een USB interface voorzien in de kit waar toch enige vorm van geduld en een vast hand vereist zijn.</p><p>Zelf te solderen!</p>"
 		},
@@ -353,7 +353,7 @@ products = {
 		{
 			"name" : "mug",
 			"label" : "Emaille mok",
-			"price" : 15,
+			"price" : 10,
 			"max_n" : 5,
 			"images" : [
 				"mug.jpg"

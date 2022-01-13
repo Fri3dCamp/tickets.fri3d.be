@@ -363,6 +363,23 @@ p {
   }
 }
 
+.formfooter .col {
+  margin-bottom: 2rem;
+}
+@media screen and (min-width: 600px) {
+  .formfooter {
+    display: grid;
+    column-gap: 20px;
+    grid-template-columns: auto auto;
+  }
+  .formfooter .col {
+    margin-bottom: 0;
+  }
+  .formfooter .col:last-child {
+    text-align: right;
+  }
+}
+
 .btn {
   border-radius: 0;
   border: none;
@@ -435,13 +452,28 @@ option {
 
 .order_overview {
   border-collapse: collapse;
+  width: 100%;
+}
+
+.order_overview_head {
+  vertical-align: top;
+  font-weight: bold;
+}
+.order_overview_head td {
+  padding-right: 10px;
+}
+.order_overview_head td:last-of-type {
+  padding-right: 0;
 }
 
 .order_overview_row td {
-  border-top: 1px solid gainsboro;
-}
-.order_overview_row td .item_display {
   padding-right: 10px;
+  border-top: 1px solid gainsboro;
+  vertical-align: top;
+  padding-bottom: 1rem;
+}
+.order_overview_row td:last-of-type {
+  padding-right: 0;
 }
 
 .order_summary_row {

@@ -277,6 +277,23 @@ p {
     }
 }
 
+.formfooter {
+    .col {
+        margin-bottom:2rem;
+    }
+    @media screen and (min-width:$width0) {
+        display:grid;
+        column-gap: $spacer*2;
+        grid-template-columns: auto auto;
+        .col {
+            margin-bottom:0;
+        }
+        .col:last-child {
+            text-align: right;
+        }
+    }
+}
+
 .btn {
     border-radius: 0;
     border:none;
@@ -369,12 +386,27 @@ option {
 
 .order_overview {
     border-collapse: collapse;
+    width: 100%;
+}
+
+.order_overview_head {
+    vertical-align: top;
+    font-weight: bold;
+    td {
+        padding-right: $spacer;
+        &:last-of-type {
+            padding-right: 0;
+        }
+    }
 }
 
 .order_overview_row td {
+    padding-right: $spacer;
     border-top:1px solid rgb(220,220,220);
-    .item_display {
-        padding-right: $spacer;
+    vertical-align: top;
+    padding-bottom: 1rem;
+    &:last-of-type {
+        padding-right: 0;
     }
 }
 

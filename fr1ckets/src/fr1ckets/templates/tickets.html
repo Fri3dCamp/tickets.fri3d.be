@@ -1,36 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<!-- vim: set sw=2 ts=2 expandtab: -->
-
-<head>
-    <meta charset="utf-8">
-    <title>Fri3d Camp 2022 tickets</title>
-    <link rel="stylesheet" href="/static/css/vanilla.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="apple-touch-icon" sizes="57x57" href="/static/img/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/static/img/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/static/img/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/static/img/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/static/img/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/static/img/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/static/img/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/static/img/apple-icon-152x152.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/static/img/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/static/img/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/static/img/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/static/img/favicon-16x16.png">
-    <link rel="manifest" href="/static/img/manifest.json">
-</head>
-
-<body>
-    <header class="siteheader">
-        <a href="https://www.fri3d.be/" class="headerlogo">
-            <img src="/static/img/logo_white_noyear.svg" alt="Fri3d Camp">
-        </a>
-    </header>
+{% include "header_vanilla.html" %}
     <div class="notice notice-warning block-narrow" id="js_warning">
         <p>Deze pagina vereist Javascript! Gelieve Javascript op te zetten voor deze site. Ingeval ethische bezwaren geen probleem, tickets@fri3d.be kan je manueel verderhelpen.</p>
     </div>
+    <!-- container-->
     <div class="sitebody hidden" id="js_container">
 
         <header class="pageheader block block-narrow">
@@ -42,7 +14,6 @@
                     wachtrij en we laten je iets weten als er terug plaats is.</p>
             </div>
         </header>
-
         <form id="fr1ckets_form">
             <div class="pagesection block block-wide cols cols-small">
                 {{ form.csrf_token }}
@@ -436,7 +407,7 @@
                 </div>
             </div>
 
-            <div class="pagesection block block-narrow block-padded hilite cols cols-big">
+            <div class="pagesection block block-narrow block-padded hilite formfooter">
                 <div class="col"><strong>Totaal: </strong>€<span id="price_total">no js :/</span></div>
                 <div class="col"><button type="submit" class="btn btn-submit btn-block" id="check_button">Bestelling
                         controleren</button></div>
@@ -514,17 +485,4 @@
         <!-- vim: set sw=2 ts=2: -->
     </div><!-- container-->
     <!-- eff your french article meme -->
-    <script src="/static/js/fr1ckets.js"></script>
-    <script src="/static/js/ext/moment.js"></script>
-    {% if page_opts and page_opts['charting'] %}
-    <script src="/static/js/ext/Chart.js"></script>
-    {% endif %}
-    {% if page_opts and page_opts['internal'] %}
-    <script src="/static/js/fr1ckets_internal.js"></script>
-    {% endif %}
-    {% if page_opts and page_opts['shift'] %}
-    <script src="/static/js/fr1ckets_shifts.js"></script>
-    {% endif %}
-</body>
-
-</html>
+{% include "footer_vanilla.html" %}

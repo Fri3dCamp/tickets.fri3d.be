@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 		for (let i = 0; i < document.querySelector('#n_tickets').value; i++) {
 			let t = resolve_ticket(i);
 			if (!t.ok) {
-				validation_errorsi.push('De ticketgegevens zijn nog niet compleet.');
+				validation_errors.push('De ticketgegevens zijn nog niet compleet.');
 				break;
 			}
 		}

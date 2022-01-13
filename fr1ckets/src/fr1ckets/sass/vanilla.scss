@@ -188,9 +188,9 @@ p {
         @media screen and (min-width:$width5) {
             grid-template-columns: auto auto auto auto;
         }
-        .col {
-            min-width: $bigcol;
-        }
+        // .col {
+        //     min-width: $bigcol;
+        // }
     }
     &-small {
         @media screen and (min-width:$width0) {
@@ -205,9 +205,9 @@ p {
         @media screen and (min-width:$width6) {
             grid-template-columns: auto auto auto auto auto;
         }
-        .col {
-            min-width: $smallcol;
-        }
+        // .col {
+        //     min-width: $smallcol;
+        // }
     }
     .col {
         width: auto;

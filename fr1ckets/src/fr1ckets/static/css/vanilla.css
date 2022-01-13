@@ -277,9 +277,6 @@ p {
     grid-template-columns: auto auto auto auto;
   }
 }
-.cols-big .col {
-  min-width: 500px;
-}
 @media screen and (min-width: 600px) {
   .cols-small {
     grid-template-columns: auto auto;
@@ -299,9 +296,6 @@ p {
   .cols-small {
     grid-template-columns: auto auto auto auto auto;
   }
-}
-.cols-small .col {
-  min-width: 300px;
 }
 .cols .col {
   width: auto;

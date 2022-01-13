@@ -359,8 +359,8 @@ document.addEventListener('DOMContentLoaded', event => {
 
 	// show ticket entry upon number choice
 	let ticket_chooser = document.querySelector('#n_tickets');
-	ticket_chooser.addEventListener('click', event => {
-		let n = parseInt(ticket_chooser.value);
+	ticket_chooser.addEventListener('change', event => {
+		let n = parseInt(event.target.value);
 
         console.log(n);
 
@@ -371,8 +371,6 @@ document.addEventListener('DOMContentLoaded', event => {
         }
 
 		element_clear_children('#template_dest_participants');
-
-		buying_tickets = Array.apply(null, Array(n)).map(() => '');
 
 		// a closure which updates meta for this ticket (options depending on date
 		// and billability)
@@ -489,7 +487,7 @@ document.addEventListener('DOMContentLoaded', event => {
 			document.querySelector('#' + new_id + '_dob_day').addEventListener('change', cb);
 			document.querySelector('#' + new_id + '_billable').addEventListener('change', cb);
 			document.querySelector('#' + new_id + '_billable').addEventListener('change', (event) => {
-				let state = document.querySelector('#' + new_id + '_billable').checked;
+				let state = event.target.checked;
 
 				if (state) {
 					n_business_tickets++;
@@ -522,7 +520,7 @@ document.addEventListener('DOMContentLoaded', event => {
 	document.querySelector('#have_voucher').checked = false;
 
 	document.querySelector('#have_voucher').addEventListener('change', function(event) {
-		let checked = document.querySelector('#have_voucher').checked;
+		let checked = event.target.checked;
 
 		if (!checked) {
 			// disabled, clear everything

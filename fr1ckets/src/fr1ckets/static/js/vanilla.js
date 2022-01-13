@@ -364,7 +364,7 @@ document.addEventListener('DOMContentLoaded', event => {
 
         console.log(n);
 
-        if ( 0==1 ) {
+        if (n==0) {
             document.querySelector('#js_participants').classList.add('hidden');
         } else {
             document.querySelector('#js_participants').classList.remove('hidden');

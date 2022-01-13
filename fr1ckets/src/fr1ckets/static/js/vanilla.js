@@ -557,6 +557,7 @@ document.addEventListener('DOMContentLoaded', event => {
 			// disabled, clear everything
 			element_clear_children('#voucher_entries');
 			vouchers_current = [];
+			recalc();
 			return;
 		}
 

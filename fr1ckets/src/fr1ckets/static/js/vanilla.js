@@ -38,8 +38,8 @@ document.addEventListener('DOMContentLoaded', function(event) {
 		item.addEventListener('click', event => {
 			event.preventDefault();
 
-			let mysrc = event.target.src;
-			let myalt = event.target.alt;
+			let mysrc = item.href;
+			let myalt = "";
 
 			let modal = document.querySelector("#large_image");
 			hideclass = modal.getAttribute("data-hideclass");

@@ -253,9 +253,9 @@ function resolve_ticket(i) {
 	let h = 'tickets_' + i;
 	let name = document.querySelector('#' + h + '_name').value;
 	let billable = document.querySelector('#' + h + '_billable').checked;
-	let dob_year = document.querySelector('#' + h + '_dob_year').value;
-	let dob_month = document.querySelector('#' + h + '_dob_month').value;
-	let dob_day = document.querySelector('#' + h + '_dob_day').value;
+	let dob_year = parseInt(document.querySelector('#' + h + '_dob_year').value);
+	let dob_month = parseInt(document.querySelector('#' + h + '_dob_month').value);
+	let dob_day = parseInt(document.querySelector('#' + h + '_dob_day').value);
 
 	if (!name.length || !dob_year.length || !dob_month.length || !dob_day.length) {
 		return {

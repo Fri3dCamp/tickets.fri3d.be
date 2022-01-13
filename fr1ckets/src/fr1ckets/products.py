@@ -344,7 +344,7 @@ products = {
 		{
 			"name" : "badge_accessory_b",
 			"label" : "GameOn",
-			"price" : 10,
+			"price" : 12,
 			"images" : [
 				"badge_accessory_b.jpg"
 			],

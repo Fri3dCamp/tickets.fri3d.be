@@ -79,8 +79,15 @@ document.addEventListener('DOMContentLoaded', function(event) {
 		for (let i = 0; i < document.querySelector('#n_tickets').value; i++) {
 			let t = resolve_ticket(i);
 			if (!t.ok) {
-				validation_errors('De ticketgegevens zijn nog niet compleet.');
+				validation_errorsi.push('De ticketgegevens zijn nog niet compleet.');
 				break;
+			}
+		}
+		if (n_business_tickets > 0) {
+			if (!document.querySelector('#business_name').checkValidity() ||
+				!document.querySelector('#business_address').checkValidity() ||
+				!document.querySelector('#business_vat').checkValidity()) {
+					validation_errors.push('We hebben nog factuurgegevens nodig.');
 			}
 		}
 		if (validation_errors.length > 0) {
@@ -120,15 +127,21 @@ document.addEventListener('DOMContentLoaded', function(event) {
 		let form_data = new FormData(document.querySelector('#fr1ckets_form'));
 
 		// loop over tickets, pull in needed bits
-		let n_tickets = document.querySelector('#n_tickets').value;
+		let n_tickets = parseInt(document.querySelector('#n_tickets').value);
 		for (let i = 0; i < n_tickets; i++) {
 			let h = 'tickets_' + i;
+			// we expect these to exist for every ticket
 			[ 'name', 'dob_year', 'dob_month', 'dob_day' ].forEach(k => {
 				form_data.append(h + '_' + k, document.querySelector('#' + h + '_' + k).value);
 			});
+			// these may not be available for every ticket (esp volunteering)
 			[ 'billable', 'options_vegitarian', 'options_volunteers_before', 'options_volunteers_after', 'options_not_volunteering_during' ].forEach(k => {
-				if (document.querySelector('#' + h + '_' + k).checked)
-					form_data.append(h + '_' + k, 'on');
+				try {
+					if (document.querySelector('#' + h + '_' + k).checked)
+						form_data.append(h + '_' + k, 'on');
+				} catch (e) {
+					;
+				}
 			});
 		}
 
@@ -636,24 +649,9 @@ document.addEventListener('DOMContentLoaded', event => {
 
 });
 
-function orderize() {
+function itemize() {
 
 	let items = [];
-
-	// products
-	available_product_descs.filter(p => p.genus != 'ticket').forEach(prod => {
-		let n = 0;
-		try {
-			n = document.querySelector('#' + prod.name).value;
-		} catch (error) {
-		}
-		if (n > 0) {
-			items.push({
-				'value' : n,
-				'total' : prod.price * n,
-			});
-		}
-	});
 
 	// tickets
 	let n_tickets = document.querySelector('#n_tickets').value;
@@ -666,27 +664,6 @@ function orderize() {
 			'total' : ticket.price,
 		});
 	}
-
-	// vouchers
-	for (let i = 0; i < vouchers_current.length; i++) {
-		let v = vouchers_current[i];
-
-		if (!v.code.length)
-			continue;
-		items.push({
-			'display' : 'Voucher ' + v.code,
-			'price' : v.discount * -1,
-			'n' : 1,
-			'total' : v.discount * -1,
-		});
-	}
-
-	return items;
-
-}
-function itemize() {
-
-	let items = [];
 
 	// products
 	available_product_descs.filter(p => p.genus != 'ticket').forEach(prod => {
@@ -704,18 +681,6 @@ function itemize() {
 			});
 		}
 	});
-
-	// tickets
-	let n_tickets = document.querySelector('#n_tickets').value;
-	for (let i = 0; i < n_tickets; i++) {
-		let ticket = resolve_ticket(i);
-		items.push({
-			'display' : ticket.display,
-			'price' : ticket.price,
-			'n' : 1,
-			'total' : ticket.price,
-		});
-	}
 
 	// vouchers
 	for (let i = 0; i < vouchers_current.length; i++) {

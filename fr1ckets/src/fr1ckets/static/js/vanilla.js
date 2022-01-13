@@ -253,9 +253,9 @@ function resolve_ticket(i) {
 	let h = 'tickets_' + i;
 	let name = document.querySelector('#' + h + '_name').value;
 	let billable = document.querySelector('#' + h + '_billable').checked;
-	let dob_year = parseInt(document.querySelector('#' + h + '_dob_year').value);
-	let dob_month = parseInt(document.querySelector('#' + h + '_dob_month').value);
-	let dob_day = parseInt(document.querySelector('#' + h + '_dob_day').value);
+	let dob_year = document.querySelector('#' + h + '_dob_year').value;
+	let dob_month = document.querySelector('#' + h + '_dob_month').value;
+	let dob_day = document.querySelector('#' + h + '_dob_day').value;
 
 	if (!name.length || !dob_year.length || !dob_month.length || !dob_day.length) {
 		return {
@@ -267,9 +267,12 @@ function resolve_ticket(i) {
 		};
 	}
 
+	dob_year = parseInt(dob_year);
+	dob_month = parseInt(dob_month);
+	dob_day = parseInt(dob_day);
+
 	// find the relevant ticket for the input entered so far
 	let dob = new Date(dob_year, dob_month - 1, dob_day).getTime();
-	console.log(dob);
 	let ticket_desc = ticket_find_for_dob(dob, billable);
 	if (!ticket_desc) {
 		return {

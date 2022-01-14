@@ -524,6 +524,7 @@ document.addEventListener('DOMContentLoaded', event => {
 			}, new_id);
 
 			// hook in the update_cb to respond to any changes
+			document.querySelector('#' + new_id + '_name').addEventListener('change', cb);
 			document.querySelector('#' + new_id + '_dob_year').addEventListener('change', cb);
 			document.querySelector('#' + new_id + '_dob_month').addEventListener('change', cb);
 			document.querySelector('#' + new_id + '_dob_day').addEventListener('change', cb);

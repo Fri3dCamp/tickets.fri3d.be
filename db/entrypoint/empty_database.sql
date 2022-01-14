@@ -23,10 +23,10 @@ create table product (
 );
 
 insert into product (genus, species, name, display, price, volunteering_price, price_net, volunteering_price_net, part_vat_21, volunteering_part_vat_21, part_vat_12, part_vat_6, part_vat_0, max_dob, billable) values
-	( 'ticket', 'normal', 'ticket_3bit',     'Ticket 0-3 jaar',                  12,   12,  11.32,  11.32,   0,   0,  0, 12, 0, '2019-08-12 13:37:00', 0),
-	( 'ticket', 'normal', 'ticket_4bit',     'Ticket 3-6 jaar',                  22,   22,  20.25,  20.25,   0,   0, 10, 12, 0, '2016-08-12 13:37:00', 0),
-	( 'ticket', 'normal', 'ticket_5bit',     'Ticket 6-12 jaar',                 40,   40,  35.79,  35.79,   8,   8, 20, 12, 0, '2010-08-12 13:37:00', 0),
-	( 'ticket', 'normal', 'ticket_6bit',     'Ticket 12-24 jaar',                82,   82,  73.11,  73.11,  19,  19, 40, 23, 0, '1998-08-12 13:37:00', 0),
+	( 'ticket', 'normal', 'ticket_3bit',     'Ticket 0-3 jaar',                  12,   12,  11.32,  11.32,   0,   0,  0, 12, 0, '2019-08-11 13:37:00', 0),
+	( 'ticket', 'normal', 'ticket_4bit',     'Ticket 3-6 jaar',                  22,   22,  20.25,  20.25,   0,   0, 10, 12, 0, '2016-08-11 13:37:00', 0),
+	( 'ticket', 'normal', 'ticket_5bit',     'Ticket 6-12 jaar',                 40,   40,  35.79,  35.79,   8,   8, 20, 12, 0, '2010-08-11 13:37:00', 0),
+	( 'ticket', 'normal', 'ticket_6bit',     'Ticket 12-24 jaar',                82,   82,  73.11,  73.11,  19,  19, 40, 23, 0, '1998-08-11 13:37:00', 0),
 	( 'ticket', 'normal', 'ticket_7bit',     'Ticket +24 jaar',                  174, 149, 155.23, 134.57,  59,  34, 40, 75, 0, '1900-01-01 00:00:00', 0),
 	( 'ticket', 'normal', 'ticket_8bit',     'Ticket zakelijk',                  348, 348, 299.03, 299.03, 233, 233, 40, 75, 0, '1900-01-01 00:00:00', 1),
 	( 'garment', 'tshirt_m', 'tshirt_m__xxs',  'Volwassenen mannen t-shirt XXS',       20, 20, 16.53, 16.53, 20, 20, 0, 0, 0, '1900-01-01 00:00:00', 0),
@@ -103,8 +103,8 @@ create table reservation (
 	index reservation_email_index (email asc)
 );
 insert into reservation (email, available_from) values
-	('default', '2022-01-29 19:00:00'),
-	('someone@who.reserved', '2022-01-22 19:00:00');
+	('default', '2022-02-02 19:00:00'),
+	('someone@who.reserved', '2022-01-19 19:00:00');
 
 drop table if exists purchase;
 create table purchase (

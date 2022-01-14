@@ -8,7 +8,7 @@ texts['MAIL_TICKETS_ORDERED_OK_HTML'] = u"""<html>
 <body>
 <p>Beste,</p>
 <p>Bedankt voor je aankoop op de Fri3d Camp 2022 ticketshop!</p>
-<p>Gelieve binnen de {days_max} dagen het bedrag van <b>€{amount}</b> over te maken op onze nieuwe (!) rekening {payment_account}, met als vermelding "{payment_code}".</p>
+<p>Gelieve binnen de {days_max} dagen het bedrag van <b>€{amount}</b> over te maken op onze rekening {payment_account}, met als vermelding "{payment_code}".</p>
 <p>We sturen je een bevestigingsmail op {email} als de betaling ontvangen is.</p>
 <p>Als we je betaling niet binnen de 14 dagen ontvangen hebben, worden je tickets opnieuw vrijgegeven voor verkoop.</p>
 <p>Nog even een overzicht van je aankoop:</p>
@@ -25,7 +25,7 @@ texts['MAIL_TICKETS_ORDERED_OK_TEXT'] = u"""Beste,
 
 Bedankt voor je aankoop op de Fri3d Camp 2022 ticketshop!
 
-Gelieve binnen de {days_max} dagen het bedrag van €{amount} over te maken op onze nieuwe (!) rekening {payment_account}, met als vermelding "{payment_code}".
+Gelieve binnen de {days_max} dagen het bedrag van €{amount} over te maken op onze rekening {payment_account}, met als vermelding "{payment_code}".
 
 We sturen je een bevestigingsmail op {email} als de betaling ontvangen is.
 

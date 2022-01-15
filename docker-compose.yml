@@ -3,7 +3,7 @@ services:
     web:
         image: nginx
         ports:
-            - 8002:80
+            - "127.0.0.1:${PORT}:80"
         volumes:
             - ./web/default.conf:/etc/nginx/conf.d/default.conf:ro
             - ./web/cert.pem:/cert.pem:ro
@@ -15,7 +15,7 @@ services:
     db:
         image: mysql:5
         volumes:
-            - ./db/contents:/var/lib/mysql
+            - db_contents:/var/lib/mysql
             - ./db/backups:/backups
             - ./db/entrypoint:/docker-entrypoint-initdb.d:ro
         command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
@@ -50,3 +50,6 @@ services:
             - queue:queue
         env_file:
             - ./env
+
+volumes:
+    db_contents:

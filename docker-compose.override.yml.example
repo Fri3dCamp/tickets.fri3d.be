@@ -1,0 +1,10 @@
+version: '3'
+services:
+    fr1ckets:
+        volumes:
+            - ./fr1ckets/csv:/csv
+            - ./fr1ckets/src:/src
+        command: python ./wsgi.py
+    worker:
+        volumes:
+            - ./worker/src:/src

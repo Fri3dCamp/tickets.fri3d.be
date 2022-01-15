@@ -7,10 +7,12 @@ from wtforms import BooleanField, IntegerField, TextAreaField
 from wtforms.fields.html5 import EmailField, DateTimeField
 from fr1ckets import app
 from fr1ckets.texts import texts
-from fr1ckets.model import model
+import fr1ckets.products as products
+from fr1ckets.model import model, setup
 from fr1ckets.mail import mail
 from functools import wraps
 import time
+import copy
 import json
 import datetime
 import unicodedata
@@ -47,23 +49,61 @@ def req_auth_public(f):
 		return f(*args, **kwargs)
 	return fn
 
-def generate_garment_names():
-	out = []
-	for tshirt in [ 'adult_f' ]:
-		for size in [ 's', 'm', 'l', 'xl', 'xxl' ]:
-			out.append("tshirt_{0}_{1}".format(tshirt, size))
-		for size in [ 's', 'm', 'l', 'xl' ]:
-			out.append("hoodie_{0}_{1}".format(tshirt, size))
-	for tshirt in [ 'adult_m' ]:
-		for size in [ 's', 'm', 'l', 'xl', 'xxl', '3xl', '4xl' ]:
-			out.append("tshirt_{0}_{1}".format(tshirt, size))
-			out.append("hoodie_{0}_{1}".format(tshirt, size))
-	for tshirt in [ 'kid' ]:
-		for size in [ 'xs', 's', 'm', 'l', 'xl' ]:
-			out.append("tshirt_{0}_{1}".format(tshirt, size))
-			out.append("hoodie_{0}_{1}".format(tshirt, size))
+def load_products():
+	output = {}
+	output['simple'] = products.products['simple']
+	output['clothing'] = []
+	for p in products.products['clothing']:
+		size_ref = p["sizes"]
+		parsed_p = copy.deepcopy(p)
+		try:
+			parsed_p["size_table"] = products.size_tables[p["size_table_ref"]]
+		except:
+			parsed_p["size_table"] = False
+		try:
+			parsed_p["sizes"] = products.clothing_sizes[size_ref]
+		except Exception as e:
+			parsed_p["sizes"] = products.clothing_sizes["default"]
+		output['clothing'].append(parsed_p)
+	return output
 
+cache_product_names = None
+def get_product_names(genus=None, species=None):
+	out = []
+	global cache_product_names
+	if not cache_product_names:
+		cache_product_names = {}
+		with app.app_context():
+			setup.setup_db()
+			p_all = model.products_get(g.db_cursor)
+		for p in p_all:
+			n_genus, n_species, n_name = p['genus'], p['species'], p['name']
+			if n_genus not in cache_product_names:
+				cache_product_names[n_genus] = {}
+			if n_species not in cache_product_names[n_genus]:
+				cache_product_names[n_genus][n_species] = []
+			cache_product_names[n_genus][n_species].append(n_name)
+	if not genus:
+		for k, v in cache_product_names.iteritems():
+			for species, names in v:
+				out += names
+	elif not species:
+		for species, names in cache_product_names[genus].iteritems():
+			out += names
+	else:
+		out = cache_product_names[genus][species]
 	return out
+
+cache_product_ids = None
+def get_product_id(name):
+	if not cache_product_ids:
+		cache_product_ids = {}
+		with app.app_context():
+			setup.setup_db()
+			p_all = model.products_get(g.db_cursor)
+		for p in p_all:
+			cache_product_ids[p['name']] = p['id']
+	return cache_product_ids[name]
 
 def prettify_purchase_code(code):
 	return "+++{0}/{1}/{2}+++".format(code[:3], code[3:7], code[7:])
@@ -101,34 +141,25 @@ class TicketForm(Form):
 		validators.NumberRange(min=0, max=20),
 		])
 
-	token = IntegerField('token', validators=[
-		validators.NumberRange(min=0, max=100),
-		])
+	for a in get_product_names('badge', 'accessory'):
+		vars()[a] = IntegerField(a, validators=[
+			validators.NumberRange(min=0, max=20) ])
 
-	badge_accessory_a = IntegerField('badge_accessory_a', validators=[
-		validators.NumberRange(min=0, max=20),
-		])
+	for a in get_product_names('infrastructure', 'spot'):
+		vars()[a] = IntegerField(a, validators=[
+			validators.NumberRange(min=0, max=20) ])
 
-	badge_accessory_b = IntegerField('badge_accessory_b', validators=[
-		validators.NumberRange(min=0, max=20),
-		])
+	for a in get_product_names('simple'):
+		vars()[a] = IntegerField(a, validators=[
+			validators.NumberRange(min=0, max=100) ])
 
-	camper_spot = IntegerField('camper_spot', validators=[
-		validators.NumberRange(min=0, max=20),
-		])
+	for a in get_product_names('garment'):
+		vars()[a] = IntegerField(a, validators=[
+			validators.NumberRange(min=0, max=10) ])
 
-	mug = IntegerField('mug', validators=[
-		validators.NumberRange(min=0, max=20),
-		])
-
-	donation = IntegerField('donation', validators=[
-		validators.NumberRange(min=0, max=20),
-		])
-
-	for garment in generate_garment_names():
-		vars()[garment] = IntegerField(garment, validators=[
-			validators.NumberRange(min=0, max=10),
-			])
+	for a in get_product_names('donation'):
+		vars()[a] = IntegerField(a, validators=[
+			validators.NumberRange(min=0, max=10) ])
 
 	special_accomodation_needs = BooleanField('special_accomodation_needs', default=False)
 
@@ -201,20 +232,17 @@ def extract_general_ticket_info(form_tickets):
 
 	field = getattr(form_tickets, 'special_accomodation_needs', None)
 	out['special_accomodation_needs'] = field.data if field else False
-	P(form_tickets)
 	return out
 
 def extract_products(cursor, form_general, form_tickets):
 
 	p = map(dict, model.products_get(cursor))
-	known_tickets = sorted([ t for t in p if 'ticket' in t['name'] ], key=lambda t: t['max_dob'], reverse=True)
-	known_tshirts = [ t for t in p if 'tshirt' in t['name'] ]
-	known_tshirts.extend([ t for t in p if 'hoodie' in t['name'] ])
-	known_tokens = [ t for t in p if 'token' in t['name'] ]
-	known_mugs = [ t for t in p if 'mug' in t['name'] ]
-	known_donations = [ t for t in p if 'donation' in t['name'] ]
-	known_badge_parts = [ t for t in p if 'badge' in t['name'] ]
-	known_camper_spots = [ t for t in p if 'camper_spot' in t['name'] ]
+	known_tickets = sorted([ t for t in p if (t['genus'] == 'ticket' and t['species'] == 'normal') ], key=lambda t: t['max_dob'], reverse=True)
+	known_garments = [ t for t in p if t['genus'] == 'garment' ]
+	known_simples = [ t for t in p if t['genus'] == 'simple' ]
+	known_donations = [ t for t in p if t['genus'] == 'donation' ]
+	known_badge_parts = [ t for t in p if t['genus'] == 'badge' ]
+	known_spots = [ t for t in p if t['genus'] == 'infrastructure' ]
 	seen_business_tickets = False
 	out = []
 
@@ -245,11 +273,10 @@ def extract_products(cursor, form_general, form_tickets):
 			})
 		return out
 
-	out.extend(find_knowns(known_tshirts, form_general))
-	out.extend(find_knowns(known_tokens, form_general))
+	out.extend(find_knowns(known_garments, form_general))
+	out.extend(find_knowns(known_simples, form_general))
 	out.extend(find_knowns(known_badge_parts, form_general))
-	out.extend(find_knowns(known_camper_spots, form_general))
-	out.extend(find_knowns(known_mugs, form_general))
+	out.extend(find_knowns(known_spots, form_general))
 	out.extend(find_knowns(known_donations, form_general))
 
 	for i in range(n_tickets):
@@ -294,10 +321,6 @@ def price_distribution_strategy(cursor, nonce):
 	price_unbillable = price_total - price_billable
 	price_discount = model.get_purchase_discount(g.db_cursor, nonce)
 
-	print "price_total={0!r}".format(price_total)
-	print "price_billable={0!r}".format(price_billable)
-	print "price_unbillable={0!r}".format(price_unbillable)
-	print "price_discount={0!r}".format(price_discount)
 	if price_discount > price_total:
 		# all expenses covered by discount
 		return 0, 0
@@ -320,7 +343,7 @@ def tickets():
 	tickets_available = app.config['TICKETS_MAX'] - model.tickets_actual_total(g.db_cursor)
 	return render_template('tickets.html',
 			selling_inhibited=app.config['INHIBIT_SELLING'],
-			form=form, tickets_available=tickets_available)
+			form=form, tickets_available=tickets_available, products=load_products(), today=datetime.date.today())
 
 @app.route('/api/tickets_register', methods=[ 'POST' ])
 @req_auth_public
@@ -364,7 +387,6 @@ def ticket_register():
 	# the dynamic part of the form validated as well, get out all the data
 	# and write to database
 	products, contains_billables  = extract_products(g.db_cursor, form, individual_form)
-	P(products)
 	business_form = None
 	if contains_billables:
 		# one or more of the products are billable, validate business info
@@ -1391,7 +1413,7 @@ def api_set_volunteering_data(nonce):
 		schedule_text += '* {0}:\n'.format(unicodedata.normalize('NFKD', person).encode('ascii', 'ignore'))
 		for e in mail_schedule[person]:
 			when, what = e
-			schedule_html += '    <li>{0}: {1}</li>'.format(when, what)
+			schedule_html += '<li>{0}: {1}</li>'.format(when, what)
 			schedule_text += '\t- {0}: {1}\n'.format(when, what)
 		schedule_html += '</ul></li>'
 	schedule_html += '</ul>'

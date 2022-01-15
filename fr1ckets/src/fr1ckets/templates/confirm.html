@@ -1,48 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<!-- vim: set sw=2 ts=2: -->
-	<head>
-		<meta charset="utf-8">
-		<title>Fri3d Camp 2020</title>
-<!--
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
--->
-		<link rel="stylesheet" href="/static/css/app.css">
-		<link rel="stylesheet" href="/static/css/tickets.css">
-		<link rel="stylesheet" href="/static/css/fri3d2020_overrides.css">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-	</head>
-	<body>
+{% include "header_vanilla.html" %}
 
-
-<div class="container">
-
-	{% include "fri3dheader.html" %}
-
-	<div class="row">
-		<div class="col-xs-12 col-sm-8 col-sm-offset-2 ">
+<!-- container-->
+<div class="sitebody">
+	<div class="pagesection block block-narrow">
 				<h1>Bedankt!</h1>
 {% if not queued %}
-				<p>Je bestelling is goed ontvangen. Gelieve binnen de {{ days_max }} dagen het bedrag van €{{ price_total }} over te schrijven:</p>
+				<p>Je bestelling is goed ontvangen. Gelieve binnen de {{ days_max }} dagen het bedrag van <strong>€ {{ price_total }}</strong> over te schrijven:</p>
 					<ul>
 						<li>rekeningnummer <b>{{ payment_account }}</b></li>
 						<li>met mededeling <b>{{ payment_code }}</b></li>
 					</ul>
-				<p>Als we je betaling niet binnen de {{ days_max }} dagen ontvangen hebben, worden je tickets opnieuw vrijgegeven voor verkoop.</p>
+				<div class="notice"><strong>Opgelet!</strong> Als we je betaling niet binnen de {{ days_max }} dagen ontvangen hebben, worden je tickets opnieuw vrijgegeven voor verkoop.</div>
 	{% if price_billable > 0 %}
-				<p>Je hebt één of meerdere factureerbare tickets gekocht, voor €{{ price_billable }}. Je ontvangt daarvoor spoedig een factuur.</p>
+				<div class="notice">Je hebt één of meerdere factureerbare tickets gekocht, voor €{{ price_billable }}. Je ontvangt daarvoor spoedig een factuur.</div>
 	{% endif %}
 {% else %}
-				<p>Er zijn niet genoeg tickets beschikbaar voor je bestelling. We hebben je bestelling in de wachtrij gezet. Als er voldoende plaatsen vrijkomen, word je per mail verwittigd op {{ email }}.</p>
+				<div class="notice notice-warning">Er zijn niet genoeg tickets beschikbaar voor je bestelling. We hebben je bestelling in de wachtrij gezet. Als er voldoende plaatsen vrijkomen, word je per mail verwittigd op {{ email }}.</div>
 {% endif %}
 				<p>Heb je een vraag? Mail naar <a href="mailto:tickets@fri3d.be">tickets@fri3d.be</a>.</p>
 				<p>Je ontvangt de gegevens van je bestelling ook nog per mail op {{ email }}.</p>
-				<p>Hier volgt nog een overzichtje:</p>
-				</h4>
-				<h5>
-					<table class="table">
-						<thead>
+    </div>
+	<div class="pagesection block block-narrow">
+				<h2>Nog een overzicht van je bestelling:</h2>
+					<table class="order_overview">
+						<thead class="order_overview_head">
 							<td>Item</td>
 							<td>Per stuk</td>
 							<td>Aantal</td>
@@ -50,7 +31,7 @@
 						</thead>
 						<tbody>
 					{% for i in items %}
-							<tr>
+							<tr class="order_overview_row">
 								<td>
 									<strong>
 										{{i.product}} {% if i.person_name %} (voor {{i.person_name}}) {% endif %}
@@ -70,26 +51,13 @@
 					{% endfor %}
 						</tbody>
 					</table>
-				</h5>
-			</div>
 		</div>
 	</div>
-	<div class="row spacebelow">
-		<div class="col-xs-12 col-sm-10 col-sm-offset-1 text-center">
+	<div class="pagesection block block-narrow">
+		<div class="notice">
 			<a href="/tickets">Nog tickets bestellen</a>
 		</div>
 	</div>
-
-</div>
+ </div><!-- /container-->
 <!-- eff your french article meme -->
-<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-{% if page_opts and page_opts['charting'] %}
-<script src="/static/js/moment.js"></script>
-<script src="/static/js/Chart.js"></script>
-{% endif %}
-{% if page_opts and page_opts['internal'] %}
-<script src="/static/js/fr1ckets_overview.js"></script>
-{% endif %}
-	</body>
-</html>
+{% include "footer_vanilla.html" %}

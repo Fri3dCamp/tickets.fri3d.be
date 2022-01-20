@@ -113,7 +113,8 @@ texts['MAIL_PAYMENT_RECEIVED_SUBJECT'] = u"Je Fri3d Camp 2022 betaling is binnen
 texts['MAIL_PAYMENT_RECEIVED_HTML'] = u"""<html>
 <body>
 <p>Beste,</p>
-<p>Je betaling is binnengekomen! Je hoeft verder niets meer te doen. Je tickets en je eventuele extra's, zullen klaarliggen op het kamp. Hou <a href="http://www.fri3d.be">www.fri3d.be</a> in het oog voor updates. Tot dan!</p>
+<p>We hebben je betaling voor Fri3d Camp 2022 goed ontvangen! Je tickets, badge en eventuele extra’s (zoals t-shirts en truien) zullen klaarliggen bij aankomst op het kamp. Hou <a href="https://fri3d.be">https://fri3d.be</a> of onze sociale mediakanalen in het oog voor updates. In de komende maanden delen we meer informatie over het programma, de badge en andere leuke nieuwtjes.</p>
+<p>Zin om nu al actief deel te nemen aan de Fri3d community? Check dan zeker onze <a href="http://join.discord.fri3d.be/">Discord server</a> of maak je lid van de Facebookgroep <a href="https://www.facebook.com/groups/fri3d">Fri3d Camp deelnemers</a>.</p>
 <p>Met vriendelijke groeten,</p>
 <p>Het Fri3d Camp orga-team.</p>
 <p><small>Dit is een automatische mail. Heb je nog vragen? Mail dan naar <a mailto="tickets@fri3d.be">tickets@fri3d.be</a>.</small></p>
@@ -122,8 +123,9 @@ texts['MAIL_PAYMENT_RECEIVED_HTML'] = u"""<html>
 
 texts['MAIL_PAYMENT_RECEIVED_TEXT'] = u"""Beste,
 
-Je betaling is binnengekomen! Je hoeft verder niets meer te doen. Je tickets en je eventuele extra's, zullen klaarliggen op het kamp. Hou www.fri3d.be in het oog voor updates. Tot dan!
+We hebben je betaling voor Fri3d Camp 2022 goed ontvangen! Je tickets, badge en eventuele extra’s (zoals t-shirts en truien) zullen klaarliggen bij aankomst op het kamp. Hou https://fri3d.be of onze sociale mediakanalen in het oog voor updates. In de komende maanden delen we meer informatie over het programma, de badge en andere leuke nieuwtjes.
 
+Zin om nu al actief deel te nemen aan de Fri3d community? Check dan zeker onze Discord server (http://join.discord.fri3d.be/) of maak je lid van de Facebookgroep "Fri3d Camp deelnemers" (https://www.facebook.com/groups/fri3d).</p>
 Met vriendelijke groeten,
 
 Het Fri3d Camp orga-team.

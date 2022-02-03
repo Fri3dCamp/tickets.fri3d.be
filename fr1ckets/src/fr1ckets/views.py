@@ -46,7 +46,13 @@ def req_auth_report(f):
 	@wraps(f)
 	def fn(*args, **kwargs):
 		auth = request.authorization
-		if not auth or not check_auth_report(auth.username, auth.password):
+		if not auth:
+			return auth_basic()
+		is_admin = check_auth_admin(auth.username, auth.password)
+		is_report = check_auth_report(auth.username, auth.password)
+		D(is_admin)
+		D(is_report)
+		if not (is_admin or is_report):
 			return auth_basic()
 		return f(*args, **kwargs)
 	return fn

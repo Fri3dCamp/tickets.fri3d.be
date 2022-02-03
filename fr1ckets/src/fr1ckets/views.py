@@ -24,6 +24,9 @@ D = app.logger.debug
 def check_auth_admin(u, p):
 	return u == app.config['ADMIN_USERNAME'] and p == app.config['ADMIN_PASSWORD']
 
+def check_auth_report(u, p):
+	return u == app.config['REPORT_USERNAME'] and p == app.config['REPORT_PASSWORD']
+
 def check_auth_public(u, p):
 	return u == app.config['PUBLIC_USERNAME'] and p == app.config['PUBLIC_PASSWORD']
 
@@ -35,6 +38,15 @@ def req_auth_admin(f):
 	def fn(*args, **kwargs):
 		auth = request.authorization
 		if not auth or not check_auth_admin(auth.username, auth.password):
+			return auth_basic()
+		return f(*args, **kwargs)
+	return fn
+
+def req_auth_report(f):
+	@wraps(f)
+	def fn(*args, **kwargs):
+		auth = request.authorization
+		if not auth or not check_auth_report(auth.username, auth.password):
 			return auth_basic()
 		return f(*args, **kwargs)
 	return fn
@@ -675,6 +687,26 @@ def reservation_add():
 				'internal' : True
 			},
 			form_dest=url_for('reservation_add', id=id))
+
+@app.route('/reports/products')
+@req_auth_report
+def report_products_sold():
+	"""
+	build a list of products sold thusfar
+	"""
+	products = {}
+	products['overview'] = model.products_sold(g.db_cursor, [ 'genus', 'species' ])
+	products['detail'] = model.products_sold(g.db_cursor, [ 'name' ])
+	product_keys = {}
+	product_keys['overview'] = [ 'genus', 'species', 'n_sold', 'n_paid', 'n_eur_sold', 'n_eur_paid' ]
+	product_keys['detail'] = [ 'name', 'n_sold', 'n_paid', 'n_eur_sold', 'n_eur_paid' ]
+
+	return render_template('products.html', products=products,
+			product_keys=product_keys,
+			page_opts={
+				'internal' : True
+			})
+
 
 @app.route('/admin/vouchers')
 @req_auth_admin

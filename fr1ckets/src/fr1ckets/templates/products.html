@@ -1,0 +1,46 @@
+{% include "header.html" %}
+<!-- vim: set sw=2 ts=2: -->
+
+<h2>Overview</h2>
+<div class="row">
+	<div class="col-sm-12">
+		<table class="table">
+			<thead>
+{% for k in product_keys['overview'] %}
+				<th>{{ k }}</th>
+{% endfor %}
+			</thead>
+			<tbody>
+{% for product in products['overview'] %}
+			<tr>
+{% for key in product_keys['overview'] %}
+				<td>{{ product[key] }}</td>
+{% endfor %}
+			</tr>
+{% endfor %}
+		</table>
+	</div>
+</div>
+
+<h2>Detail</h2>
+<div class="row">
+	<div class="col-sm-12">
+		<table class="table">
+			<thead>
+{% for k in product_keys['detail'] %}
+				<th>{{ k }}</th>
+{% endfor %}
+			</thead>
+			<tbody>
+{% for product in products['detail'] %}
+			<tr>
+{% for key in product_keys['detail'] %}
+				<td>{{ product[key] if product[key] else "0" }}</td>
+{% endfor %}
+			</tr>
+{% endfor %}
+		</table>
+	</div>
+</div>
+
+{% include "footer.html" %}

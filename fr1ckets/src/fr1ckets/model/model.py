@@ -1114,3 +1114,22 @@ def get_volunteer_purchases(cursor):
 	}
 	cursor.execute(q, qd)
 	return cursor.fetchall()
+
+def products_sold(cursor, group_by=['name'], genus=None):
+	q = """
+		SELECT
+			""" + ', '.join([ "pr.{} as {}".format(g, g) for g in group_by ]) + """,
+			sum(pui.n) as n_sold,
+			sum(pui.n*if(pui.person_volunteers_during=1, pr.volunteering_price, pr.price)) as n_eur_sold,
+			sum(if(pu.paid = 1, pui.n, 0)) as n_paid,
+			sum(if(pu.paid = 1, pui.n, 0) * if(pui.person_volunteers_during=1, pr.volunteering_price, pr.price)) as n_eur_paid
+		FROM
+			product pr
+			left outer join purchase_items pui on pr.id = pui.product_id
+			left outer join purchase pu on pui.purchase_id = pu.id
+		""" + ("WHERE genus='{}'".format(genus) if genus else '') + """
+		GROUP BY """ + ', '.join([ "pr.{}".format(g) for g in group_by ]) + """
+		ORDER BY """ + ', '.join([ "pr.{}".format(g) for g in group_by ]) + """;
+		"""
+	cursor.execute(q)
+	return cursor.fetchall()

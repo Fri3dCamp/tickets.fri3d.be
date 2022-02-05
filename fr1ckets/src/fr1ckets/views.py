@@ -703,9 +703,10 @@ def report_products_sold():
 	products = {}
 	products['overview'] = model.products_sold(g.db_cursor, [ 'genus', 'species' ])
 	products['detail'] = model.products_sold(g.db_cursor, [ 'name' ])
+	products['tickets'] = model.products_sold(g.db_cursor, [ 'name' ])
 	product_keys = {}
-	product_keys['overview'] = [ 'genus', 'species', 'n_sold', 'n_paid', 'n_eur_sold', 'n_eur_paid' ]
-	product_keys['detail'] = [ 'name', 'n_sold', 'n_paid', 'n_eur_sold', 'n_eur_paid' ]
+	product_keys['overview'] = [ 'genus', 'species', 'n_sold', 'n_paid', 'n_eur_sold', 'n_eur_paid', 'n_too_young', 'n_premium', 'n_volunteers', 'n_volunteers_before', 'n_volunteers_after' ]
+	product_keys['detail'] = [ 'name', 'n_sold', 'n_paid', 'n_eur_sold', 'n_eur_paid', 'n_too_young', 'n_premium', 'n_volunteers', 'n_volunteers_before', 'n_volunteers_after' ]
 
 	return render_template('products.html', products=products,
 			product_keys=product_keys,

@@ -1122,7 +1122,12 @@ def products_sold(cursor, group_by=['name'], genus=None):
 			sum(pui.n) as n_sold,
 			sum(pui.n*if(pui.person_volunteers_during=1, pr.volunteering_price, pr.price)) as n_eur_sold,
 			sum(if(pu.paid = 1, pui.n, 0)) as n_paid,
-			sum(if(pu.paid = 1, pui.n, 0) * if(pui.person_volunteers_during=1, pr.volunteering_price, pr.price)) as n_eur_paid
+			sum(if(pu.paid = 1, pui.n, 0) * if(pui.person_volunteers_during=1, pr.volunteering_price, pr.price)) as n_eur_paid,
+			sum(if(pui.person_dob > %(cutoff)s, 1, 0)) as n_too_young,
+			sum(if(pui.person_dob <= %(cutoff)s, pui.person_volunteers_during, 0)) as n_volunteers,
+			sum(if(pui.person_dob <= %(cutoff)s, if(pui.person_volunteers_during = 1, 0, 1), 0)) as n_premium,
+			sum(if(pui.person_dob <= %(cutoff)s, pui.person_volunteers_before, 0)) as n_volunteers_before,
+			sum(if(pui.person_dob <= %(cutoff)s, pui.person_volunteers_after, 0)) as n_volunteers_after
 		FROM
 			product pr
 			left outer join purchase_items pui on pr.id = pui.product_id
@@ -1131,5 +1136,8 @@ def products_sold(cursor, group_by=['name'], genus=None):
 		GROUP BY """ + ', '.join([ "pr.{}".format(g) for g in group_by ]) + """
 		ORDER BY """ + ', '.join([ "pr.{}".format(g) for g in group_by ]) + """;
 		"""
-	cursor.execute(q)
+	qd = {
+		'cutoff' : app.config['VOLUNTEERING_CUTOFF_DATE'],
+	}
+	cursor.execute(q, qd)
 	return cursor.fetchall()

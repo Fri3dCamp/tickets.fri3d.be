@@ -1115,7 +1115,15 @@ def get_volunteer_purchases(cursor):
 	cursor.execute(q, qd)
 	return cursor.fetchall()
 
-def products_sold(cursor, group_by=['name'], genus=None):
+def products_sold(cursor, group_by=['name'], genus=None, exclude_removed=True):
+	filters = []
+	if genus:
+		filters.append("genus='{}'".format(genus))
+	if exclude_removed:
+		filters.append("pu.removed=0")
+	if not len(filters):
+		filters.append("1=1")
+
 	q = """
 		SELECT
 			""" + ', '.join([ "pr.{} as {}".format(g, g) for g in group_by ]) + """,
@@ -1132,7 +1140,8 @@ def products_sold(cursor, group_by=['name'], genus=None):
 			product pr
 			left outer join purchase_items pui on pr.id = pui.product_id
 			left outer join purchase pu on pui.purchase_id = pu.id
-		""" + ("WHERE genus='{}'".format(genus) if genus else '') + """
+		WHERE
+			""" + " AND ".join(filters) + """
 		GROUP BY """ + ', '.join([ "pr.{}".format(g) for g in group_by ]) + """
 		ORDER BY """ + ', '.join([ "pr.{}".format(g) for g in group_by ]) + """;
 		"""

@@ -65,28 +65,47 @@
                     </div>
                     <div class="fieldwrapper">
                         <label for="camper_spot">Camper of caravan plaats - €25</label>
+                        {% if 'camper_spot' not in selling_inhibited %}
                         <select id="camper_spot" name="camper_spot" class="field field-select fri3d-product">
                             <option value="0" selected="">0</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                         </select>
+                        {% else %}
+                        <div class="product--inhibited">
+                            Uitverkocht :-(
+                            <select id="camper_spot" name="camper_spot" hidden>
+                                <option value="0" selected="">0</option>
+                            </select>
+                        </div>
+                        {% endif %}
                         <p class="fieldlegend">We voorzien een plaatsje voor je camper of caravan op de daarvoor
                             voorziene parking op het grote event-plein, stroom en wifi inbegrepen. Niet nodig voor
                             een gewone tent!</p>
                     </div>
                     <div class="fieldwrapper">
                         <label for="hotel_spot">Hostelkamer - €160</label>
+                        {% if 'hotel_spot' not in selling_inhibited %}
                         <select id="hotel_spot" name="hotel_spot" class="field field-select fri3d-product">
                             <option value="0" selected="">0</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                         </select>
+                        {% else %}
+                        <div class="product--inhibited">
+                            Uitverkocht :-(
+                            <select id="hotel_spot" name="hotel_spot" hidden>
+                                <option value="0" selected="">0</option>
+                            </select>
+                        </div>
+                        {% endif %}
                         <p class="fieldlegend">We hebben enkele slaapkamers in het hostel beschikbaar. Meestal hebben
                             ze 6 à 8 plaatsen. We kunnen niet garanderen dat iedereen een plekje kan krijgen,
                             desgevallend betalen we dit terug.</p>
                     </div>
                     <div class="fieldwrapper">
                         <label for="room_spot">Bed in gedeelde kamer - €30</label>
+                        {% if 'room_spot' not in selling_inhibited %}
                         <select id="room_spot" name="room_spot" class="field field-select fri3d-product">
                             <option value="0" selected="">0</option>
                             <option value="1">1</option>
@@ -98,6 +117,14 @@
                             <option value="7">7</option>
                             <option value="8">8</option>
                         </select>
+                        {% else %}
+                        <div class="product--inhibited">
+                            Uitverkocht :-(
+                            <select id="room_spot" name="room_spot" hidden>
+                                <option value="0" selected="">0</option>
+                            </select>
+                        </div>
+                        {% endif %}
                         <p class="fieldlegend">We hebben enkele bedden in gedeelde kamers beschikbaar. We kunnen niet
                             garanderen dat iedereen een plekje kan krijgen; desgevallend betalen we dit terug.</p>
                     </div>
@@ -250,6 +277,7 @@
                                     {{ sp.description|safe }}
                                 </div>
                             </div>
+                            {% if sp.name not in selling_inhibited %}
                             <select id="{{ sp.name }}" name="{{ sp.name }}" class="field fri3d-product">
                                 {% if sp.max_n %}
                                 {% set max_n = sp.max_n %}
@@ -260,6 +288,14 @@
                                 <option value="{{ n }}">{{ n }}</option>
                                 {% endfor %}
                             </select>
+                            {% else %}
+                            <div class="product--inhibited">
+                                Uitverkocht :-(
+                                <select id="{{ sp.name }}" name="{{ sp.name }}" hidden>
+                                    <option value="0" selected="">0</option>
+                                </select>
+                            </div>
+                            {% endif %}
                         </div>
 
                     </article>
@@ -287,6 +323,7 @@
                                 {{ c.description|safe }}
                             </div>
                         </div>
+                        {% if c.name not in selling_inhibited %}
                         <ul class="product--variants">
                             {% for s in c.sizes %}
                             <li>
@@ -305,6 +342,16 @@
                             </li>
                             {% endfor %}
                         </ul>
+                        {% else %}
+                        <div class="product--inhibited">
+                            Uitverkocht :-(
+                            {% for s in c.sizes %}
+                            <select id="{{ c.name }}__{{ s[0] }}" name="{{ c.name }}__{{ s[0] }}" hidden>
+                                <option value="0" selected="">0</option>
+                            </select>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
 
                     </article>
                     {% endfor %}

@@ -11,9 +11,9 @@ if ('serviceWorker' in navigator) {
 
 const clustering_window = luxon.Duration.fromISOTime('00:30');
 const minute_to_height_ratio = 0.05;
-let url_schedule = 'http://localhost:8060/api/get_daemon_overview'; //'https://pretalx.fri3d.be/fri3dcamp2022/schedule/export/schedule.json';
-let url_mine_get = 'http://localhost:8060/api/get_daemon_mine'; //'https://pretalx.fri3d.be/fri3dcamp2022/schedule/export/schedule.json';
-let url_mine_set = 'http://localhost:8060/api/set_daemon_mine'; //'https://pretalx.fri3d.be/fri3dcamp2022/schedule/export/schedule.json';
+let url_schedule = 'https://nogal.slechte.info/api/get_daemon_overview'; //'https://pretalx.fri3d.be/fri3dcamp2022/schedule/export/schedule.json';
+let url_mine_get = 'https://nogal.slechte.info/api/get_daemon_mine'; //'https://pretalx.fri3d.be/fri3dcamp2022/schedule/export/schedule.json';
+let url_mine_set = 'https://nogal.slechte.info/api/set_daemon_mine'; //'https://pretalx.fri3d.be/fri3dcamp2022/schedule/export/schedule.json';
 let schedule_complete = {};
 let daemons_available = [];
 

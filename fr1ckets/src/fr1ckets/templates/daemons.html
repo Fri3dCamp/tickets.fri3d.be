@@ -1,0 +1,78 @@
+<!doctype html>
+<!-- vim: set sw=2 ts=2 expandtab : -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="/static/daemons/ext/css/hack-subset.css">
+    <link rel="stylesheet" href="/static/daemons/css/index.css">
+  </head>
+  <body>
+    <section class="devnotes">
+      <label for="debug_toggle_grid">toggle grid:</label>
+      <input type="checkbox" id="debug_toggle_grid" name="debug_toggle_grid">
+    </section>
+    <section id="ident">
+      <input id="identification_email" type="email"/>
+      <button id="identification_launch">opzoeken</button>
+    </section>
+    <section id="filter">
+      <form action="" id="filter">
+      </form>
+    </section>
+    <section id="times">
+    </section>
+
+    <template id="list_day">
+      <div class="list_day">
+        <div class="list_day_header">
+          templated day header
+        </div>
+        <div class="list_day_content">
+        </div>
+      </div>
+    </template>
+    <template id="list_day_entry">
+      <div class="list_day_entry">
+        <div class="list_day_entry_group_timing">
+          <div class="list_day_entry_time"></div>
+          <div class="list_day_entry_length"></div>
+        </div>
+        <div class="list_day_entry_group_meta">
+          <div class="list_day_entry_title"></div>
+          <div class="list_day_entry_abstract"></div>
+          <div class="list_day_entry_description"></div>
+          <div class="list_day_entry_room"></div>
+          <div class="list_day_entry_type"></div>
+          <div class="list_day_entry_url"></div>
+          <div class="list_day_entry_logo"></div>
+          <button class="list_day_entry_add_button">add</button>
+        </div>
+      </div>
+    </template>
+
+    <template id="commit_daemons_list_entry">
+      <div>
+        <input type="checkbox" class="daemon_name_select">
+        <label class="daemon_name_label">name label</label>
+      </div>
+    </template>
+
+    <dialog id="commit_daemons">
+      <form method="dialog">
+        <fieldset id="commit_daemons_list">
+        </fieldset>
+        <div>
+          <button id="commit" value="commit">commit</button>
+          <button id="rollback" value="rollback">rollback</button>
+        </div>
+      </form>
+    </dialog>
+    <output></output>
+
+
+    <script src="/static/daemons/ext/js/luxon.min.js" integrity="sha256-DIsAGD2EF8Qq2PCH9yzX/yt9FliJfWf+aGcdgR6tKwo=" crossorigin="anonymous"></script>
+    <script src="/static/daemons/js/index.js"></script>
+  </body>
+</html>

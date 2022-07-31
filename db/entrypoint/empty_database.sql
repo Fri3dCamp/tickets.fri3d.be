@@ -188,6 +188,168 @@ create table purchase_items (
 	constraint purchase_items_product_id_fk foreign key (product_id) references product (id) on delete set null on update cascade
 );
 
+drop table if exists daemon_day;
+create table daemon_day (
+	code varchar(64) unique not null,
+	display varchar(64) not null,
+	day datetime,
+	primary key (code)
+);
+insert into daemon_day (code, display, day) values
+	( 'DONDERDAG', 'Donderdag', '2022-08-11T00:00:00' ),
+	( 'VRIJDAG', 'Vrijdag', '2022-08-12T00:00:00' ),
+	( 'ZATERDAG', 'Zaterdag', '2022-08-13T00:00:00' ),
+	( 'ZONDAG', 'Zondag', '2022-08-14T00:00:00' );
+
+drop table if exists daemon_post;
+create table daemon_post (
+	code varchar(64) not null,
+	name varchar(64) not null,
+	description text,
+	primary key (code)
+);
+insert into daemon_post (code, name, description) values
+( 'CONTENT_KAPEL', 'Kapel content support', 'Kapel beschrijving' ),
+( 'CONTENT_NORMAL', 'Content support', 'Content support beschrijving' ),
+( 'KEEPER', 'Vliegende keeper', 'Vliegende keeper beschrijving' ),
+( 'FOOD', 'Food', 'Meehelpen met de keuken' ),
+( 'INFODESK', 'Infodesk', 'Infobalie bemannen' ),
+( 'BADGEDESK', 'EHBBO', 'Eerste hulp bij badge ongevallen' ),
+( 'BAR', 'De bar', 'Meehelpen met de bar, laatste shift tot het einde!' ),
+( 'PARKING', 'Parkeerwacht', 'Voertuigen begeleiden, parkeerplaatsen organiseren.' ),
+( 'NIGHTWATCH', 'Nachtwacht', 'Snachts een oogje in het zeil houden.' );
+
+drop table if exists daemon_slot;
+create table daemon_slot (
+	id integer auto_increment not null,
+	daemon_day_code varchar(64),
+	daemon_post_code varchar(64),
+	slot_start datetime,
+	slot_end datetime,
+	n_needed integer default 0,
+	primary key (id),
+	constraint daemon_slot_daemon_day_code_fk foreign key (daemon_day_code) references daemon_day (code) on delete cascade on update cascade,
+	constraint daemon_slot_daemon_post_code_fk foreign key (daemon_post_code) references daemon_post (code) on delete cascade on update cascade
+);
+insert into daemon_slot (daemon_day_code, daemon_post_code, slot_start, slot_end, n_needed) values
+( 'VRIJDAG', 'CONTENT_KAPEL', '2022-08-12T13:00:00', '2022-08-12T15:00:00', 1 ),
+( 'VRIJDAG', 'CONTENT_KAPEL', '2022-08-12T20:00:00', '2022-08-12T22:00:00', 1 ),
+( 'ZATERDAG', 'CONTENT_KAPEL', '2022-08-13T10:30:00', '2022-08-12T12:30:00', 1 ),
+( 'ZATERDAG', 'CONTENT_KAPEL', '2022-08-13T13:00:00', '2022-08-12T15:00:00', 1 ),
+( 'ZATERDAG', 'CONTENT_KAPEL', '2022-08-13T20:00:00', '2022-08-12T22:00:00', 1 ),
+( 'ZONDAG', 'CONTENT_KAPEL', '2022-08-14T10:30:00', '2022-08-12T12:30:00', 1 ),
+( 'ZONDAG', 'CONTENT_KAPEL', '2022-08-14T13:00:00', '2022-08-12T15:00:00', 1 ),
+
+( 'VRIJDAG', 'CONTENT_NORMAL', '2022-08-12T10:30:00', '2022-08-12T12:30:00', 7 ),
+( 'VRIJDAG', 'CONTENT_NORMAL', '2022-08-12T13:00:00', '2022-08-12T15:00:00', 6 ),
+( 'VRIJDAG', 'CONTENT_NORMAL', '2022-08-12T15:00:00', '2022-08-12T17:00:00', 7 ),
+( 'VRIJDAG', 'CONTENT_NORMAL', '2022-08-12T20:00:00', '2022-08-12T22:00:00', 2 ),
+( 'ZATERDAG', 'CONTENT_NORMAL', '2022-08-13T10:30:00', '2022-08-12T12:30:00', 7 ),
+( 'ZATERDAG', 'CONTENT_NORMAL', '2022-08-13T13:00:00', '2022-08-12T15:00:00', 7 ),
+( 'ZATERDAG', 'CONTENT_NORMAL', '2022-08-13T15:00:00', '2022-08-12T17:00:00', 7 ),
+( 'ZATERDAG', 'CONTENT_NORMAL', '2022-08-13T20:00:00', '2022-08-12T22:00:00', 2 ),
+( 'ZONDAG', 'CONTENT_NORMAL', '2022-08-14T10:30:00', '2022-08-12T12:30:00', 6 ),
+( 'ZONDAG', 'CONTENT_NORMAL', '2022-08-14T13:00:00', '2022-08-12T15:00:00', 7 ),
+
+( 'VRIJDAG', 'KEEPER', '2022-08-12T09:00:00', '2022-08-12T11:00:00', 2 ),
+( 'VRIJDAG', 'KEEPER', '2022-08-12T11:00:00', '2022-08-12T13:00:00', 2 ),
+( 'VRIJDAG', 'KEEPER', '2022-08-12T15:00:00', '2022-08-12T17:00:00', 2 ),
+( 'VRIJDAG', 'KEEPER', '2022-08-12T17:00:00', '2022-08-12T19:00:00', 2 ),
+( 'ZATERDAG', 'KEEPER', '2022-08-13T09:00:00', '2022-08-13T11:00:00', 2 ),
+( 'ZATERDAG', 'KEEPER', '2022-08-13T11:00:00', '2022-08-13T13:00:00', 2 ),
+( 'ZATERDAG', 'KEEPER', '2022-08-13T15:00:00', '2022-08-13T17:00:00', 2 ),
+( 'ZATERDAG', 'KEEPER', '2022-08-13T17:00:00', '2022-08-13T19:00:00', 2 ),
+( 'ZONDAG', 'KEEPER', '2022-08-14T09:00:00', '2022-08-14T11:00:00', 2 ),
+( 'ZONDAG', 'KEEPER', '2022-08-14T11:00:00', '2022-08-14T13:00:00', 2 ),
+( 'ZONDAG', 'KEEPER', '2022-08-14T15:00:00', '2022-08-14T17:00:00', 2 ),
+( 'ZONDAG', 'KEEPER', '2022-08-14T17:00:00', '2022-08-14T19:00:00', 2 ),
+
+( 'VRIJDAG', 'FOOD', '2022-08-12T15:00:00', '2022-08-12T17:00:00', 4 ),
+( 'VRIJDAG', 'FOOD', '2022-08-12T17:00:00', '2022-08-12T19:00:00', 6 ),
+( 'VRIJDAG', 'FOOD', '2022-08-12T19:00:00', '2022-08-12T21:00:00', 6 ),
+( 'ZATERDAG', 'FOOD', '2022-08-13T14:00:00', '2022-08-13T17:00:00', 10 ),
+( 'ZATERDAG', 'FOOD', '2022-08-13T17:00:00', '2022-08-13T19:00:00', 10 ),
+( 'ZATERDAG', 'FOOD', '2022-08-13T19:00:00', '2022-08-13T21:00:00', 10 ),
+
+( 'DONDERDAG', 'INFODESK', '2022-08-11T18:00:00', '2022-08-11T20:00:00', 2),
+( 'DONDERDAG', 'INFODESK', '2022-08-11T20:00:00', '2022-08-11T22:00:00', 2),
+( 'VRIJDAG', 'INFODESK', '2022-08-12T08:00:00', '2022-08-12T10:00:00', 1),
+( 'VRIJDAG', 'INFODESK', '2022-08-12T10:00:00', '2022-08-12T12:00:00', 2),
+( 'VRIJDAG', 'INFODESK', '2022-08-12T12:00:00', '2022-08-12T14:00:00', 2),
+( 'VRIJDAG', 'INFODESK', '2022-08-12T14:00:00', '2022-08-12T16:00:00', 2),
+( 'VRIJDAG', 'INFODESK', '2022-08-12T16:00:00', '2022-08-12T18:00:00', 2),
+( 'VRIJDAG', 'INFODESK', '2022-08-12T18:00:00', '2022-08-12T20:00:00', 1),
+( 'VRIJDAG', 'INFODESK', '2022-08-12T20:00:00', '2022-08-12T22:00:00', 1),
+( 'ZATERDAG', 'INFODESK', '2022-08-13T08:00:00', '2022-08-13T10:00:00', 1),
+( 'ZATERDAG', 'INFODESK', '2022-08-13T10:00:00', '2022-08-13T12:00:00', 2),
+( 'ZATERDAG', 'INFODESK', '2022-08-13T12:00:00', '2022-08-13T14:00:00', 2),
+( 'ZATERDAG', 'INFODESK', '2022-08-13T14:00:00', '2022-08-13T16:00:00', 2),
+( 'ZATERDAG', 'INFODESK', '2022-08-13T16:00:00', '2022-08-13T18:00:00', 2),
+( 'ZATERDAG', 'INFODESK', '2022-08-13T18:00:00', '2022-08-13T20:00:00', 1),
+( 'ZATERDAG', 'INFODESK', '2022-08-13T20:00:00', '2022-08-13T22:00:00', 1),
+( 'ZONDAG', 'INFODESK', '2022-08-14T08:00:00', '2022-08-14T10:00:00', 1),
+( 'ZONDAG', 'INFODESK', '2022-08-14T10:00:00', '2022-08-14T12:00:00', 2),
+( 'ZONDAG', 'INFODESK', '2022-08-14T12:00:00', '2022-08-14T14:00:00', 2),
+( 'ZONDAG', 'INFODESK', '2022-08-14T14:00:00', '2022-08-14T16:00:00', 2),
+
+( 'VRIJDAG', 'BADGEDESK', '2022-08-12T10:00:00', '2022-08-12T12:00:00', 2),
+( 'VRIJDAG', 'BADGEDESK', '2022-08-12T12:00:00', '2022-08-12T14:00:00', 2),
+( 'VRIJDAG', 'BADGEDESK', '2022-08-12T14:00:00', '2022-08-12T16:00:00', 2),
+( 'VRIJDAG', 'BADGEDESK', '2022-08-12T16:00:00', '2022-08-12T18:00:00', 2),
+( 'ZATERDAG', 'BADGEDESK', '2022-08-13T10:00:00', '2022-08-13T12:00:00', 2),
+( 'ZATERDAG', 'BADGEDESK', '2022-08-13T12:00:00', '2022-08-13T14:00:00', 2),
+( 'ZATERDAG', 'BADGEDESK', '2022-08-13T14:00:00', '2022-08-13T16:00:00', 2),
+( 'ZATERDAG', 'BADGEDESK', '2022-08-13T16:00:00', '2022-08-13T18:00:00', 2),
+( 'ZONDAG', 'BADGEDESK', '2022-08-14T10:00:00', '2022-08-14T12:00:00', 2),
+( 'ZONDAG', 'BADGEDESK', '2022-08-14T12:00:00', '2022-08-14T14:00:00', 2),
+( 'ZONDAG', 'BADGEDESK', '2022-08-14T14:00:00', '2022-08-14T16:00:00', 2),
+
+( 'DONDERDAG', 'BAR', '2022-08-11T18:00:00', '2022-08-11T20:00:00', 3),
+( 'DONDERDAG', 'BAR', '2022-08-11T20:00:00', '2022-08-11T22:00:00', 3),
+( 'DONDERDAG', 'BAR', '2022-08-11T22:00:00', '2022-08-11T23:59:59', 2),
+( 'VRIJDAG', 'BAR', '2022-08-12T00:00:00', '2022-08-12T04:00:00', 2),
+( 'VRIJDAG', 'BAR', '2022-08-12T08:00:00', '2022-08-12T10:00:00', 2),
+( 'VRIJDAG', 'BAR', '2022-08-12T10:00:00', '2022-08-12T12:00:00', 3),
+( 'VRIJDAG', 'BAR', '2022-08-12T12:00:00', '2022-08-12T14:00:00', 5),
+( 'VRIJDAG', 'BAR', '2022-08-12T14:00:00', '2022-08-12T16:00:00', 3),
+( 'VRIJDAG', 'BAR', '2022-08-12T16:00:00', '2022-08-12T18:00:00', 3),
+( 'VRIJDAG', 'BAR', '2022-08-12T18:00:00', '2022-08-12T20:00:00', 3),
+( 'VRIJDAG', 'BAR', '2022-08-12T20:00:00', '2022-08-12T22:00:00', 3),
+( 'VRIJDAG', 'BAR', '2022-08-12T22:00:00', '2022-08-12T23:59:59', 2),
+( 'ZATERDAG', 'BAR', '2022-08-13T00:00:00', '2022-08-13T04:00:00', 2),
+( 'ZATERDAG', 'BAR', '2022-08-13T08:00:00', '2022-08-13T10:00:00', 2),
+( 'ZATERDAG', 'BAR', '2022-08-13T10:00:00', '2022-08-13T12:00:00', 3),
+( 'ZATERDAG', 'BAR', '2022-08-13T12:00:00', '2022-08-13T14:00:00', 5),
+( 'ZATERDAG', 'BAR', '2022-08-13T14:00:00', '2022-08-13T16:00:00', 3),
+( 'ZATERDAG', 'BAR', '2022-08-13T16:00:00', '2022-08-13T18:00:00', 3),
+( 'ZATERDAG', 'BAR', '2022-08-13T18:00:00', '2022-08-13T20:00:00', 3),
+( 'ZATERDAG', 'BAR', '2022-08-13T20:00:00', '2022-08-13T22:00:00', 3),
+( 'ZATERDAG', 'BAR', '2022-08-13T22:00:00', '2022-08-13T23:59:59', 2),
+( 'ZONDAG', 'BAR', '2022-08-14T00:00:00', '2022-08-14T04:00:00', 2),
+( 'ZONDAG', 'BAR', '2022-08-14T08:00:00', '2022-08-14T10:00:00', 2),
+( 'ZONDAG', 'BAR', '2022-08-14T10:00:00', '2022-08-14T12:00:00', 3),
+( 'ZONDAG', 'BAR', '2022-08-14T12:00:00', '2022-08-14T14:00:00', 5),
+( 'ZONDAG', 'BAR', '2022-08-14T14:00:00', '2022-08-14T16:00:00', 3),
+
+( 'DONDERDAG', 'PARKING', '2022-08-11T17:00:00', '2022-08-11T19:00:00', 5),
+( 'DONDERDAG', 'PARKING', '2022-08-11T19:00:00', '2022-08-11T21:00:00', 5),
+( 'VRIJDAG', 'PARKING', '2022-08-12T08:00:00', '2022-08-12T10:00:00', 5),
+( 'VRIJDAG', 'PARKING', '2022-08-12T10:00:00', '2022-08-12T12:00:00', 5),
+
+( 'VRIJDAG', 'NIGHTWATCH', '2022-08-12T00:00:00', '2022-08-12T08:00:00', 1),
+( 'ZATERDAG', 'NIGHTWATCH', '2022-08-13T00:00:00', '2022-08-13T08:00:00', 1),
+( 'ZONDAG', 'NIGHTWATCH', '2022-08-14T00:00:00', '2022-08-14T08:00:00', 1);
+
+drop table if exists daemon_commit;
+create table daemon_commit (
+	id integer auto_increment not null,
+	daemon_slot_id integer,
+	purchase_items_id integer,
+	primary key (id),
+	constraint daemon_commit_daemon_slot_id_fk foreign key (daemon_slot_id) references daemon_slot (id) on delete cascade on update cascade,
+	constraint daemon_commit_purchase_items_id_fk foreign key (purchase_items_id) references purchase_items (id) on delete cascade on update cascade
+);
+
 drop table if exists shift_time;
 create table shift_time (
 	id integer auto_increment not null,
@@ -217,11 +379,11 @@ create table `shift` (
 drop table if exists shift_volunteer;
 create table shift_volunteer (
 	id integer auto_increment not null,
-	purchase_item_id integer,
+	purchase_items_id integer,
 	shift_id integer,
 	primary key (id),
 	constraint shift_volunteer_shift_id_fk foreign key (shift_id) references shift (id) on delete set null on update cascade,
-	constraint shift_volunteer_purchase_item_id_fk foreign key (purchase_item_id) references purchase_items (id) on delete set null on update cascade
+	constraint shift_volunteer_purchase_items_id_fk foreign key (purchase_items_id) references purchase_items (id) on delete set null on update cascade
 );
 
 insert into shift_time (description, day) values

@@ -1495,9 +1495,11 @@ def api_get_volunteering_data(nonce):
 		return json.dumps({ 'status' : 'FAIL', 'msg' : 'Onbekend email of email zonder volunteer-tickets :-('})
 
 	def anonymize(name):
-		t = name.strip().split(' ')
+		t = filter(lambda e: len(e), name.strip().split(' '))
 		if len(t) > 1:
+			print("name={}".format(name.encode('ascii', 'ignore')))
 			a = [ unicodedata.normalize('NFKD', x).encode('ascii', 'ignore') for x in t ]
+			print(a)
 			return "{0} {1}".format(a[0], ''.join([ i[0] for i in a[1:] ]))
 		else:
 			return name
@@ -1535,3 +1537,100 @@ def volunteers_launch():
 @app.route("/volunteers/<nonce>")
 def volunteers(nonce=None):
 	return render_template('volunteers.html', page_opts={ 'shift' : True})
+
+@app.route("/api/get_daemon_mine", methods=[ 'POST' ])
+def api_get_daemon_mine():
+	print(request.json)
+	email = request.json['email']
+	daemons = []
+	for daemon_id, daemon_details in model.get_volunteers(g.db_cursor, email).iteritems():
+		daemons.append({
+			'id' : daemon_id,
+			'name' : daemon_details['name'],
+			'slots' : model.get_daemon_slots_for_person(g.db_cursor, daemon_id),
+		})
+	return Response(json.dumps({
+		'status' : 'OK',
+		'email' : request.json['email'],
+		'daemons' : daemons,
+	}), mimetype='application/json')
+	return Response(json.dumps({
+				'status' : 'NOK',
+				'reason' : 'specify better',
+			}), mimetype='application/json')
+
+@app.route("/api/set_daemon_mine", methods=[ 'POST' ])
+def api_set_daemon_mine():
+	print(request.json)
+	daemons = request.json['daemons']
+	email = request.json['email']
+
+	for daemon in daemons:
+		model.clear_daemon_slots_for_person(g.db_cursor, daemon['id'])
+		for slot_id in daemon['slot_ids']:
+			model.set_daemon_slot_for_person(g.db_cursor, daemon['id'], slot_id)
+
+	daemons = []
+	for daemon_id, daemon_details in model.get_volunteers(g.db_cursor, email).iteritems():
+		daemons.append({
+			'id' : daemon_id,
+			'name' : daemon_details['name'],
+			'slots' : model.get_daemon_slots_for_person(g.db_cursor, daemon_id),
+		})
+
+	g.db_commit = True
+	return Response(json.dumps({
+		'status' : 'OK',
+		'email' : request.json['email'],
+		'daemons' : daemons,
+	}), mimetype='application/json')
+	return Response(json.dumps({
+				'status' : 'NOK',
+				'reason' : 'specify better',
+			}), mimetype='application/json')
+
+
+
+
+@app.route("/api/get_daemon_overview", methods=[ 'GET' ])
+def api_get_daemon_overview():
+	if False:
+		return json.dumps({ 'status' : 'FAIL', 'msg' : 'Onbekend email of email zonder volunteer-tickets :-('})
+
+	out = {}
+	out['days'] = []
+	out['posts'] = model.list_daemon_posts(g.db_cursor)
+
+	days = model.list_daemon_days(g.db_cursor)
+	print(days)
+
+	for day in days:
+		out_day = {}
+		
+		out_day['posts'] = {}
+		out_day['day'] = day['day'].isoformat()
+
+		slots = model.list_daemon_slots(g.db_cursor, day['code'])
+
+		for slot in slots:
+			p = slot['post']
+			if p not in out_day['posts']:
+				out_day['posts'][p] = []
+			out_day['posts'][p].append({
+				'start' : slot['slot_start'].isoformat(),
+				'end' : slot['slot_end'].isoformat(),
+				'id' : slot['id'],
+				'n_needed' : slot['n_needed'],
+				'n_committed' : slot['n_committed'],
+			})
+
+		out['days'].append(out_day)
+
+	P(out)
+	return Response(json.dumps({
+		'status' : 'OK',
+		'overview' : out,
+	}), mimetype='application/json')
+@app.route("/daemons", methods=[ 'GET', 'POST' ])
+def daemons():
+	return render_template('daemons.html')

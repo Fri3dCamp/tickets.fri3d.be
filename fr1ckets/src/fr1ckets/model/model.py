@@ -1141,3 +1141,96 @@ def products_sold(cursor, group_by=['name'], genus=None):
 	}
 	cursor.execute(q, qd)
 	return cursor.fetchall()
+
+def list_daemon_days(cursor):
+	q = """
+		SELECT
+			code,
+			display,
+			day
+		FROM
+			daemon_day;
+		"""
+
+	cursor.execute(q)
+	return cursor.fetchall()
+
+def list_daemon_posts(cursor):
+	q = """
+		SELECT
+			code,
+			name,
+			description
+		FROM
+			daemon_post;
+		"""
+
+	cursor.execute(q)
+	return cursor.fetchall()
+
+def list_daemon_slots(cursor, day_code):
+	q = """
+		SELECT
+			ds.id as id,
+			ds.daemon_day_code as day,
+			ds.daemon_post_code as post,
+			ds.slot_start as slot_start,
+			ds.slot_end as slot_end,
+			ds.n_needed as n_needed,
+			COUNT(dc.purchase_items_id) as n_committed
+		FROM
+			daemon_slot ds
+			LEFT OUTER JOIN daemon_commit dc ON ds.id = dc.daemon_slot_id
+		WHERE
+			ds.daemon_day_code = %(day_code)s
+		GROUP BY
+			ds.id;
+		"""
+
+	cursor.execute(q, {
+		'day_code' : day_code,
+	})
+	return cursor.fetchall()
+
+def get_daemon_slots_for_person(cursor, purchase_items_id):
+
+	q = """
+		SELECT DISTINCT
+			daemon_slot_id as slot_id
+		FROM
+			daemon_commit
+		WHERE
+			purchase_items_id = %(purchase_items_id)s;
+		"""
+
+	cursor.execute(q, {
+		'purchase_items_id' : purchase_items_id,
+	})
+	return [ r['slot_id'] for r in cursor.fetchall() ]
+
+def clear_daemon_slots_for_person(cursor, purchase_items_id):
+
+	q = """
+		DELETE FROM
+			daemon_commit
+		WHERE
+			purchase_items_id = %(purchase_items_id)s;
+		"""
+	cursor.execute(q, {
+		'purchase_items_id' : purchase_items_id,
+	})
+
+def set_daemon_slot_for_person(cursor, purchase_items_id, daemon_slot_id):
+
+	q = """
+		INSERT INTO
+			daemon_commit
+			(daemon_slot_id, purchase_items_id)
+		VALUES
+			(%(daemon_slot_id)s, %(purchase_items_id)s);
+		"""
+	cursor.execute(q, {
+		'purchase_items_id' : purchase_items_id,
+		'daemon_slot_id' : daemon_slot_id,
+	})
+

@@ -1,0 +1,103 @@
+body {
+	font-family: Hack, monospace;
+}
+
+section#times {
+	margin-top: 2rem;
+}
+
+div.day {
+	width: 100%;
+	border: dotted black 2px;
+	margin-top: 1rem;
+}
+div.ruler-lane {
+	display: inline-block;
+	width : 50px;
+}
+div.ruler {
+	width: 50px;
+	position: relative;
+}
+div.ruler-break {
+	width: 50px;
+	height: 50px;
+	background: lightgray;
+}
+div.tick {
+	width: 50px;
+	position: absolute;
+	border-top: dotted gray 2px;
+	font-size: small;
+	text-align: center;
+}
+
+div.track-lane {
+	width : 150px;
+	display: inline-block;
+	vertical-align: top;
+}
+div.track {
+	width: 150px;
+	position: relative;
+	vertical-align: top;
+}
+div.track-break {
+	width: 150px;
+	height: 50px;
+	display: inline-block;
+	background: lightgray;
+	vertical-align: top;
+}
+div.event {
+	width: 150px;
+	position: absolute;
+	border: solid gray 1px;
+	font-size: small;
+	overflow: hidden;
+}
+
+.devnotes {
+	display: block;
+	border: 3px dashed red;
+	text: red;
+	background: pink;
+}
+
+.list_day {
+	width: 100%;
+	margin-top: 2em;
+}
+.list_day_header {
+	display: block;
+	background: purple;
+	text-align: center;
+	padding: 1em;
+}
+
+.list_day_content {
+	display: flex;
+	flex-direction: column;
+}
+
+.list_day_entry {
+	border-top: 1px dotted black;
+	display: grid;
+	grid-template-columns: 15% 85%;
+}
+.list_day_entry_group_timing {
+	grid-column: 1;
+	grid-row: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background: yellow;
+}
+.list_day_entry_group_meta {
+	grid-column: 2;
+	grid-row: 1;
+}
+.list_day_entry_time {
+	font-size: larger;
+}

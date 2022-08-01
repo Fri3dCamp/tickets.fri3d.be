@@ -10,29 +10,41 @@ if ('serviceWorker' in navigator) {
 */
 
 const clustering_window = luxon.Duration.fromISOTime('00:30');
-const minute_to_height_ratio = 0.05;
+const minute_to_height_ratio = 0.08;
 let url_schedule = 'https://nogal.slechte.info/api/get_daemon_overview'; //'https://pretalx.fri3d.be/fri3dcamp2022/schedule/export/schedule.json';
 let url_mine_get = 'https://nogal.slechte.info/api/get_daemon_mine'; //'https://pretalx.fri3d.be/fri3dcamp2022/schedule/export/schedule.json';
 let url_mine_set = 'https://nogal.slechte.info/api/set_daemon_mine'; //'https://pretalx.fri3d.be/fri3dcamp2022/schedule/export/schedule.json';
 let schedule_complete = {};
 let daemons_available = [];
+let posts_available = [];
+let display_list = true;
 
 function load_schedule() {
 	console.log("loading schedule");
 	fetch(url_schedule).then((resp) => resp.json()).then(sched => {
+		// save posts
+		posts_available = sched.overview.posts;
+		recalc_display_method();
 		schedule_install(sched.overview);
 	});
 }
 
-load_schedule();
-
-// XXX debug
-let debug_show_grid = false;
-document.querySelector('#debug_toggle_grid').addEventListener('change', (event) => {
-	debug_show_grid = event.target.checked;
-	console.log(event.target.value);
+addEventListener('resize', (e) => {
+	console.log('resize!');
+	recalc_display_method();
 	schedule_show();
 });
+
+load_schedule();
+
+
+function recalc_display_method() {
+	let needed = 50 + (posts_available.length * 158);
+	console.log('needed='+needed);
+	console.log("have="+window.innerWidth);
+
+	display_list = (window.innerWidth < needed);
+}
 
 // identification
 document.querySelector('#identification_launch').addEventListener('click', (event) => {
@@ -157,6 +169,7 @@ let filter = {
 	search : '',
 };
 function schedule_install(sched) {
+
 	// output
 	let o = {
 		days : [],
@@ -175,7 +188,8 @@ function schedule_install(sched) {
 
 		d.start = luxon.DateTime.fromISO(day.day).startOf('day');
 		d.end = luxon.DateTime.fromISO(day.day).endOf('day');
-
+		d.timespan = luxon.Interval.fromDateTimes(d.start, d.end);
+	
 		// assuming the days are not in order, adjust entire schedule time
 		o.start = (d.start < o.start) ? d.start : o.start;
 		o.end = (d.end > o.end) ? d.end : o.end;
@@ -198,8 +212,8 @@ function schedule_install(sched) {
 				// to the original struct
 				let e = {};
 
-				let start = luxon.DateTime.fromISO(event.start);
-				let end = luxon.DateTime.fromISO(event.end);
+				let start = round_datetime(luxon.DateTime.fromISO(event.start));
+				let end = round_datetime(luxon.DateTime.fromISO(event.end));
 				e.timespan = luxon.Interval.fromDateTimes(
 					start,
 					end
@@ -363,16 +377,13 @@ function filter_apply() {
 
 	schedule.days.forEach((day) => {
 	
-		let day_interval = luxon.Interval.fromDateTimes(
-			day.start, day.end);
-		
 		// cull days not in our filtering time range
-		if (!filter_interval.overlaps(day_interval))
+		if (!filter_interval.overlaps(day.timespan))
 			return;
 
 		let d = {
 			tracks : [],
-			timespan : day_interval,
+			timespan : day.timespan,
 		};
 
 		day.tracks.forEach((track) => {
@@ -432,25 +443,92 @@ function template_spin(template_selector, id=undefined) {
 }
 
 function schedule_show() {
-	if (debug_show_grid)
-		schedule_show_grid();
+	if (display_list)
+		schedule_show_list(schedule_filtered);
 	else
-		schedule_show_list();
+		schedule_show_grid(schedule_filtered);
 }
 
-function schedule_show_list() {
+// round a luxon datetime to 30mins
+function round_datetime(dt) {
+	let hour = dt.hour;
+	let min = dt.minute;
+
+	if (dt.minute < 15) {
+		min = 0;
+	} else if (dt.minute < 45) {
+		min = 30;
+	} else {
+		min = 0;
+		hour += 1;
+	}
+
+	return dt.set({ hour : hour, minute : min, second : 0 });
+
+}
+
+// given an html node, stuff the event's details into it, if the event's id
+// is in slots_committed we show this visually too
+function schedule_inflate_event(node, event, slots_committed) {
+
+	let post = posts_available.find((p) => event.post == p.code);
+
+	node.querySelector('.time_start').textContent = event.timespan.start.toFormat('HH:mm');
+	node.querySelector('.time_length').textContent = event.timespan.toDuration(['hours']).toHuman({
+		unitDisplay : 'short',
+	});
+
+	let n_people_needed = Math.max(event.meta.n_needed - event.meta.n_committed, 0);
+
+	node.querySelector('.title').textContent = post.name;
+	node.querySelector('.abstract').textContent = post.abstract;
+	node.querySelector('.people_needed').textContent = n_people_needed ? `${n_people_needed} nodig!` : 'volzet';
+
+	let button = node.querySelector('.commit_button');
+
+	// if we have people to commit, show a button which allows this
+	if (daemons_available.length == 0) {
+		// no we don't
+		button.hidden = true;
+	} else {
+		// if the user has already committed, that takes precedence
+		if (slots_committed.includes(event.meta.id)) {
+			button.classList.add('mine');
+			button.textContent = "dat zijn wij!";
+		} else {
+			// user hasn't committed to this, allow to commit if there's room
+			if (n_people_needed) {
+				button.classList.add('needed');
+				button.textContent = "klinkt goed!";
+			} else {
+				button.classList.add('full');
+				button.textContent = "volzet";
+				button.active = false;
+			}
+		}
+
+		button.dataset.slotId = event.meta.id;
+		button.dataset.slotRoom = n_people_needed;
+		button.addEventListener('click', (event) => {
+			daemon_select_show(parseInt(event.target.dataset.slotId));
+		});
+	}
+
+}
+
+function schedule_show_list(schedule) {
 
 	let output = document.querySelector('#times');
 	while (output.hasChildNodes()) {
 		output.removeChild(output.lastChild);
 	}
 
-	my_current_slots = [];
+	let my_current_slots = [];
 	daemons_available.forEach((d) => {
 		my_current_slots = my_current_slots.concat(d.slots);
 	});
 
-	schedule_filtered.days.forEach((day, day_index) => {
+	schedule.days.forEach((day, day_index) => {
 
 		let day_output = template_spin('#list_day', `day_${day_index}`);
 		day_output.querySelector('.list_day_header').textContent = 
@@ -462,27 +540,15 @@ function schedule_show_list() {
 		day.tracks.forEach((track, track_index) => {
 			all_events = all_events.concat(track.events);
 		});
-		
-		console.log(all_events);
+	
+		// make sure they're in starting-time order
 		all_events.sort((l, r) => l.timespan.start - r.timespan.start);
 
+		// now just loop over the events for this day and blit them
 		all_events.forEach((event, event_index) => {
-			let event_output = template_spin('#list_day_entry', `entry_${event_index}`);
+			let event_output = template_spin('#list_entry', `entry_${event_index}`);
 
-			event_output.querySelector('.list_day_entry_time').textContent =
-				event.timespan.start.toFormat('HH:mm');
-			event_output.querySelector('.list_day_entry_length').textContent =
-				event.timespan.toDuration(['hours', 'minutes']).toHuman({
-					unitDisplay : 'short',
-				});
-			event_output.querySelector('.list_day_entry_title').textContent = event.meta.title;
-			event_output.querySelector('.list_day_entry_room').textContent = `${event.post} ${event.meta.n_needed}/${event.meta.n_committed}`;
-			event_output.querySelector('.list_day_entry_add_button').textContent = my_current_slots.includes(event.meta.id) ? 'change' : 'add';
-			event_output.querySelector('.list_day_entry_add_button').dataset.slotId = event.meta.id;
-			event_output.querySelector('.list_day_entry_add_button').dataset.slotRoom = event.meta.n_needed - event.meta.n_committed;
-			event_output.querySelector('.list_day_entry_add_button').addEventListener('click', (event) => {
-				daemon_select_show(parseInt(event.target.dataset.slotId));
-			});
+			schedule_inflate_event(event_output, event, my_current_slots);
 
 			day_output.appendChild(event_output);
 		});
@@ -493,19 +559,29 @@ function schedule_show_list() {
 
 }
 
-function schedule_show_grid() {
+function schedule_show_grid(schedule) {
 
 	let output = document.querySelector('#times');
 	while (output.hasChildNodes()) {
 		output.removeChild(output.lastChild);
 	}
 
+	let my_current_slots = [];
+	daemons_available.forEach((d) => {
+		my_current_slots = my_current_slots.concat(d.slots);
+	});
+
+
 	function dur_to_offset(dur) {
 		let o = dur.as('minutes') * minute_to_height_ratio;
 		return `${o}rem`;
 	}
 
-	schedule_filtered.days.forEach((day) => {
+	schedule.days.forEach((day) => {
+		let day_header = template_spin('#list_day');
+		day_header.querySelector('.list_day_header').textContent = 
+			day.timespan.start.toFormat('ccc yyyy-LL-dd');
+
 
 		let day_output = document.createElement('div');
 		day_output.classList.add('day');
@@ -576,9 +652,13 @@ function schedule_show_grid() {
 
 			track.events.forEach((event) => {
 
-				let event_output = document.createElement('div');
-				event_output.classList.add('event');
-				event_output.appendChild(document.createTextNode(event.post));
+				let event_rect = document.createElement('div');
+				event_rect.classList.add('event');
+
+				let event_output = template_spin('#grid_entry');
+				schedule_inflate_event(event_output, event, my_current_slots);
+
+				event_rect.appendChild(event_output);
 
 				let cluster_index = undefined;
 				for (let i = 0; i < time_clusters.length; i++) {
@@ -590,10 +670,10 @@ function schedule_show_grid() {
 				if (cluster_index == undefined) {
 					console.log(`ERROR; could not find a cluster for this event=${event}`);
 				} else {
-					event_output.style = `top: ${dur_to_offset(event.timespan.start.diff(time_clusters[cluster_index].start))};\nheight: ${dur_to_offset(event.timespan.toDuration())}`
+					event_rect.style = `top: ${dur_to_offset(event.timespan.start.diff(time_clusters[cluster_index].start))};\nheight: ${dur_to_offset(event.timespan.toDuration())}`
 				}
 
-				track_outputs[cluster_index].appendChild(event_output);
+				track_outputs[cluster_index].appendChild(event_rect);
 			});
 
 			track_outputs.forEach((o) => {
@@ -609,6 +689,8 @@ function schedule_show_grid() {
 
 		});
 
-		output.appendChild(day_output);
+		day_header.querySelector('.list_day_content').appendChild(day_output);
+		output.appendChild(day_header);
+		//output.appendChild(day_output);
 	});
 }

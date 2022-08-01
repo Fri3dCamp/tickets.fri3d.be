@@ -1050,7 +1050,7 @@ def get_volunteers(cursor, email_filter=None):
 	"""return all volunteering tickets bought by this email"""
 	out = {}
 	f = ''
-	if email_filter:
+	if email_filter is not None:
 		f = 'pu.email = %(email)s and'
 
 	q = """

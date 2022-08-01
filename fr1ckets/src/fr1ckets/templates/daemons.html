@@ -9,10 +9,6 @@
     <link rel="stylesheet" href="/static/daemons/css/index.css">
   </head>
   <body>
-    <section class="devnotes">
-      <label for="debug_toggle_grid">toggle grid:</label>
-      <input type="checkbox" id="debug_toggle_grid" name="debug_toggle_grid">
-    </section>
     <section id="ident">
       <input id="identification_email" type="email"/>
       <button id="identification_launch">opzoeken</button>
@@ -33,21 +29,39 @@
         </div>
       </div>
     </template>
-    <template id="list_day_entry">
-      <div class="list_day_entry">
-        <div class="list_day_entry_group_timing">
-          <div class="list_day_entry_time"></div>
-          <div class="list_day_entry_length"></div>
+    <template id="list_entry">
+      <div class="list_entry">
+        <div class="list_entry_group_timing">
+          <div class="time_start"></div>
+          <div class="time_length"></div>
         </div>
-        <div class="list_day_entry_group_meta">
-          <div class="list_day_entry_title"></div>
-          <div class="list_day_entry_abstract"></div>
-          <div class="list_day_entry_description"></div>
-          <div class="list_day_entry_room"></div>
-          <div class="list_day_entry_type"></div>
-          <div class="list_day_entry_url"></div>
-          <div class="list_day_entry_logo"></div>
-          <button class="list_day_entry_add_button">add</button>
+        <div class="list_entry_group_meta">
+          <div>
+            <div class="title"></div>
+            <div class="abstract"></div>
+          </div>
+          <div>
+           <div class="people_needed"></div>
+           <button class="commit_button">add</button>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <template id="grid_entry">
+      <div class="grid_entry">
+        <div class="grid_entry_group_timing">
+          <span class="time_start"></span>&nbsp;(<span class="time_length"></span>)
+        </div>
+        <div class="grid_entry_group_meta">
+          <div>
+            <div class="title"></div>
+            <div class="abstract"></div>
+          </div>
+          <div>
+           <div class="people_needed"></div>
+           <button class="commit_button">add</button>
+          </div>
         </div>
       </div>
     </template>

@@ -11,7 +11,7 @@ if ('serviceWorker' in navigator) {
 
 const clustering_window = luxon.Duration.fromISOTime('00:30');
 const minute_to_height_ratio = 0.125;
-let url_base = 'http://localhost:8070/api/'; //'https://nogal.slechte.info/api/';
+let url_base = 'https://nogal.slechte.info/api/';
 let url_schedule = `${url_base}get_daemon_overview`; //'https://pretalx.fri3d.be/fri3dcamp2022/schedule/export/schedule.json';
 let url_mine_get = `${url_base}get_daemon_mine`; //'https://pretalx.fri3d.be/fri3dcamp2022/schedule/export/schedule.json';
 let url_mine_set = `${url_base}set_daemon_mine`; //'https://pretalx.fri3d.be/fri3dcamp2022/schedule/export/schedule.json';

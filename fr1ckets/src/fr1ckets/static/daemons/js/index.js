@@ -10,14 +10,17 @@ if ('serviceWorker' in navigator) {
 */
 
 const clustering_window = luxon.Duration.fromISOTime('00:30');
-const minute_to_height_ratio = 0.08;
-let url_schedule = 'https://nogal.slechte.info/api/get_daemon_overview'; //'https://pretalx.fri3d.be/fri3dcamp2022/schedule/export/schedule.json';
-let url_mine_get = 'https://nogal.slechte.info/api/get_daemon_mine'; //'https://pretalx.fri3d.be/fri3dcamp2022/schedule/export/schedule.json';
-let url_mine_set = 'https://nogal.slechte.info/api/set_daemon_mine'; //'https://pretalx.fri3d.be/fri3dcamp2022/schedule/export/schedule.json';
+const minute_to_height_ratio = 0.125;
+let url_base = 'http://localhost:8070/api/'; //'https://nogal.slechte.info/api/';
+let url_schedule = `${url_base}get_daemon_overview`; //'https://pretalx.fri3d.be/fri3dcamp2022/schedule/export/schedule.json';
+let url_mine_get = `${url_base}get_daemon_mine`; //'https://pretalx.fri3d.be/fri3dcamp2022/schedule/export/schedule.json';
+let url_mine_set = `${url_base}set_daemon_mine`; //'https://pretalx.fri3d.be/fri3dcamp2022/schedule/export/schedule.json';
 let schedule_complete = {};
 let daemons_available = [];
 let posts_available = [];
 let display_list = true;
+
+document.querySelector('#js_warning').hidden = true;
 
 function load_schedule() {
 	console.log("loading schedule");
@@ -60,6 +63,14 @@ document.querySelector('#identification_launch').addEventListener('click', (even
 		}),
 	}).then((resp) => resp.json()).then(mine => {
 		daemons_available = mine.daemons;
+		if (daemons_available.length) {
+			document.querySelector('#output_daemons').textContent = daemons_available.map((d) => d.name).join(', ');
+			document.querySelector('#notify_email_ok').hidden = false;
+			document.querySelector('#notify_email_error').hidden = true;
+		} else {
+			document.querySelector('#notify_email_ok').hidden = true;
+			document.querySelector('#notify_email_error').hidden = false;
+		}
 		// redraw the schedule
 		schedule_show();
 	});
@@ -101,6 +112,7 @@ document.querySelector('#commit_daemons').addEventListener('close', (event) => {
 	}
 
 	let slot_id = parseInt(modal.dataset.slotId);
+	let slot_room = parseInt(modal.dataset.slotRoom);
 	let daemon_ids = [];
 	console.log(typeof slot_id);
 
@@ -110,10 +122,15 @@ document.querySelector('#commit_daemons').addEventListener('close', (event) => {
 		}
 	});
 
-	console.log(`slot_id=${slot_id} daemon_ids=${daemon_ids}`);
+	console.log(`slot_id=${slot_id} slot_room=${slot_room} daemon_ids=${daemon_ids}`);
 
 	if (!slot_id)
 		return;
+
+	if (daemon_ids.length > slot_room) {
+		daemon_select_show(slot_id, slot_room, message=`Je koos teveel mensen!`);
+		return;
+	}
 
 	// walk over our known daemons, to remove or add this slot
 	daemons_available.forEach((d) => {
@@ -126,10 +143,18 @@ document.querySelector('#commit_daemons').addEventListener('close', (event) => {
 
 	daemons_push();
 });
-function daemon_select_show(slot_id) {
+function daemon_select_show(slot_id, slot_room, message=undefined) {
 	
 	let modal = document.querySelector('#commit_daemons');
 	let list_output = document.querySelector('#commit_daemons_list');
+	let message_output = document.querySelector('#commit_daemons_message');
+
+	if (message) {
+		message_output.textContent = message;
+		message_output.hidden = false;
+	} else {
+		message_output.hidden = true;
+	}
 
 	while (list_output.hasChildNodes()) {
 		list_output.removeChild(list_output.lastChild);
@@ -144,6 +169,7 @@ function daemon_select_show(slot_id) {
 	});
 
 	modal.dataset.slotId = slot_id;
+	modal.dataset.slotRoom = slot_room;
 
 	modal.showModal();
 }
@@ -482,7 +508,7 @@ function schedule_inflate_event(node, event, slots_committed) {
 
 	node.querySelector('.title').textContent = post.name;
 	node.querySelector('.abstract').textContent = post.abstract;
-	node.querySelector('.people_needed').textContent = n_people_needed ? `${n_people_needed} nodig!` : 'volzet';
+	node.querySelector('.people_needed').textContent = n_people_needed ? `Nog ${n_people_needed} plaats${n_people_needed == 1 ? '' : 'en'}!` : 'Volzet';
 
 	let button = node.querySelector('.commit_button');
 
@@ -493,24 +519,27 @@ function schedule_inflate_event(node, event, slots_committed) {
 	} else {
 		// if the user has already committed, that takes precedence
 		if (slots_committed.includes(event.meta.id)) {
-			button.classList.add('mine');
-			button.textContent = "dat zijn wij!";
+			button.classList.add('button_change');
+			button.textContent = "verander keuze";
 		} else {
 			// user hasn't committed to this, allow to commit if there's room
 			if (n_people_needed) {
-				button.classList.add('needed');
-				button.textContent = "klinkt goed!";
+				button.classList.add('button_add');
+				button.textContent = "schrijf mij op!";
 			} else {
+				button.hidden = true;
+				/*
 				button.classList.add('full');
 				button.textContent = "volzet";
 				button.active = false;
+				*/
 			}
 		}
 
 		button.dataset.slotId = event.meta.id;
-		button.dataset.slotRoom = n_people_needed;
+		button.dataset.slotRoom = n_people_needed + slots_committed.filter(e => e == event.meta.id).length;
 		button.addEventListener('click', (event) => {
-			daemon_select_show(parseInt(event.target.dataset.slotId));
+			daemon_select_show(parseInt(event.target.dataset.slotId), parseInt(event.target.dataset.slotRoom));
 		});
 	}
 

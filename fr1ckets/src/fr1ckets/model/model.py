@@ -1160,6 +1160,7 @@ def list_daemon_posts(cursor):
 		SELECT
 			code,
 			name,
+			abstract,
 			description
 		FROM
 			daemon_post;

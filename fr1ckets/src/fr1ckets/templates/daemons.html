@@ -5,14 +5,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="/static/daemons/ext/css/hack-subset.css">
+    <link rel="stylesheet" href="/static/css/vanilla.css">
     <link rel="stylesheet" href="/static/daemons/css/index.css">
   </head>
   <body>
-    <section id="ident">
+    <header class="siteheader">
+      <a href="https://www.fri3d.be/" class="headerlogo">
+        <img src="/static/img/logo_white_noyear.svg" alt="Fri3d Camp">
+      </a>
+    </header>
+    <div>
+      todos;
+      <ul>
+        <li>breedte email input, autofocus knop</li>
+        <li>"verander keuze" knop kleur</li>
+        <li>geel is perhaps too hard</li>
+        <li>dieë filter ... die mag weg, ni?<sup>ja Jef da mag</sup></li>
+      </ul>
+    </div>
+    <div class="notice notice-warning block-narrow" id="js_warning">
+      <p>Deze pagina vereist Javascript! Gelieve Javascript op te zetten voor deze site. Ingeval ethische bezwaren geen probleem, tickets@fri3d.be kan je manueel verderhelpen.</p>
+    </div>
+    <div class="notice block-narrow">
+      <p>Om je vrijwilliger te stellen, vul hier het email in waarmee je je tickets besteld hebt, en druk op de knop om je gegevens op te halen.</p>
       <input id="identification_email" type="email"/>
       <button id="identification_launch">opzoeken</button>
-    </section>
+    </div>
+    <div class="notice notice-OK block-narrow" id="notify_email_ok" hidden>
+      Dank je, je kan nu de volgende mensen aanduiden als vrijwiller:
+      <div id="output_daemons"></div>
+    </div>
+    <div class="notice notice-error block-narrow" id="notify_email_error" hidden>
+      Woops, dit email adres kennen we niet, of heeft geen vrijwilligers.
+    </div>
+
     <section id="filter">
       <form action="" id="filter">
       </form>
@@ -36,12 +62,14 @@
           <div class="time_length"></div>
         </div>
         <div class="list_entry_group_meta">
-          <div>
+          <div class="desc">
             <div class="title"></div>
             <div class="abstract"></div>
           </div>
-          <div>
-           <div class="people_needed"></div>
+          <div class="needed">
+            <span class="people_needed"></span>
+          </div>
+          <div class="action">
            <button class="commit_button">add</button>
           </div>
         </div>
@@ -75,11 +103,13 @@
 
     <dialog id="commit_daemons">
       <form method="dialog">
+        <div id="commit_daemons_message" class="notice notice-warning block-narrow"></div>
+        <p>Kies je vrijwilligers voor deze shift:</p>
         <fieldset id="commit_daemons_list">
         </fieldset>
-        <div>
-          <button id="commit" value="commit">commit</button>
-          <button id="rollback" value="rollback">rollback</button>
+        <div class="actions">
+          <button id="commit" value="commit" class="btn">Opslaan</button>
+          <button id="rollback" value="rollback" class="btn">Zo laten</button>
         </div>
       </form>
     </dialog>

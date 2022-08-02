@@ -1,18 +1,17 @@
-body {
-	font-family: Hack, monospace;
-}
-
 section#times {
 	margin-top: 2rem;
 }
 
-.devnotes {
-	display: block;
-	border: 3px dashed red;
-	text: red;
-	background: pink;
+fieldset {
+	border: 0;
+	margin-bottom: 10px;
 }
 
+#commit_daemons .actions {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
 /*
             _     _         _
   __ _ _ __(_) __| | __   _(_) _____      __
@@ -62,8 +61,8 @@ div.track {
 div.track-break {
 	width: 150px;
 	height: 50px;
+	margin-left: 8px;
 	display: inline-block;
-	background: lightgray;
 	vertical-align: top;
 }
 div.event {
@@ -74,7 +73,6 @@ div.event {
 	border: solid gray 1px;
 	font-size: small;
 	overflow: hidden;
-	background: lightblue;
 }
 
 .grid_entry_group_timing {
@@ -85,6 +83,41 @@ div.event {
 	justify-content: center;
 	align-items: center;
 	background: yellow;
+}
+.grid_entry_group_meta {
+	text-align: center;
+	padding: 4px;
+}
+.grid_entry_group_meta .title {
+	text-align: center;
+	font-size: larger;
+}
+
+.grid_entry .button_change {
+	position: absolute;
+	width: 100%;
+	height: 4rem;
+	bottom: 0;
+	left: 0;
+	border: 0;
+	background: #3ce8b3;
+	font-size: 1.3rem;
+	color: white;
+	font-weight: bold;
+	cursor: pointer;
+}
+.grid_entry .button_add {
+	position: absolute;
+	width: 100%;
+	height: 4rem;
+	bottom: 0;
+	left: 0;
+	border: 0;
+	background-color: #8835c9;
+	font-size: 1.3rem;
+	color: white;
+	font-weight: bold;
+	cursor: pointer;
 }
 /*
  _ _     _           _
@@ -100,7 +133,7 @@ div.event {
 }
 .list_day_header {
 	display: block;
-	background: purple;
+	background: #3ce8b3;
 	text-align: center;
 	padding: 1em;
 }
@@ -125,10 +158,60 @@ div.event {
 .list_entry_group_meta {
 	grid-column: 2;
 	grid-row: 1;
+	/*
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	*/
+	margin: 4px;
+	display: grid;
+	grid-template-columns: 40% 40% 20%;
 }
-.list_entry_time {
+.list_entry_group_meta .desc {
+	grid-row 1;
+	grid-column: 1;
+}
+.list_entry_group_meta .title {
 	font-size: larger;
 }
-.list_entry .people_needed {
-	font-size: larger;
+.list_entry_group_meta .needed {
+	grid-row 1;
+	grid-column: 2;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+
 }
+.list_entry_group_meta .action {
+	grid-row 1;
+	grid-column: 3;
+	display: flex;
+	flex-direction: row;
+	justify-content: end;
+}
+
+.list_entry .button_change {
+	border-radius: 0;
+	border: none;
+	border-bottom: 5px solid #512078;
+	background-color: #3ce8b3;
+	padding: 10px;
+	font-size: 1.6rem;
+	color: white;
+	font-weight: bold;
+	cursor: pointer;
+
+}
+.list_entry .button_add {
+	border-radius: 0;
+	border: none;
+	border-bottom: 5px solid #512078;
+	background-color: #8835c9;
+	padding: 10px;
+	font-size: 1.6rem;
+	color: white;
+	font-weight: bold;
+	cursor: pointer;
+}
+

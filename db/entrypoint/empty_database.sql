@@ -205,19 +205,22 @@ drop table if exists daemon_post;
 create table daemon_post (
 	code varchar(64) not null,
 	name varchar(64) not null,
+	abstract varchar(128),
 	description text,
 	primary key (code)
 );
-insert into daemon_post (code, name, description) values
-( 'CONTENT_KAPEL', 'Kapel content support', 'Kapel beschrijving' ),
-( 'CONTENT_NORMAL', 'Content support', 'Content support beschrijving' ),
-( 'KEEPER', 'Vliegende keeper', 'Vliegende keeper beschrijving' ),
-( 'FOOD', 'Food', 'Meehelpen met de keuken' ),
-( 'INFODESK', 'Infodesk', 'Infobalie bemannen' ),
-( 'BADGEDESK', 'EHBBO', 'Eerste hulp bij badge ongevallen' ),
-( 'BAR', 'De bar', 'Meehelpen met de bar, laatste shift tot het einde!' ),
-( 'PARKING', 'Parkeerwacht', 'Voertuigen begeleiden, parkeerplaatsen organiseren.' ),
-( 'NIGHTWATCH', 'Nachtwacht', 'Snachts een oogje in het zeil houden.' );
+insert into daemon_post (code, name, abstract, description) values
+( 'CONTENT_KAPEL', 'AV Support', 'Mengtafel kennis gevraagd!', 'In de kapel zoeken we audio/video hulp.' ),
+( 'CONTENT_NORMAL', 'Content Support', 'Talk/workshop begeleiding.', 'Helpen verzorgen van content.' ),
+( 'KEEPER', 'Vliegende Keeper', 'Kampioen der willekeur.', 'Blussen van eenderwelk brandje, veel rondlopen!' ),
+( 'FOOD', 'Food', 'Avondmaal-chefs.', 'Meehelpen met de keuken voor het avondeten.' ),
+( 'INFODESK', 'Infodesk', 'Mensen helpen.', 'Infobalie bemannen, vragen beantwoorden.' ),
+( 'BADGEDESK', 'EHBBO', 'Badge-problemen fixen.', 'Eerste hulp bij badge ongevallen.' ),
+( 'BAR', 'De bar', 'Niet enkel tappen!', 'Meehelpen met de bar, die laatste shift kan even duren!' ),
+( 'PARKING', 'Parkeerwacht', 'Wijs anderen de weg.', 'Voertuigen begeleiden, parkeerplaatsen organiseren.' ),
+( 'NIGHTWATCH', 'Nachtwacht', 'Stilte-zoekers.', 'Snachts een oogje in het zeil houden.' ),
+( 'BARFOOD', 'Eten voor de bar', 'Expert broodsmeerders.', 'De croques prepareren voor de bar.'),
+( 'SANI', 'Sanitair', 'Grove borstels!', "The real deal. Ieder's held." );
 
 drop table if exists daemon_slot;
 create table daemon_slot (
@@ -232,7 +235,7 @@ create table daemon_slot (
 	constraint daemon_slot_daemon_post_code_fk foreign key (daemon_post_code) references daemon_post (code) on delete cascade on update cascade
 );
 insert into daemon_slot (daemon_day_code, daemon_post_code, slot_start, slot_end, n_needed) values
-( 'VRIJDAG', 'CONTENT_KAPEL', '2022-08-12T13:00:00', '2022-08-12T15:00:00', 1 ),
+( 'VRIJDAG', 'CONTENT_KAPEL', '2022-08-12T13:30:00', '2022-08-12T15:30:00', 1 ),
 ( 'VRIJDAG', 'CONTENT_KAPEL', '2022-08-12T20:00:00', '2022-08-12T22:00:00', 1 ),
 ( 'ZATERDAG', 'CONTENT_KAPEL', '2022-08-13T10:30:00', '2022-08-12T12:30:00', 1 ),
 ( 'ZATERDAG', 'CONTENT_KAPEL', '2022-08-13T13:00:00', '2022-08-12T15:00:00', 1 ),
@@ -240,17 +243,17 @@ insert into daemon_slot (daemon_day_code, daemon_post_code, slot_start, slot_end
 ( 'ZONDAG', 'CONTENT_KAPEL', '2022-08-14T10:30:00', '2022-08-12T12:30:00', 1 ),
 ( 'ZONDAG', 'CONTENT_KAPEL', '2022-08-14T13:00:00', '2022-08-12T15:00:00', 1 ),
 
-( 'VRIJDAG', 'CONTENT_NORMAL', '2022-08-12T10:30:00', '2022-08-12T12:30:00', 7 ),
-( 'VRIJDAG', 'CONTENT_NORMAL', '2022-08-12T13:00:00', '2022-08-12T15:00:00', 6 ),
-( 'VRIJDAG', 'CONTENT_NORMAL', '2022-08-12T15:00:00', '2022-08-12T17:00:00', 7 ),
-( 'VRIJDAG', 'CONTENT_NORMAL', '2022-08-12T20:00:00', '2022-08-12T22:00:00', 2 ),
-( 'ZATERDAG', 'CONTENT_NORMAL', '2022-08-13T10:30:00', '2022-08-12T12:30:00', 7 ),
-( 'ZATERDAG', 'CONTENT_NORMAL', '2022-08-13T13:00:00', '2022-08-12T15:00:00', 7 ),
-( 'ZATERDAG', 'CONTENT_NORMAL', '2022-08-13T15:00:00', '2022-08-12T17:00:00', 7 ),
-( 'ZATERDAG', 'CONTENT_NORMAL', '2022-08-13T20:00:00', '2022-08-12T22:00:00', 2 ),
+( 'VRIJDAG', 'CONTENT_NORMAL', '2022-08-12T11:00:00', '2022-08-12T13:00:00', 6 ),
+( 'VRIJDAG', 'CONTENT_NORMAL', '2022-08-12T13:30:00', '2022-08-12T15:30:00', 5 ),
+( 'VRIJDAG', 'CONTENT_NORMAL', '2022-08-12T16:00:00', '2022-08-12T18:00:00', 6 ),
+( 'ZATERDAG', 'CONTENT_NORMAL', '2022-08-13T10:30:00', '2022-08-12T12:30:00', 6 ),
+( 'ZATERDAG', 'CONTENT_NORMAL', '2022-08-13T13:00:00', '2022-08-12T15:00:00', 6 ),
+( 'ZATERDAG', 'CONTENT_NORMAL', '2022-08-13T15:00:00', '2022-08-12T17:00:00', 6 ),
 ( 'ZONDAG', 'CONTENT_NORMAL', '2022-08-14T10:30:00', '2022-08-12T12:30:00', 6 ),
-( 'ZONDAG', 'CONTENT_NORMAL', '2022-08-14T13:00:00', '2022-08-12T15:00:00', 7 ),
+( 'ZONDAG', 'CONTENT_NORMAL', '2022-08-14T13:00:00', '2022-08-12T15:00:00', 4 ),
 
+( 'DONDERDAG', 'KEEPER', '2022-08-11T18:00:00', '2022-08-11T12:00:00', 3 ),
+( 'DONDERDAG', 'KEEPER', '2022-08-11T20:00:00', '2022-08-11T22:00:00', 2 ),
 ( 'VRIJDAG', 'KEEPER', '2022-08-12T09:00:00', '2022-08-12T11:00:00', 2 ),
 ( 'VRIJDAG', 'KEEPER', '2022-08-12T11:00:00', '2022-08-12T13:00:00', 2 ),
 ( 'VRIJDAG', 'KEEPER', '2022-08-12T15:00:00', '2022-08-12T17:00:00', 2 ),
@@ -261,18 +264,16 @@ insert into daemon_slot (daemon_day_code, daemon_post_code, slot_start, slot_end
 ( 'ZATERDAG', 'KEEPER', '2022-08-13T17:00:00', '2022-08-13T19:00:00', 2 ),
 ( 'ZONDAG', 'KEEPER', '2022-08-14T09:00:00', '2022-08-14T11:00:00', 2 ),
 ( 'ZONDAG', 'KEEPER', '2022-08-14T11:00:00', '2022-08-14T13:00:00', 2 ),
-( 'ZONDAG', 'KEEPER', '2022-08-14T15:00:00', '2022-08-14T17:00:00', 2 ),
-( 'ZONDAG', 'KEEPER', '2022-08-14T17:00:00', '2022-08-14T19:00:00', 2 ),
+( 'ZONDAG', 'KEEPER', '2022-08-14T13:00:00', '2022-08-14T15:00:00', 2 ),
 
-( 'VRIJDAG', 'FOOD', '2022-08-12T15:00:00', '2022-08-12T17:00:00', 4 ),
-( 'VRIJDAG', 'FOOD', '2022-08-12T17:00:00', '2022-08-12T19:00:00', 6 ),
-( 'VRIJDAG', 'FOOD', '2022-08-12T19:00:00', '2022-08-12T21:00:00', 6 ),
-( 'ZATERDAG', 'FOOD', '2022-08-13T14:00:00', '2022-08-13T17:00:00', 10 ),
+( 'VRIJDAG', 'FOOD', '2022-08-12T15:00:00', '2022-08-12T17:00:00', 3 ),
+( 'VRIJDAG', 'FOOD', '2022-08-12T17:00:00', '2022-08-12T19:00:00', 8 ),
+( 'VRIJDAG', 'FOOD', '2022-08-12T19:00:00', '2022-08-12T21:00:00', 8 ),
+( 'ZATERDAG', 'FOOD', '2022-08-13T13:00:00', '2022-08-13T15:00:00', 10 ),
+( 'ZATERDAG', 'FOOD', '2022-08-13T15:00:00', '2022-08-13T17:00:00', 10 ),
 ( 'ZATERDAG', 'FOOD', '2022-08-13T17:00:00', '2022-08-13T19:00:00', 10 ),
 ( 'ZATERDAG', 'FOOD', '2022-08-13T19:00:00', '2022-08-13T21:00:00', 10 ),
 
-( 'DONDERDAG', 'INFODESK', '2022-08-11T18:00:00', '2022-08-11T20:00:00', 2),
-( 'DONDERDAG', 'INFODESK', '2022-08-11T20:00:00', '2022-08-11T22:00:00', 2),
 ( 'VRIJDAG', 'INFODESK', '2022-08-12T08:00:00', '2022-08-12T10:00:00', 1),
 ( 'VRIJDAG', 'INFODESK', '2022-08-12T10:00:00', '2022-08-12T12:00:00', 2),
 ( 'VRIJDAG', 'INFODESK', '2022-08-12T12:00:00', '2022-08-12T14:00:00', 2),
@@ -290,8 +291,8 @@ insert into daemon_slot (daemon_day_code, daemon_post_code, slot_start, slot_end
 ( 'ZONDAG', 'INFODESK', '2022-08-14T08:00:00', '2022-08-14T10:00:00', 1),
 ( 'ZONDAG', 'INFODESK', '2022-08-14T10:00:00', '2022-08-14T12:00:00', 2),
 ( 'ZONDAG', 'INFODESK', '2022-08-14T12:00:00', '2022-08-14T14:00:00', 2),
-( 'ZONDAG', 'INFODESK', '2022-08-14T14:00:00', '2022-08-14T16:00:00', 2),
 
+( 'DONDERDAG', 'BADGEDESK', '2022-08-11T19:00:00', '2022-08-11T21:00:00', 2),
 ( 'VRIJDAG', 'BADGEDESK', '2022-08-12T10:00:00', '2022-08-12T12:00:00', 2),
 ( 'VRIJDAG', 'BADGEDESK', '2022-08-12T12:00:00', '2022-08-12T14:00:00', 2),
 ( 'VRIJDAG', 'BADGEDESK', '2022-08-12T14:00:00', '2022-08-12T16:00:00', 2),
@@ -302,11 +303,10 @@ insert into daemon_slot (daemon_day_code, daemon_post_code, slot_start, slot_end
 ( 'ZATERDAG', 'BADGEDESK', '2022-08-13T16:00:00', '2022-08-13T18:00:00', 2),
 ( 'ZONDAG', 'BADGEDESK', '2022-08-14T10:00:00', '2022-08-14T12:00:00', 2),
 ( 'ZONDAG', 'BADGEDESK', '2022-08-14T12:00:00', '2022-08-14T14:00:00', 2),
-( 'ZONDAG', 'BADGEDESK', '2022-08-14T14:00:00', '2022-08-14T16:00:00', 2),
 
 ( 'DONDERDAG', 'BAR', '2022-08-11T18:00:00', '2022-08-11T20:00:00', 3),
 ( 'DONDERDAG', 'BAR', '2022-08-11T20:00:00', '2022-08-11T22:00:00', 3),
-( 'DONDERDAG', 'BAR', '2022-08-11T22:00:00', '2022-08-11T23:59:59', 2),
+( 'DONDERDAG', 'BAR', '2022-08-11T22:00:00', '2022-08-11T23:59:59', 3),
 ( 'VRIJDAG', 'BAR', '2022-08-12T00:00:00', '2022-08-12T04:00:00', 2),
 ( 'VRIJDAG', 'BAR', '2022-08-12T08:00:00', '2022-08-12T10:00:00', 2),
 ( 'VRIJDAG', 'BAR', '2022-08-12T10:00:00', '2022-08-12T12:00:00', 3),
@@ -315,7 +315,7 @@ insert into daemon_slot (daemon_day_code, daemon_post_code, slot_start, slot_end
 ( 'VRIJDAG', 'BAR', '2022-08-12T16:00:00', '2022-08-12T18:00:00', 3),
 ( 'VRIJDAG', 'BAR', '2022-08-12T18:00:00', '2022-08-12T20:00:00', 3),
 ( 'VRIJDAG', 'BAR', '2022-08-12T20:00:00', '2022-08-12T22:00:00', 3),
-( 'VRIJDAG', 'BAR', '2022-08-12T22:00:00', '2022-08-12T23:59:59', 2),
+( 'VRIJDAG', 'BAR', '2022-08-12T22:00:00', '2022-08-12T23:59:59', 3),
 ( 'ZATERDAG', 'BAR', '2022-08-13T00:00:00', '2022-08-13T04:00:00', 2),
 ( 'ZATERDAG', 'BAR', '2022-08-13T08:00:00', '2022-08-13T10:00:00', 2),
 ( 'ZATERDAG', 'BAR', '2022-08-13T10:00:00', '2022-08-13T12:00:00', 3),
@@ -324,21 +324,32 @@ insert into daemon_slot (daemon_day_code, daemon_post_code, slot_start, slot_end
 ( 'ZATERDAG', 'BAR', '2022-08-13T16:00:00', '2022-08-13T18:00:00', 3),
 ( 'ZATERDAG', 'BAR', '2022-08-13T18:00:00', '2022-08-13T20:00:00', 3),
 ( 'ZATERDAG', 'BAR', '2022-08-13T20:00:00', '2022-08-13T22:00:00', 3),
-( 'ZATERDAG', 'BAR', '2022-08-13T22:00:00', '2022-08-13T23:59:59', 2),
+( 'ZATERDAG', 'BAR', '2022-08-13T22:00:00', '2022-08-13T23:59:59', 3),
 ( 'ZONDAG', 'BAR', '2022-08-14T00:00:00', '2022-08-14T04:00:00', 2),
 ( 'ZONDAG', 'BAR', '2022-08-14T08:00:00', '2022-08-14T10:00:00', 2),
 ( 'ZONDAG', 'BAR', '2022-08-14T10:00:00', '2022-08-14T12:00:00', 3),
 ( 'ZONDAG', 'BAR', '2022-08-14T12:00:00', '2022-08-14T14:00:00', 5),
-( 'ZONDAG', 'BAR', '2022-08-14T14:00:00', '2022-08-14T16:00:00', 3),
+( 'ZONDAG', 'BAR', '2022-08-14T14:00:00', '2022-08-14T16:00:00', 2),
 
-( 'DONDERDAG', 'PARKING', '2022-08-11T17:00:00', '2022-08-11T19:00:00', 5),
-( 'DONDERDAG', 'PARKING', '2022-08-11T19:00:00', '2022-08-11T21:00:00', 5),
+( 'DONDERDAG', 'PARKING', '2022-08-11T17:00:00', '2022-08-11T19:00:00', 7),
+( 'DONDERDAG', 'PARKING', '2022-08-11T19:00:00', '2022-08-11T21:00:00', 6),
 ( 'VRIJDAG', 'PARKING', '2022-08-12T08:00:00', '2022-08-12T10:00:00', 5),
-( 'VRIJDAG', 'PARKING', '2022-08-12T10:00:00', '2022-08-12T12:00:00', 5),
 
-( 'VRIJDAG', 'NIGHTWATCH', '2022-08-12T00:00:00', '2022-08-12T08:00:00', 1),
-( 'ZATERDAG', 'NIGHTWATCH', '2022-08-13T00:00:00', '2022-08-13T08:00:00', 1),
-( 'ZONDAG', 'NIGHTWATCH', '2022-08-14T00:00:00', '2022-08-14T08:00:00', 1);
+( 'VRIJDAG', 'NIGHTWATCH', '2022-08-12T00:00:00', '2022-08-12T08:00:00', 2),
+( 'ZATERDAG', 'NIGHTWATCH', '2022-08-13T00:00:00', '2022-08-13T08:00:00', 2),
+( 'ZONDAG', 'NIGHTWATCH', '2022-08-14T00:00:00', '2022-08-14T08:00:00', 2),
+
+( 'VRIJDAG', 'BARFOOD', '2022-08-12T10:00:00', '2022-08-12T12:00:00', 2),
+( 'ZATERDAG', 'BARFOOD', '2022-08-13T10:00:00', '2022-08-13T12:00:00', 2),
+( 'ZONDAG', 'BARFOOD', '2022-08-14T10:00:00', '2022-08-14T12:00:00', 2),
+
+( 'VRIJDAG', 'SANI', '2022-08-12T10:00:00', '2022-08-12T12:00:00', 4),
+( 'VRIJDAG', 'SANI', '2022-08-12T19:00:00', '2022-08-12T21:00:00', 4),
+( 'ZATERDAG', 'SANI', '2022-08-13T10:00:00', '2022-08-13T12:00:00', 4),
+( 'ZATERDAG', 'SANI', '2022-08-13T19:00:00', '2022-08-13T21:00:00', 4),
+( 'ZONDAG', 'SANI', '2022-08-14T10:00:00', '2022-08-14T12:00:00', 4),
+( 'ZONDAG', 'SANI', '2022-08-14T19:00:00', '2022-08-14T21:00:00', 4);
+
 
 drop table if exists daemon_commit;
 create table daemon_commit (

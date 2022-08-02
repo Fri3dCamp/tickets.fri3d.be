@@ -4,7 +4,6 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="manifest" href="manifest.webmanifest">
     <link rel="stylesheet" href="/static/css/vanilla.css">
     <link rel="stylesheet" href="/static/daemons/css/index.css">
   </head>
@@ -14,39 +13,29 @@
         <img src="/static/img/logo_white_noyear.svg" alt="Fri3d Camp">
       </a>
     </header>
-    <div>
-      notes;
-      <ul>
-        <li>toont enkel grid als'm plaats genoeg heeft</li>
-      </ul>
-      todos;
-      <ul>
-        <li>breedte email input, autofocus knop</li>
-        <li>"verander keuze" knop kleur</li>
-        <li>geel is perhaps too hard</li>
-        <li>dieë filter ... die mag weg, ni?<sup>ja Jef da mag</sup></li>
-      </ul>
-    </div>
     <div class="notice notice-warning block-narrow" id="js_warning">
       <p>Deze pagina vereist Javascript! Gelieve Javascript op te zetten voor deze site. Ingeval ethische bezwaren geen probleem, tickets@fri3d.be kan je manueel verderhelpen.</p>
     </div>
+    <header class="pageheader block block-narrow">
+      <h1>Fri3d Camp 2022 vrijwilligers-keuzes</h1>
+      <p>Fri3d Camp kan enkel doorgaan als iedereen een beetje bijdraagt.</p>
+    </header>
     <div class="notice block-narrow">
       <p>Om je vrijwilliger te stellen, vul hier het email in waarmee je je tickets besteld hebt, en druk op de knop om je gegevens op te halen.</p>
-      <input id="identification_email" type="email"/>
-      <button id="identification_launch">opzoeken</button>
+      <form action="" id="identification_entry">
+        <input id="identification_email" type="email"/>
+        <button class="btn" id="identification_launch">opzoeken</button>
+      </form>
     </div>
     <div class="notice notice-OK block-narrow" id="notify_email_ok" hidden>
-      Dank je, je kan nu de volgende mensen aanduiden als vrijwiller:
+      Dank je, je kan nu de volgende mensen aanduiden als vrijwilliger:
       <div id="output_daemons"></div>
+      Je keuzes worden onmiddelijk opgeslagen.
     </div>
     <div class="notice notice-error block-narrow" id="notify_email_error" hidden>
-      Woops, dit email adres kennen we niet, of heeft geen vrijwilligers.
+      Woops, dit email adres heeft geen vrijwilligers.
     </div>
 
-    <section id="filter">
-      <form action="" id="filter">
-      </form>
-    </section>
     <section id="times">
     </section>
 
@@ -112,8 +101,8 @@
         <fieldset id="commit_daemons_list">
         </fieldset>
         <div class="actions">
-          <button id="commit" value="commit" class="btn">Opslaan</button>
-          <button id="rollback" value="rollback" class="btn">Zo laten</button>
+          <button value="rollback" class="btn btn-rollback">Zo laten</button>
+          <button value="commit" class="btn btn-commit">Opslaan</button>
         </div>
       </form>
     </dialog>

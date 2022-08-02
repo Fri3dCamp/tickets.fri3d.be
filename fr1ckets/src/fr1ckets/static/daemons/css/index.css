@@ -12,6 +12,22 @@ fieldset {
 	flex-direction: row;
 	justify-content: space-between;
 }
+#identification_entry {
+	display: flex;
+	flex-direction: column;
+	align-items: end;
+}
+#identification_entry input {
+	width: 100%;
+	margin-bottom: 1em;
+}
+.btn-rollback {
+	border-bottom: 5px solid #3c3c3c;
+	background-color: #555555;
+}
+.btn-commit {
+}
+
 /*
             _     _         _
   __ _ _ __(_) __| | __   _(_) _____      __
@@ -82,7 +98,7 @@ div.event {
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
-	background: yellow;
+	background-color: #97f3d7;
 }
 .grid_entry_group_meta {
 	text-align: center;
@@ -133,7 +149,7 @@ div.event {
 }
 .list_day_header {
 	display: block;
-	background: #3ce8b3;
+	background-color: #ffe3ca;
 	text-align: center;
 	padding: 1em;
 }
@@ -153,7 +169,7 @@ div.event {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	background: yellow;
+	background-color: #97f3d7;
 }
 .list_entry_group_meta {
 	grid-column: 2;

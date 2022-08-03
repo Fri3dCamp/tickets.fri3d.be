@@ -1540,28 +1540,26 @@ def volunteers(nonce=None):
 
 @app.route("/api/get_daemon_mine", methods=[ 'POST' ])
 def api_get_daemon_mine():
-	print(request.json)
 	email = request.json['email']
 	daemons = []
-	for daemon_id, daemon_details in model.get_volunteers(g.db_cursor, email).iteritems():
+
+	found = model.get_volunteers(g.db_cursor, email)
+
+	for daemon_id, daemon_details in found.iteritems():
 		daemons.append({
 			'id' : daemon_id,
 			'name' : daemon_details['name'],
 			'slots' : model.get_daemon_slots_for_person(g.db_cursor, daemon_id),
 		})
+
 	return Response(json.dumps({
 		'status' : 'OK',
 		'email' : request.json['email'],
 		'daemons' : daemons,
 	}), mimetype='application/json')
-	return Response(json.dumps({
-				'status' : 'NOK',
-				'reason' : 'specify better',
-			}), mimetype='application/json')
 
 @app.route("/api/set_daemon_mine", methods=[ 'POST' ])
 def api_set_daemon_mine():
-	print(request.json)
 	daemons = request.json['daemons']
 	email = request.json['email']
 
@@ -1579,17 +1577,12 @@ def api_set_daemon_mine():
 		})
 
 	g.db_commit = True
+
 	return Response(json.dumps({
 		'status' : 'OK',
 		'email' : request.json['email'],
 		'daemons' : daemons,
 	}), mimetype='application/json')
-	return Response(json.dumps({
-				'status' : 'NOK',
-				'reason' : 'specify better',
-			}), mimetype='application/json')
-
-
 
 
 @app.route("/api/get_daemon_overview", methods=[ 'GET' ])
@@ -1602,7 +1595,6 @@ def api_get_daemon_overview():
 	out['posts'] = model.list_daemon_posts(g.db_cursor)
 
 	days = model.list_daemon_days(g.db_cursor)
-	print(days)
 
 	for day in days:
 		out_day = {}
@@ -1626,11 +1618,11 @@ def api_get_daemon_overview():
 
 		out['days'].append(out_day)
 
-	P(out)
 	return Response(json.dumps({
 		'status' : 'OK',
 		'overview' : out,
 	}), mimetype='application/json')
-@app.route("/daemons", methods=[ 'GET', 'POST' ])
+
+@app.route("/shifts", methods=[ 'GET', 'POST' ])
 def daemons():
 	return render_template('daemons.html')

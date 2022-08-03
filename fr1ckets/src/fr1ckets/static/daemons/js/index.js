@@ -18,6 +18,7 @@ let daemons_available = [];
 let posts_available = [];
 // api-filled, the main schedule
 let schedule = {
+	slot_lookup : {},
 	days : [],
 	start : undefined,
 	end : undefined,
@@ -39,6 +40,8 @@ schedule_load();
  \___|_| |_| |_|\__,_|_|_|
                           
 upon form entry, populate global daemons_available and re-blit the schedule
+daemons_show() blits daemons_available as a list of daemons and their chosen shifts,
+	and a list of daemons who have not yet chosen a slot
 */
 
 document.querySelector('#identification_entry').addEventListener('submit', (event) => {
@@ -57,17 +60,75 @@ document.querySelector('#identification_entry').addEventListener('submit', (even
 	}).then((resp) => resp.json()).then(mine => {
 		daemons_available = mine.daemons;
 		if (daemons_available.length) {
-			document.querySelector('#output_daemons').textContent = daemons_available.map((d) => d.name).join(', ');
-			document.querySelector('#notify_email_ok').hidden = false;
 			document.querySelector('#notify_email_error').hidden = true;
 		} else {
-			document.querySelector('#notify_email_ok').hidden = true;
 			document.querySelector('#notify_email_error').hidden = false;
 		}
 		// redraw the schedule
 		schedule_blit(schedule);
+		// update the lists
+		daemons_show();
 	});
 });
+
+function daemons_show() {
+
+	output_good_message = document.querySelector('#daemons_list_good');
+	output_good_list = output_good_message.querySelector('.daemons_list');
+	output_bad_message = document.querySelector('#daemons_list_bad');
+	output_bad_list = output_bad_message.querySelector('.daemons_list');
+
+	let have_good = false;
+	let have_bad = false;
+
+	// clear the lists
+	[ output_good_list, output_bad_list ].forEach((l) => {
+		while (l.hasChildNodes()) {
+			l.removeChild(l.lastChild);
+		}
+	});
+
+	daemons_available.forEach((d) => {
+
+		// append daemons to the good or bad list depending on whether
+		// they have any assigned slots
+		if (d.slots.length) {
+
+			have_good = true;
+
+			let desc = template_spin('#daemons_list_good_entry');
+			desc.querySelector('.name').textContent = d.name;
+			desc.querySelector('.n_slots').textContent = d.slots.length;
+
+			// build a list of slots to show
+			let output_slots = desc.querySelector('.slots');
+			d.slots.forEach((slot_id) => {
+				let slot = schedule.slot_lookup[slot_id];
+				let post = posts_available.find((p) => p.code == slot.post);
+				let slot_desc = template_spin('#slots_list_entry');
+				slot_desc.querySelector('.name').textContent = post.name;
+				slot_desc.querySelector('.start').textContent = slot.timespan.start.toFormat('cccc HH:mm');
+				desc.querySelector('.slots').appendChild(slot_desc);
+			});
+
+			output_good_list.appendChild(desc);
+
+		} else {
+
+			have_bad = true;
+
+			let desc = template_spin('#daemons_list_bad_entry');
+			desc.querySelector('.name').textContent = d.name;
+			output_bad_list.appendChild(desc);
+
+		}
+	});
+
+	// show the messages containing the lists
+	output_good_message.hidden = !have_good;
+	output_bad_message.hidden = !have_bad;
+
+}
 
 /*
                      _       _ 
@@ -89,6 +150,7 @@ the close event is called by the runtime when a button is clicked on the modal, 
 	* fetches the meta from the dataset
 	* extracts the selected daemons
 	* if there's too many daemons selected (more than the slot can hold), _show()s the modal again
+	* if daemon_has_time_for() indicates a double booking, _show()s the modal again
 	* if all succeeds, saves changes to global daemons_available
 	* calls daemons_push
 
@@ -118,7 +180,28 @@ function daemons_push() {
 	}).then(resp => resp.json()).then(ret => {
 		daemons_available = ret.daemons;
 		schedule_load();
+		daemons_show();
 	});
+}
+
+function daemon_has_time_for(daemon_id, new_slot_id) {
+
+	let daemon = daemons_available.find((d) => d.id == daemon_id);
+	let new_slot = schedule.slot_lookup[new_slot_id];
+
+	let works = true;
+
+	daemon.slots.forEach((slot_id) => {
+
+		let slot = schedule.slot_lookup[slot_id];
+
+		if (slot.timespan.overlaps(new_slot.timespan))
+			works = false;
+
+	});
+
+	return works;
+
 }
 
 document.querySelector('#commit_daemons').addEventListener('close', (event) => {
@@ -143,6 +226,15 @@ document.querySelector('#commit_daemons').addEventListener('close', (event) => {
 
 	if (daemon_ids.length > slot_room) {
 		daemon_select_show(slot_id, slot_room, message=`Je koos teveel mensen!`);
+		return;
+	}
+
+
+	daemons_who_overlap = daemon_ids.filter((daemon_id) =>
+		!daemon_has_time_for(daemon_id, slot_id));
+
+	if (daemons_who_overlap.length) {
+		daemon_select_show(slot_id, slot_room, message='Iemand is dubbel geboekt!');
 		return;
 	}
 
@@ -221,6 +313,7 @@ function schedule_process(sched) {
 
 	// output
 	let o = {
+		slot_lookup : {},
 		days : [],
 		start : luxon.DateTime.fromISO('9999-01-01'),
 		end : luxon.DateTime.fromISO('1000-01-01'),
@@ -271,6 +364,9 @@ function schedule_process(sched) {
 				e.meta = event;
 
 				t.events.push(e);
+				
+				// add it to the global lookup, for external use
+				o.slot_lookup[e.meta.id] = e;
 			});
 
 			d.tracks.push(t);

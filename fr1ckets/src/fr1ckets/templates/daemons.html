@@ -27,17 +27,38 @@
         <button class="btn" id="identification_launch">opzoeken</button>
       </form>
     </div>
-    <div class="notice notice-OK block-narrow" id="notify_email_ok" hidden>
-      Dank je, je kan nu de volgende mensen aanduiden als vrijwilliger:
-      <div id="output_daemons"></div>
-      Je keuzes worden onmiddelijk opgeslagen.
-    </div>
     <div class="notice notice-error block-narrow" id="notify_email_error" hidden>
       Woops, dit email adres heeft geen vrijwilligers.
+    </div>
+    <div class="notice notice-OK block-narrow" id="daemons_list_good" hidden>
+      <ul class="daemons_list">
+      </ul>
+    </div>
+    <div class="notice notice-error block-narrow" id="daemons_list_bad" hidden>
+      <p>Deze vrijwilligers hebben nog géén shift, je kan ze hieronder een shift toekennen. Veranderingen worden direct opgeslagen.
+      <ul class="daemons_list">
+      </ul>
     </div>
 
     <section id="times">
     </section>
+
+    <template id="daemons_list_good_entry">
+      <li>
+        <span class="name"></span> heeft er <span class="n_slots"></span>:
+        <ul class="slots"></ul>
+      </li>
+    </template>
+    <template id="slots_list_entry">
+      <li>
+        <b><span class="name"></span></b> om <span class="start"></span>
+      </li>
+    </template>
+    <template id="daemons_list_bad_entry">
+      <li>
+        <span class="name"></span>
+      </li>
+    </template>
 
     <template id="list_day">
       <div class="list_day">

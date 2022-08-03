@@ -545,17 +545,6 @@ a:visited {
   padding: 10px;
 }
 
-.product--inhibited {
-  background: repeating-linear-gradient(
-    45deg,
-    transparent 0 10px,
-    rgba(0, 0, 0, 0.1) 10px 12px);
-  border: 1px solid #2d2d2d;
-  width: 100%;
-  padding: 10px;
-  z-index: 10;
-}
-
 .size_table_wrapper {
   width: 100%;
   overflow-x: scroll;

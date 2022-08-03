@@ -204,10 +204,6 @@ function daemon_has_time_for(daemon_id, new_slot_id) {
 
 }
 
-function translate_days(str) {
-
-}
-
 document.querySelector('#commit_daemons').addEventListener('close', (event) => {
 	let modal = event.target;
 

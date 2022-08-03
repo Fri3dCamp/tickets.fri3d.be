@@ -89,9 +89,55 @@ div.event {
 	margin-left: 10px;
 	margin-right: 10px;
 	position: absolute;
-	border: solid gray 1px;
+	border: solid $clr_B 1px;
 	font-size: small;
 	overflow: hidden;
+    &.slot_committed {
+        border: 3px solid $clr_C;
+        background-color: lighten($clr_C,30%);
+        .title {
+            font-weight: bold;
+            padding-left:1.1em;
+            background-image:url('../../img/circle-check-regular.svg');
+            background-repeat: no-repeat;
+            background-position: left center;
+            background-size: 1em;
+        }
+        .grid_entry_group_timing {
+            background-color: $clr_C;
+            font-weight: bold;
+        }
+    }
+}
+
+.slot_committed .list_entry {
+    border-color: $clr_C;
+    background-color: lighten($clr_C,30%);
+    .list_entry_group_timing {
+        background-color: $clr_C;
+    }
+    .title {
+        font-weight: bold;
+        padding-left:1.2em;
+        background-image:url('../../img/circle-check-regular.svg');
+        background-repeat: no-repeat;
+        background-position: left center;
+        background-size: 1em;
+    }
+}
+
+.daemons_list .slots li {
+    list-style: none;
+    margin-left: 0;
+    padding: 0;
+}
+
+.daemons_list .slots .name {
+    padding-left:1.2em;
+    background-image:url('../../img/circle-check-regular.svg');
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: 1em;
 }
 
 .grid_entry_group_timing {
@@ -101,7 +147,7 @@ div.event {
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
-	background-color: #97f3d7;
+	background-color: lighten($clr_B,20%);
 }
 .grid_entry_group_meta {
 	text-align: center;
@@ -112,35 +158,41 @@ div.event {
 	font-size: larger;
 }
 
-.grid_entry .button_change {
+.grid_entry .commit_button {
 	position: absolute;
 	width: 100%;
 	height: 4rem;
 	bottom: 0;
 	left: 0;
 	border: 0;
-	background: #3ce8b3;
 	font-size: 1.3rem;
-	color: white;
-	font-weight: bold;
+	background-color: $clr_A;
+    font-weight: bold;
 	cursor: pointer;
-    color: black;
-    border-bottom: 1px solid white;
+    color: white;
+    border-bottom: 5px solid darken($clr_A,20%);
 }
-.grid_entry .button_add {
-	position: absolute;
-	width: 100%;
-	height: 4rem;
-	bottom: 0;
-	left: 0;
-	border: 0;
-	background-color: #8835c9;
-	font-size: 1.3rem;
-	color: white;
-	font-weight: bold;
-	cursor: pointer;
-    border-bottom: 1px solid white;
-}
+
+// .grid_entry .button_change {
+// 	font-weight: bold;
+// 	cursor: pointer;
+//     color: black;
+//     border-bottom: 5px solid darken($clr_C,20%);
+// }
+// .grid_entry .button_add {
+// 	position: absolute;
+// 	width: 100%;
+// 	height: 4rem;
+// 	bottom: 0;
+// 	left: 0;
+// 	border: 0;
+// 	background-color: $clr_A;
+// 	font-size: 1.3rem;
+// 	color: white;
+// 	font-weight: bold;
+// 	cursor: pointer;
+//     border-bottom: 5px solid darken($clr_A,20%);
+// }
 /*
  _ _     _           _
 | (_)___| |_  __   _(_) _____      __
@@ -177,7 +229,7 @@ div.event {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	background-color: #97f3d7;
+	background-color: lighten($clr_C,20%);
 }
 .list_entry_group_meta {
 	grid-column: 2;
@@ -231,7 +283,7 @@ div.event {
 	border-radius: 0;
 	border: none;
 	border-bottom: 5px solid #512078;
-	background-color: #8835c9;
+	background-color: $clr_A;
 	padding: 10px;
 	font-size: 1.6rem;
 	color: white;

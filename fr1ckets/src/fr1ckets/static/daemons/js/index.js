@@ -107,7 +107,7 @@ function daemons_show() {
 				let post = posts_available.find((p) => p.code == slot.post);
 				let slot_desc = template_spin('#slots_list_entry');
 				slot_desc.querySelector('.name').textContent = post.name;
-				slot_desc.querySelector('.start').textContent = slot.timespan.start.toFormat('cccc HH:mm');
+				slot_desc.querySelector('.start').textContent = slot.timespan.start.setLocale("nl").toFormat('cccc HH:mm');
 				desc.querySelector('.slots').appendChild(slot_desc);
 			});
 
@@ -201,6 +201,10 @@ function daemon_has_time_for(daemon_id, new_slot_id) {
 	});
 
 	return works;
+
+}
+
+function translate_days(str) {
 
 }
 
@@ -389,7 +393,7 @@ function schedule_inflate_event(node, event, slots_committed) {
 
 	let post = posts_available.find((p) => event.post == p.code);
 
-	node.querySelector('.time_start').textContent = event.timespan.start.toFormat('HH:mm');
+	node.querySelector('.time_start').textContent = event.timespan.start.setLocale("nl").toFormat('HH:mm');
 	node.querySelector('.time_length').textContent = event.timespan.toDuration(['hours']).toHuman({
 		unitDisplay : 'short',
 	});
@@ -410,12 +414,12 @@ function schedule_inflate_event(node, event, slots_committed) {
 		// if the user has already committed, that takes precedence
 		if (slots_committed.includes(event.meta.id)) {
 			button.classList.add('button_change');
-			button.textContent = "verander keuze";
+			button.textContent = "wijzig keuze";
 		} else {
 			// user hasn't committed to this, allow to commit if there's room
 			if (n_people_needed) {
 				button.classList.add('button_add');
-				button.textContent = "schrijf mij op!";
+				button.textContent = "wil ik doen!";
 			} else {
 				button.hidden = true;
 				/*
@@ -460,7 +464,7 @@ function schedule_show_list(schedule) {
 
 		let day_output = template_spin('#list_day', `day_${day_index}`);
 		day_output.querySelector('.list_day_header').textContent = 
-			day.timespan.start.toFormat('ccc yyyy-LL-dd');
+			day.timespan.start.setLocale("nl").toFormat('ccc yyyy-LL-dd');
 
 		let all_events = [];
 
@@ -517,7 +521,7 @@ function schedule_show_grid(schedule) {
 	schedule.days.forEach((day) => {
 		let day_header = template_spin('#list_day');
 		day_header.querySelector('.list_day_header').textContent = 
-			day.timespan.start.toFormat('ccc yyyy-LL-dd');
+			day.timespan.start.setLocale("nl").toFormat('ccc yyyy-LL-dd');
 
 
 		let day_output = document.createElement('div');

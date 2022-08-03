@@ -1,4 +1,5 @@
 /* Color Theme Swatches in RGBA */
+/* vim: set sw=2 ts=2 expandtab : */
 section#times {
   margin-top: 2rem;
 }
@@ -29,6 +30,13 @@ fieldset {
   border-bottom: 5px solid grey;
   color: black;
   background-color: lightgrey;
+}
+
+#times_links {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: 1em;
 }
 
 /*

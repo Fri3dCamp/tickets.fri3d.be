@@ -442,7 +442,10 @@ function schedule_blit(schedule) {
 
 	let blit = (window.innerWidth < needed) ? schedule_show_list : schedule_show_grid;
 
+	schedule_show_links(schedule);
+
 	blit(schedule);
+
 }
 
 function schedule_show_list(schedule) {
@@ -497,6 +500,21 @@ function schedule_show_list(schedule) {
 
 }
 
+function schedule_show_links(schedule) {
+	let output = document.querySelector('#times_links');
+	while (output.hasChildNodes()) {
+		output.removeChild(output.lastChild);
+	}
+
+	schedule.days.forEach((day, day_index) => {
+		let link = document.createElement('a');
+		link.append(document.createTextNode(day.timespan.start.setLocale('nl').toFormat('cccc')));
+		link.href = `#day_${day_index}`;
+		output.append(link);
+	});
+
+}
+
 function schedule_show_grid(schedule) {
 
 	let output = document.querySelector('#times');
@@ -515,8 +533,8 @@ function schedule_show_grid(schedule) {
 		return `${o}rem`;
 	}
 
-	schedule.days.forEach((day) => {
-		let day_header = template_spin('#list_day');
+	schedule.days.forEach((day, day_index) => {
+		let day_header = template_spin('#list_day', `day_${day_index}`);
 		day_header.querySelector('.list_day_header').textContent = 
 			day.timespan.start.setLocale("nl").toFormat('ccc yyyy-LL-dd');
 

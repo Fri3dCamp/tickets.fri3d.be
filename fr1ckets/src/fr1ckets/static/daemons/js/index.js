@@ -108,6 +108,7 @@ function daemons_show() {
 				let slot_desc = template_spin('#slots_list_entry');
 				slot_desc.querySelector('.name').textContent = post.name;
 				slot_desc.querySelector('.start').textContent = slot.timespan.start.setLocale("nl").toFormat('cccc HH:mm');
+				slot_desc.querySelector('.end').textContent = slot.timespan.end.setLocale("nl").toFormat('HH:mm');
 				desc.querySelector('.slots').appendChild(slot_desc);
 			});
 
@@ -392,7 +393,7 @@ function schedule_inflate_event(node, event, slots_committed) {
 	node.querySelector('.time_start').textContent = event.timespan.start.setLocale("nl").toFormat('HH:mm');
 	node.querySelector('.time_length').textContent = event.timespan.toDuration(['hours']).toHuman({
 		unitDisplay : 'short',
-	});
+	}).replace(" hrs","u");
 
 	let n_people_needed = Math.max(event.meta.n_needed - event.meta.n_committed, 0);
 

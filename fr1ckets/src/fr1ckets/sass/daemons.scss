@@ -1,0 +1,241 @@
+@import "fri3dcolors";
+
+section#times {
+	margin-top: 2rem;
+}
+
+fieldset {
+	border: 0;
+	margin-bottom: 10px;
+}
+
+#commit_daemons .actions {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+#identification_entry {
+	display: flex;
+	flex-direction: column;
+	align-items: end;
+}
+#identification_entry input {
+	width: 100%;
+	margin-bottom: 1em;
+}
+.btn-rollback {
+	border-bottom: 5px solid grey;
+    color:black;
+	background-color: lightgrey;
+}
+.btn-commit {
+}
+
+/*
+            _     _         _
+  __ _ _ __(_) __| | __   _(_) _____      __
+ / _` | '__| |/ _` | \ \ / / |/ _ \ \ /\ / /
+| (_| | |  | | (_| |  \ V /| |  __/\ V  V /
+ \__, |_|  |_|\__,_|   \_/ |_|\___| \_/\_/
+ |___/
+
+*/
+div.day {
+	width: 100%;
+	/*border: dotted black 2px;*/
+	margin-top: 0;
+}
+div.ruler-lane {
+	display: inline-block;
+	width : 50px;
+}
+div.ruler {
+	width: 50px;
+	position: relative;
+}
+div.ruler-break {
+	width: 50px;
+	height: 50px;
+	background: lightgray;
+}
+div.tick {
+	width: 50px;
+	position: absolute;
+	border-top: dotted gray 2px;
+	font-size: small;
+	text-align: center;
+}
+
+div.track-lane {
+	width : 150px;
+	margin-left: 8px;
+	display: inline-block;
+	vertical-align: top;
+}
+div.track {
+	width: 150px;
+	position: relative;
+	vertical-align: top;
+}
+div.track-break {
+	width: 150px;
+	height: 50px;
+	margin-left: 8px;
+	display: inline-block;
+	vertical-align: top;
+}
+div.event {
+	width: 150px;
+	margin-left: 10px;
+	margin-right: 10px;
+	position: absolute;
+	border: solid gray 1px;
+	font-size: small;
+	overflow: hidden;
+}
+
+.grid_entry_group_timing {
+	grid-column: 1;
+	grid-row : 1;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	background-color: #97f3d7;
+}
+.grid_entry_group_meta {
+	text-align: center;
+	padding: 4px;
+}
+.grid_entry_group_meta .title {
+	text-align: center;
+	font-size: larger;
+}
+
+.grid_entry .button_change {
+	position: absolute;
+	width: 100%;
+	height: 4rem;
+	bottom: 0;
+	left: 0;
+	border: 0;
+	background: #3ce8b3;
+	font-size: 1.3rem;
+	color: white;
+	font-weight: bold;
+	cursor: pointer;
+    color: black;
+    border-bottom: 1px solid white;
+}
+.grid_entry .button_add {
+	position: absolute;
+	width: 100%;
+	height: 4rem;
+	bottom: 0;
+	left: 0;
+	border: 0;
+	background-color: #8835c9;
+	font-size: 1.3rem;
+	color: white;
+	font-weight: bold;
+	cursor: pointer;
+    border-bottom: 1px solid white;
+}
+/*
+ _ _     _           _
+| (_)___| |_  __   _(_) _____      __
+| | / __| __| \ \ / / |/ _ \ \ /\ / /
+| | \__ \ |_   \ V /| |  __/\ V  V / 
+|_|_|___/\__|   \_/ |_|\___| \_/\_/  
+
+*/
+.list_day {
+	width: 100%;
+	margin-top: 2em;
+}
+.list_day_header {
+	display: block;
+    border-bottom:2px solid $clr_C;
+    margin-bottom:1em;
+	text-align: center;
+	padding: 1em;
+    font-weight: bold;
+}
+.list_day_content {
+	display: flex;
+	flex-direction: column;
+}
+.list_entry {
+	border-top: 1px dotted black;
+	display: grid;
+	grid-template-columns: 15% 85%;
+}
+.list_entry_group_timing {
+	grid-column: 1;
+	grid-row: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background-color: #97f3d7;
+}
+.list_entry_group_meta {
+	grid-column: 2;
+	grid-row: 1;
+	/*
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	*/
+	margin: 4px;
+	display: grid;
+	grid-template-columns: 40% 40% 20%;
+}
+.list_entry_group_meta .desc {
+	grid-row: 1;
+	grid-column: 1;
+}
+.list_entry_group_meta .title {
+	font-size: larger;
+}
+.list_entry_group_meta .needed {
+	grid-row: 1;
+	grid-column: 2;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+
+}
+.list_entry_group_meta .action {
+	grid-row: 1;
+	grid-column: 3;
+	display: flex;
+	flex-direction: row;
+	justify-content: end;
+}
+
+.list_entry .button_change {
+	border-radius: 0;
+	border: none;
+	border-bottom: 5px solid $clr_C_dark;
+	background-color: $clr_C;
+	padding: 10px;
+	font-size: 1.6rem;
+	color: black;
+	font-weight: bold;
+	cursor: pointer;
+
+}
+.list_entry .button_add {
+	border-radius: 0;
+	border: none;
+	border-bottom: 5px solid #512078;
+	background-color: #8835c9;
+	padding: 10px;
+	font-size: 1.6rem;
+	color: white;
+	font-weight: bold;
+	cursor: pointer;
+}
+

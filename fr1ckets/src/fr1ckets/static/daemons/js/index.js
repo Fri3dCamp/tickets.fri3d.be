@@ -478,6 +478,15 @@ function schedule_show_list(schedule) {
 
 			schedule_inflate_event(event_output, event, my_current_slots);
 
+			// some class updates for css
+			let extraClass = 'slot_open';
+			if (my_current_slots.includes(event.meta.id)) {
+				extraClass = 'slot_committed';
+			} else if (event.meta.n_committed >= event.meta.n_needed) {
+				extraClass = 'slot_full';
+			}
+			event_output.classList.add(extraClass);
+
 			day_output.appendChild(event_output);
 		});
 
@@ -577,15 +586,25 @@ function schedule_show_grid(schedule) {
 
 			});
 
-			track.events.forEach((event) => {
+			track.events.forEach((event, event_index) => {
 
 				let event_rect = document.createElement('div');
 				event_rect.classList.add('event');
 
-				let event_output = template_spin('#grid_entry');
+				let event_output = template_spin('#grid_entry', `entry_${event_index}`);
+
 				schedule_inflate_event(event_output, event, my_current_slots);
 
 				event_rect.appendChild(event_output);
+
+				// some class updates for css
+				let extraClass = 'slot_open';
+				if (my_current_slots.includes(event.meta.id)) {
+					extraClass = 'slot_committed';
+				} else if (event.meta.n_committed >= event.meta.n_needed) {
+					extraClass = 'slot_full';
+				}
+				event_rect.classList.add(extraClass);
 
 				let cluster_index = undefined;
 				for (let i = 0; i < time_clusters.length; i++) {

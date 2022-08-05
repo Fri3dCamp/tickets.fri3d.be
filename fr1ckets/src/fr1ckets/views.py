@@ -1545,12 +1545,22 @@ def api_get_daemon_mine():
 
 	found = model.get_volunteers(g.db_cursor, email)
 
+	count = 1
 	for daemon_id, daemon_details in found.iteritems():
+		initials = ''
+		try:
+			initials = ' '.join(map(lambda w: w[0],
+				filter(lambda w: len(w) > 0, daemon_details['name'].split(' '))
+			))
+		except:
+			pass
 		daemons.append({
 			'id' : daemon_id,
-			'name' : daemon_details['name'],
+			'name' : "Ticket {count}: {initials}".format(count=count,
+				initials=initials),
 			'slots' : model.get_daemon_slots_for_person(g.db_cursor, daemon_id),
 		})
+		count += 1
 
 	return Response(json.dumps({
 		'status' : 'OK',

@@ -362,6 +362,15 @@ def tickets():
 	return render_template('tickets.html',
 			selling_inhibited=app.config['INHIBIT_SELLING'],
 			form=form, tickets_available=tickets_available, products=load_products(), today=datetime.date.today())
+@app.route('/very_secret_tickets', methods=[ 'GET' ])
+@req_auth_public
+def very_secret_tickets():
+	form = TicketForm()
+	tickets_available = app.config['TICKETS_MAX'] - model.tickets_actual_total(g.db_cursor)
+	return render_template('tickets.html',
+			selling_inhibited=app.config['INHIBIT_SELLING'],
+			form=form, tickets_available=tickets_available, products=load_products(), today=datetime.date.today())
+
 
 @app.route('/api/tickets_register', methods=[ 'POST' ])
 @req_auth_public
@@ -1378,6 +1387,11 @@ def api_get_reservation(email):
 @req_auth_admin
 def admin():
 	return render_template('index.html')
+@app.route("/admin/daemons_overview")
+@req_auth_admin
+def daemons_overview():
+	o = model.get_daemon_overview(g.db_cursor)
+	return render_template('daemons_overview.html', overview=o)
 
 @app.route("/")
 @req_auth_public

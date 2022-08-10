@@ -1,0 +1,39 @@
+{% include "header.html" %}
+<!-- vim: set sw=2 ts=2: -->
+
+<table class="table">
+	<thead><tr>
+		<td>day</td>
+		<td>post</td>
+		<td>from</td>
+		<td>to</td>
+		<td>capacity</td>
+		<td>needed</td>
+		<td>people</td>
+	</tr></thead>
+{% for slot in overview %}
+	{% if slot.people|length == 0 %}
+		<tr style="background: pink">
+	{% elif slot.people|length < slot.n_needed %}
+		<tr style="background: peachpuff">
+	{% elif slot.people|length == slot.n_needed %}
+		<tr style="background: turquoise">
+	{% else %}
+		<tr style="background: cyan">
+	{% endif %}
+		<td>{{ slot.day_code }}</td>
+		<td>{{ slot.post_code }}</td>
+		<td>{{ slot.slot_start }}</td>
+		<td>{{ slot.slot_end }}</td>
+		<td>{{ slot.n_needed }}</td>
+		<td>{{ slot.n_needed - slot.people|length }}</td>
+		<td><ul>
+	{% for p in slot.people %}
+		<li>{{ p.person_name }} - {{ p.order_email }}</li>
+	{% endfor %}
+		</ul></td>
+	</tr>
+{% endfor %}
+</table>
+
+{% include "footer.html" %}

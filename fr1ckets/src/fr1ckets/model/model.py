@@ -1235,3 +1235,51 @@ def set_daemon_slot_for_person(cursor, purchase_items_id, daemon_slot_id):
 		'daemon_slot_id' : daemon_slot_id,
 	})
 
+def get_daemon_overview(cursor):
+	q = """
+	SELECT
+		ds.id as slot_id,
+		ds.slot_start as slot_start,
+		ds.slot_end as slot_end,	
+		ds.daemon_day_code as day_code,
+		ds.daemon_post_code as post_code,
+		ds.n_needed as n_needed,
+		people.person_name as person_name,
+		people.order_email as order_email
+	FROM
+		daemon_slot ds
+		LEFT OUTER JOIN (
+			SELECT
+				dc.daemon_slot_id as slot_id,
+				pui.person_name as person_name,
+				pu.email as order_email
+			FROM 
+				daemon_commit dc
+				INNER JOIN purchase_items pui ON dc.purchase_items_id = pui.id
+				INNER JOIN purchase pu ON pui.purchase_id = pu.id
+		) people  ON ds.id = people.slot_id
+	ORDER BY ds.slot_start, ds.daemon_post_code;
+	"""
+
+	cursor.execute(q)
+
+	out = []
+	for row in cursor.fetchall():
+		print(row)
+		if not len(out) or out[-1]['slot_id'] != row['slot_id']:
+			out.append({
+				'day_code' : row['day_code'],
+				'post_code' : row['post_code'],
+				'slot_id' : row['slot_id'],
+				'n_needed' : row['n_needed'],
+				'slot_start' : row['slot_start'],
+				'slot_end' : row['slot_end'],
+				'people' : [],
+			})
+		if row['person_name']:
+			out[-1]['people'].append({
+				'person_name' : row['person_name'],
+				'order_email' : row['order_email'],
+			})
+	return out
+

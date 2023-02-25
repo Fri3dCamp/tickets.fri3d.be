@@ -12,6 +12,8 @@ Do `docker-compose -f docker-compose.yml up` in the project folder to start the 
 
 Do `docker-compose up` for a more optimized local version. This will snapshot your current state and serve that, changes to code will not be reflected.
 
+Ticketshop should be reachable on `http://localhost:8070/tickets`, volunteering on `http://localhost:8070/daemons`
+
 ### To refresh all the things
 `docker-compose -f docker-compose.yml down -v`
 Followed by
